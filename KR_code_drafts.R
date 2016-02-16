@@ -1,6 +1,6 @@
 ### Easy API to data frame testing ###
 library(httr)
-apiKey="zbOOYpijllMQmBuyDlsw1NrlClSuVmKq0XeBIb8s"
+apiKey=""
 schoolInsert="DC"
 myUrl = paste("https://api.data.gov/ed/collegescorecard/v1/schools?school.state=",schoolInsert,
   "&_fields=id,school.name,&api_key=",apiKey,sep="")
