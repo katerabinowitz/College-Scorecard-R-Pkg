@@ -1,6 +1,5 @@
 library(httr)
 
-#LIMITATION - does not work when NULLs are present
 #' Get data using the web api and specifying a query. You can use the page parameter to specify how much data to get. Each page will return
 #' 20 observations.If page = "All", all observations satisfying the specified query will be returned
 #'
@@ -34,6 +33,15 @@ GetData <- function(endpoint = "schools", format = "json", fieldParams, optionPa
     if(!parsed)
     {
       jsonData <- content(jsonData, as = "parsed")
+    }
+    #this for loop corrects for the following:
+    # 1. replaces all NULLS with NAs so the unlist does not delete them
+    # 2. alphabetizes the lists because they were not all in the same order 
+    # which created misplaced data in some of the data frame columns
+    for(i in 1:(length(jsonData$results)))
+    {
+      jsonData$results[[i]][sapply(jsonData$results[[i]], is.null)] <- NA
+      jsonData$results[[i]]<-jsonData$results[[i]][order(names(jsonData$results[[i]]))]
     }
     DF  <-  as.data.frame(t(matrix(unlist(jsonData$results), nrow=length(unlist(jsonData$results[1])))))
     colnames(DF)<-names(jsonData$results[[1]])
@@ -69,21 +77,21 @@ GetData <- function(endpoint = "schools", format = "json", fieldParams, optionPa
 #' @export
 GetVariableNamesForCategory <- function(categoryName){
   #Make the path to the data dicitonary be global var or environment var. 
-  dataDict <- read.csv("C:/Research/Data Analytics/Courses/Stanford/Data Mining and Appliations/Paradigms for Computing with Data/Final Project/CollegeScorecard_Raw_Data/CollegeScorecard_Raw_Data/CollegeScorecardDataDictionary-09-12-2015.csv",
+  dataDict <- read.csv("https://raw.githubusercontent.com/katerabinowitz/College-Scorecard-R-Pkg/master/data/CollegeScorecardDataDictionary-09-08-2015.csv",
                        stringsAsFactors=FALSE)
   categoryVars <- subset(dataDict, dev.category==categoryName, developer.friendly.name)
   categoryVars <- categoryVars[categoryVars != ""]
 }
+### CR Question: is the GetVariableNamesForCategory function necessary? I may be missing something but it looks like
+### a shorter duplication of GetAllDataInCategory
 
 
 #UNDER CONSTRUCTION
-#Currently this function returns the list of variables in the specified category with the year and category concatinated
-#in the format <year>.<category>.<variable name> that can be passed as parameters to GetData. The GetData method doesn't
-#work because NULL is not being converted to NA
-#Another limitation to this method is that it works only for one year.
+#Another limitation to this method is that it works only for one year 
+# CR note: I think the single year is okay, we have to work within the limitations of the API
 GetAllDataInCategory <- function(categoryName, year){
   #Make the path to the data dicitonary be global var or environment var. 
-  dataDict <- read.csv("C:/Research/Data Analytics/Courses/Stanford/Data Mining and Appliations/Paradigms for Computing with Data/Final Project/CollegeScorecard_Raw_Data/CollegeScorecard_Raw_Data/CollegeScorecardDataDictionary-09-12-2015.csv",
+  dataDict <- read.csv("https://raw.githubusercontent.com/katerabinowitz/College-Scorecard-R-Pkg/master/data/CollegeScorecardDataDictionary-09-08-2015.csv",
                        stringsAsFactors=FALSE)
   categoryVars <- subset(dataDict, dev.category==categoryName, developer.friendly.name)
   categoryVars <- categoryVars[categoryVars != ""]
@@ -92,3 +100,9 @@ GetAllDataInCategory <- function(categoryName, year){
   #tv <- GetData(fieldParams = queryList)
   
 }
+
+### To add list:
+# 1. the school category of variables do not take year in the API, and the ID variables do not take year or category
+# so add and if then else to the queryList building
+
+# 2. if the API fails return API fail message to user
