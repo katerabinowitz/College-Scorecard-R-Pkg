@@ -14,8 +14,7 @@ library(httr)
 #' GetData("school.degrees_awarded.predominant=2,3", "_fields=id,school.name,2013.student.size")
 #' GetData("school.degrees_awarded.predominant=2,3", "_fields=id,school.name,2013.student.size", page = "All")
 #' @export
-GetData <- function(endpoint = "schools", format = "json", fieldParams, optionParams="", apiVersionString = "v1", page = 0){
-  apiKey <- "Insert_valid_api_key"
+GetData <- function(apiKey,endpoint = "schools", format = "json", fieldParams, optionParams="", apiVersionString = "v1", page = 0){
   urlPath = "https://api.data.gov/ed/collegescorecard"
   queryUrl <- paste(urlPath, apiVersionString, paste(paste(paste(endpoint, format, sep = "."), fieldParams, sep = "?"), 
                                                      optionParams, sep = "&"), sep = "/")
@@ -26,18 +25,22 @@ GetData <- function(endpoint = "schools", format = "json", fieldParams, optionPa
   getPages <- function(p = page){
     queryUrl <- paste(queryUrl, "&_page=", p, sep = "")
     res <- GET(queryUrl)
+    if (res$status_code==414) {
+      stop ("Error code 414: Please request fewer variables")
+    } else
+    {res<-res}
   }
   
   #Helper function to convert json response to data.frame
   toDataFrame <- function(jsonData, parsed = TRUE){
+    if (exists("errors",where=jsonData)==TRUE) {
+      errorList<-(matrix(unlist(result$errors), nrow=length(unlist(result$errors[1]))))
+      stop (paste("\n Your API request has resulted in the following error:",errorList[3,],sep="\n"))
+    }
     if(!parsed)
     {
       jsonData <- content(jsonData, as = "parsed")
     }
-    #this for loop corrects for the following:
-    # 1. replaces all NULLS with NAs so the unlist does not delete them
-    # 2. alphabetizes the lists because they were not all in the same order 
-    # which created misplaced data in some of the data frame columns
     for(i in 1:(length(jsonData$results)))
     {
       jsonData$results[[i]][sapply(jsonData$results[[i]], is.null)] <- NA
@@ -85,11 +88,7 @@ GetVariableNamesForCategory <- function(categoryName){
 ### CR Question: is the GetVariableNamesForCategory function necessary? I may be missing something but it looks like
 ### a shorter duplication of GetAllDataInCategory
 
-
-#UNDER CONSTRUCTION
-#Another limitation to this method is that it works only for one year 
-# CR note: I think the single year is okay, we have to work within the limitations of the API
-GetAllDataInCategory <- function(categoryName, year){
+GetAllDataInCategory <- function(apiKey,categoryName, year){
   #Make the path to the data dicitonary be global var or environment var. 
   if (!(categoryName %in% c("academics","admissions","aid","completion","cost","earnings","repayment","root",
                             "school","student"))) {
@@ -114,10 +113,13 @@ GetAllDataInCategory <- function(categoryName, year){
     queryList <- paste("fields=id,school.name,", paste(lapply(categoryVars, 
                                                function(x) paste(year, ".", categoryName, ".", x, sep = "")), collapse = ","), sep = "")
   }
-  test <- GetData(fieldParams = queryList)
-  test
+  DFcat <- GetData(apiKey=apiKey,fieldParams = queryList)
+  DFcat
 }
 
 ### To add list:
-# 1. how to handle parameter lists from GetAllDataInCategory that are too long 
-# 2. if the API fails return API fail message to user
+# 1. Having trouble adding latitude and longitude. It is in the root so should not require dev.category
+# or year, but API returns field not found for all iterations I've tried
+# 2. The Academics and Completion sections have more parameters than the API allows for
+# With Academics it can split 2 or 3 queries and then rbind, but I'm not sure what to do with
+# completion, which has over 1000 variables (!) 
