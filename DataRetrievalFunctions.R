@@ -91,18 +91,33 @@ GetVariableNamesForCategory <- function(categoryName){
 # CR note: I think the single year is okay, we have to work within the limitations of the API
 GetAllDataInCategory <- function(categoryName, year){
   #Make the path to the data dicitonary be global var or environment var. 
+  if (!(categoryName %in% c("academics","admissions","aid","completion","cost","earnings","repayment","root",
+                            "school","student"))) {
+    stop ("Incorrect categoryName. Please choose from the following: 'academics','admissions','aid','completion,'cost',earnings','repayment','root','school', or 'student'. Consult data dictionary for further detail.")
+  }
+  if (year<1996 | year>2013) {
+    stop("Incorrect year selection. Data is available for 1996 through 2013.")
+  }
   dataDict <- read.csv("https://raw.githubusercontent.com/katerabinowitz/College-Scorecard-R-Pkg/master/data/CollegeScorecardDataDictionary-09-08-2015.csv",
                        stringsAsFactors=FALSE)
   categoryVars <- subset(dataDict, dev.category==categoryName, developer.friendly.name)
   categoryVars <- categoryVars[categoryVars != ""]
-  queryList <- paste("fields=", paste(lapply(categoryVars, function(x) paste(year, ".", categoryName, ".", x, sep = "")), collapse = ","), sep = "")
-  
-  #tv <- GetData(fieldParams = queryList)
-  
+  if (categoryName=="root") {
+  queryList <- paste("fields=", paste(lapply(categoryVars, 
+                                             function(x) paste(x, sep = "")), collapse = ","), sep = "")
+  }
+  else if (categoryName=="school") {
+    queryList <- paste("fields=id,", paste(lapply(categoryVars, 
+                                               function(x) paste(categoryName, ".", x, sep = "")), collapse = ","), sep = "")  
+  }
+  else {
+    queryList <- paste("fields=id,school.name,", paste(lapply(categoryVars, 
+                                               function(x) paste(year, ".", categoryName, ".", x, sep = "")), collapse = ","), sep = "")
+  }
+  test <- GetData(fieldParams = queryList)
+  test
 }
 
 ### To add list:
-# 1. the school category of variables do not take year in the API, and the ID variables do not take year or category
-# so add and if then else to the queryList building
-
+# 1. how to handle parameter lists from GetAllDataInCategory that are too long 
 # 2. if the API fails return API fail message to user
