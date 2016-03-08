@@ -102,10 +102,6 @@ GetData <- function(apiKey,endpoint = "schools", format = "json", fieldParams, o
   DF
 }
 
-
-### CR Question: is the GetVariableNamesForCategory function necessary? I may be missing something but it looks like
-### a shorter duplication of GetAllDataInCategory
-
 #' Get all data from a specified category. The available categories are 
 #' root, school, academics, admissions, student, cost, aid, repayment, completion, earnings  
 #'
