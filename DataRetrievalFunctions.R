@@ -1,5 +1,22 @@
 library(httr)
 
+#' Saves the key to a file that later will be used in APIs that require the key to access the data. To update the key,
+#' just call the same method again with a new key value 
+#'
+#' @param apiKey
+#' @examples
+#' SetKey("some key")
+SetAPIKey <- function(apiKey) 
+{
+  #TEST - will save the key to a file named key.rda in the current directory. This works as long as this method is called from 
+  #the same directory as the GetData method or other methods that require a key. Once we have the package structure, it will be 
+  #easy to save the key to a known location
+  save(apiKey, file = "key.rda")
+  
+  #To use when we have the package structure in place
+  #save(key, file = paste(system.file("<directory_in_package_to_keep_key>", package = "<our_package_name>"), file, sep = "/"))
+}
+
 #' Get data using the web api and specifying a query. You can use the page parameter to specify how much data to get. Each page will return
 #' 20 observations.If page = "All", all observations satisfying the specified query will be returned
 #'
@@ -11,10 +28,26 @@ library(httr)
 #' @param page
 #' @return data.frame
 #' @examples
-#' GetData("school.degrees_awarded.predominant=2,3", "_fields=id,school.name,2013.student.size")
-#' GetData("school.degrees_awarded.predominant=2,3", "_fields=id,school.name,2013.student.size", page = "All")
+#' GetData(fieldParams = "school.degrees_awarded.predominant=2,3", optionParams = "_fields=id,school.name,2013.student.size")
+#' GetData(fieldParams = "school.degrees_awarded.predominant=2,3", optionParams = "_fields=id,school.name,2013.student.size", page = "All")
 #' @export
 GetData <- function(apiKey,endpoint = "schools", format = "json", fieldParams, optionParams="", apiVersionString = "v1", page = 0){
+  
+  if(missing(apiKey)){
+    #If statement below will work once we have the package structure in place
+    #if (file_test("-f", system.file("<directory_in_package_to_keep_key>", package = "<our_package_name>"))) {
+    #  load(system.file("<directory_in_package_to_keep_key>", package = "<our_package_name>"))
+    #}
+    
+    #Temporary until we get the package structure in place
+    if (file_test("-f", "key.rda")) {
+      load("key.rda")
+    }
+    else{
+      stop("An API Key is required to access the CollegeScoreCard API. You may obtain a key from https://api.data.gov/signup")
+    }
+  }
+  
   urlPath = "https://api.data.gov/ed/collegescorecard"
   queryUrl <- paste(urlPath, apiVersionString, paste(paste(paste(endpoint, format, sep = "."), fieldParams, sep = "?"), 
                                                      optionParams, sep = "&"), sep = "/")
@@ -69,25 +102,20 @@ GetData <- function(apiKey,endpoint = "schools", format = "json", fieldParams, o
   DF
 }
 
-#' Get a list of all the developer friendly names for variables in a specified category. The available categories are 
-#' root, school, academics, admissions, student, cost, aid, repayment, completion, earnings  
-#' This function uses the data dictionry to retrieve this information
-#'
-#' @param catgoryName
-#' @return character vector
-#' @examples
-#' schoolVars <- GetVariableNamesForCategory("school")
-#' @export
-GetVariableNamesForCategory <- function(categoryName){
-  #Make the path to the data dicitonary be global var or environment var. 
-  dataDict <- read.csv("https://raw.githubusercontent.com/katerabinowitz/College-Scorecard-R-Pkg/master/data/CollegeScorecardDataDictionary-09-08-2015.csv",
-                       stringsAsFactors=FALSE)
-  categoryVars <- subset(dataDict, dev.category==categoryName, developer.friendly.name)
-  categoryVars <- categoryVars[categoryVars != ""]
-}
+
 ### CR Question: is the GetVariableNamesForCategory function necessary? I may be missing something but it looks like
 ### a shorter duplication of GetAllDataInCategory
 
+#' Get all data from a specified category. The available categories are 
+#' root, school, academics, admissions, student, cost, aid, repayment, completion, earnings  
+#'
+#' @param apiKey
+#' @param catgoryName
+#' @param year
+#' @return character vector
+#' @examples
+#' schoolData <- GetAllDataInCategory(categoryName = "earnings", year = 2013)
+#' @export
 GetAllDataInCategory <- function(apiKey,categoryName, year){
   #Make the path to the data dicitonary be global var or environment var. 
   if (!(categoryName %in% c("academics","admissions","aid","completion","cost","earnings","repayment","root",
@@ -97,24 +125,42 @@ GetAllDataInCategory <- function(apiKey,categoryName, year){
   if (year<1996 | year>2013) {
     stop("Incorrect year selection. Data is available for 1996 through 2013.")
   }
-  dataDict <- read.csv("https://raw.githubusercontent.com/katerabinowitz/College-Scorecard-R-Pkg/master/data/CollegeScorecardDataDictionary-09-08-2015.csv",
+dataDict <- read.csv("https://raw.githubusercontent.com/katerabinowitz/College-Scorecard-R-Pkg/master/data/CollegeScorecardDataDictionary-09-08-2015.csv",
+
                        stringsAsFactors=FALSE)
+
   categoryVars <- subset(dataDict, dev.category==categoryName, developer.friendly.name)
+
   categoryVars <- categoryVars[categoryVars != ""]
+
   if (categoryName=="root") {
+
   queryList <- paste("fields=", paste(lapply(categoryVars, 
+
                                              function(x) paste(x, sep = "")), collapse = ","), sep = "")
+
   }
+
   else if (categoryName=="school") {
+
     queryList <- paste("fields=id,", paste(lapply(categoryVars, 
+
                                                function(x) paste(categoryName, ".", x, sep = "")), collapse = ","), sep = "")  
+
   }
+
   else {
+
     queryList <- paste("fields=id,school.name,", paste(lapply(categoryVars, 
+
                                                function(x) paste(year, ".", categoryName, ".", x, sep = "")), collapse = ","), sep = "")
+
   }
+
   DFcat <- GetData(apiKey=apiKey,fieldParams = queryList)
+
   DFcat
+
 }
 
 ### To add list:
