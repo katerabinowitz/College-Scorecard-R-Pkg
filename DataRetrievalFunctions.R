@@ -1,5 +1,10 @@
 library(httr)
 
+#Temporary
+#GLOBAL PATH TO DICTIONARY 
+#PATH_DICT <- "https://raw.githubusercontent.com/katerabinowitz/College-Scorecard-R-Pkg/master/data/CollegeScorecardDataDictionary-09-08-2015.csv"
+PATH_DICT <- "C:/Research/Data Analytics/Courses/Stanford/Data Mining and Appliations/Paradigms for Computing with Data/Final Project/CollegeScorecard_Raw_Data/CollegeScorecard_Raw_Data/CollegeScorecardDataDictionary-09-12-2015.csv"
+
 #' Saves the key to a file that later will be used in APIs that require the key to access the data. To update the key,
 #' just call the same method again with a new key value 
 #'
@@ -110,25 +115,34 @@ GetData <- function(apiKey,endpoint = "schools", format = "json", fieldParams, o
 #' @param year
 #' @return character vector
 #' @examples
-#' schoolData <- GetAllDataInCategory(categoryName = "earnings", year = 2013)
+#' costData <- GetAllDataInCategory(categoryName = "cost", year = 2013)
+#' schoolData <- GetAllDataInCategory(categoryName = "school")
+#' earningsData <- GetAllDataInCategory(categoryName = "earnings", year = c(2010, 2013))
+#' earningsData <- GetAllDataInCategory(categoryName = "earnings", year = c(2010, 2013), pattern = "6_yrs_after_entry.mean", addParams = "school.state")
 #' @export
-GetAllDataInCategory <- function(apiKey,categoryName, year){
-  #Make the path to the data dicitonary be global var or environment var. 
+GetAllDataInCategory <- function(apiKey,categoryName, year, pattern = "", addParams = "id,school.name"){
+  isYearValid <- function(value){
+    isValid <- all(unlist(lapply(value, function(x) !(x<1996 | x>2013))))
+    isValid
+  }
+   
   if (!(categoryName %in% c("academics","admissions","aid","completion","cost","earnings","repayment","root",
                             "school","student"))) {
     stop ("Incorrect categoryName. Please choose from the following: 'academics','admissions','aid','completion,'cost',earnings','repayment','root','school', or 'student'. Consult data dictionary for further detail.")
   }
-  if (year<1996 | year>2013) {
-    stop("Incorrect year selection. Data is available for 1996 through 2013.")
+  
+  if(!missing(year) && (categoryName=="root" || categoryName=="school")){
+    if (!isYearValid(year)) {
+      stop("Incorrect year selection. Data is available for 1996 through 2013.")
+      }
   }
-dataDict <- read.csv("https://raw.githubusercontent.com/katerabinowitz/College-Scorecard-R-Pkg/master/data/CollegeScorecardDataDictionary-09-08-2015.csv",
-
-                       stringsAsFactors=FALSE)
+  
+  dataDict <- read.csv(PATH_DICT, stringsAsFactors=FALSE)
 
   categoryVars <- subset(dataDict, dev.category==categoryName, developer.friendly.name)
 
   categoryVars <- categoryVars[categoryVars != ""]
-
+  categoryVars <- grep(pattern, categoryVars, value = TRUE)
   if (categoryName=="root") {
 
   queryList <- paste("fields=", paste(lapply(categoryVars, 
@@ -146,11 +160,9 @@ dataDict <- read.csv("https://raw.githubusercontent.com/katerabinowitz/College-S
   }
 
   else {
-
-    queryList <- paste("fields=id,school.name,", paste(lapply(categoryVars, 
-
-                                               function(x) paste(year, ".", categoryName, ".", x, sep = "")), collapse = ","), sep = "")
-
+      queryList <- paste("fields=", addParams, ",", paste(lapply(categoryVars, 
+                                                                 function(x) paste(lapply(year, function(x) paste(x, ".", categoryName, sep = "")), ".", x, sep = "", collapse = ",")), collapse = ","), sep = "")
+      
   }
 
   DFcat <- GetData(apiKey=apiKey,fieldParams = queryList)
@@ -164,4 +176,5 @@ dataDict <- read.csv("https://raw.githubusercontent.com/katerabinowitz/College-S
 # or year, but API returns field not found for all iterations I've tried
 # 2. The Academics and Completion sections have more parameters than the API allows for
 # With Academics it can split 2 or 3 queries and then rbind, but I'm not sure what to do with
-# completion, which has over 1000 variables (!) 
+# completion, which has over 1000 variables (!)
+# 3. Make the path to the data dicitonary be a global variable in the package
