@@ -29,7 +29,9 @@ subsetToCategory<-function (category,apiKey,dataset,schools) {
                        by.x="variable", by.y = "VARIABLE.NAME", all.x=TRUE)
 }
 
-#' Returns the top five degrees for each school selected and their proportion
+#' Returns the top five degrees for each school selected and their proportion. If using API please provide
+#' apiKey and leave dataset field blank. If using a dataset, please leave apiKey field blank. Dataset must
+#' use the same naming conventions are the College Scorecard.
 #'
 #' @param apiKey
 #' @param dataset
@@ -59,12 +61,11 @@ top5Degrees<-function(apiKey,dataset,schools) {
   degreesD
 }
 
-### Academic - Programs Offered ###
-out<-subsetToCategory("student",,CS2013,c("Boston University","Boston College"))
-
 ### Students - Racial Makeup ###
 
-#' Returns a horizontal stacked bar chart of the racial makeup of the selected schools
+#' Returns a horizontal stacked bar chart of the racial makeup of the selected schools. If using API please provide
+#' apiKey and leave dataset field blank. If using a dataset, please leave apiKey field blank. Dataset must
+#' use the same naming conventions are the College Scorecard.
 #'
 #' @param apiKey
 #' @param dataset
@@ -88,5 +89,97 @@ studentRace<-function(apiKey,dataset,schools) {
     labs(x="School",y="Proportion (%)") +
 }
 
-### Student Family Income Rates ###
+### Median Debt By Groups ###
 
+#' Returns a bar chart for median debt levels for selected demographic groups by school. If using API please provide
+#' apiKey and leave dataset field blank. If using a dataset, please leave apiKey field blank. Dataset must
+#' use the same naming conventions are the College Scorecard. Leave bygroup field blank if only interested
+#' overall median. 
+#'
+#' @param apiKey
+#' @param dataset
+#' @param schools
+#' @param bygroup
+#' @examples
+#' medianDebtBy(,CS2013,c("Stanford University","Harvard University"),"gender")
+#' @export
+#' 
+medianDebtBy<-function(apiKey,dataset,schools,bygroup="") {
+  if (!(bygroup %in% c("","completion","income","dependence","Pell","gender","firstGen"))) {
+    stop("Incorrect bygroup. Please kept bygroup empty or select one of the following: completion, income, dependence, Pell, gender, or firstGen")
+  }
+  medDebt<-subsetToCategory("aid",apiKey,dataset,schools)
+  medDebt<-subset(medDebt,grepl("median_debt",medDebt$developer.friendly.name) & !(grepl(".number.",medDebt$developer.friendly.name)))
+  
+  if (missing(bygroup)) {
+    medDebtPlot<-subset(medDebt,medDebt$developer.friendly.name=="median_debt_suppressed.overall")
+    ggplot(data=medDebtPlot, aes(x=INSTNM, y=value)) +
+      geom_bar(stat="identity") +
+      scale_colour_brewer(palette = "Set1") +
+      labs(x="School",y="Median Debt") 
+  }
+  else {
+  if (bygroup=="completion") {
+    medDebtPlot<-subset(medDebt,grepl("complete",medDebt$developer.friendly.name))
+  }
+  if (bygroup=="income") {
+    medDebtPlot<-subset(medDebt,grepl(".income.",medDebt$developer.friendly.name))
+  }
+  if (bygroup=="dependence") {
+    medDebtPlot<-subset(medDebt,grepl("dependent",medDebt$developer.friendly.name))
+  }
+  if (bygroup=="Pell") {
+    medDebtPlot<-subset(medDebt,grepl("pell",medDebt$developer.friendly.name))
+  }
+  if (bygroup=="gender") {
+    medDebtPlot<-subset(medDebt,grepl("male_",medDebt$developer.friendly.name))
+  }
+  if (bygroup=="firstGen") {
+    medDebtPlot<-subset(medDebt,grepl("first_generation",medDebt$developer.friendly.name))
+  }
+  medDebtPlot$byGroup<-gsub("median_debt.","",medDebtPlot$developer.friendly.name)
+  medDebtPlot$byGroup<-gsub("_"," ",medDebtPlot$byGroup)
+  medDebtPlot$byGroup<-paste0(toupper(substr(medDebtPlot$byGroup, 1, 1)), substr(medDebtPlot$byGroup, 2, nchar(medDebtPlot$byGroup)))
+  
+  if ("PrivacySuppressed" %in% medDebtPlot$value) {
+    warning("Data has been withheld for privacy reasons.")
+  }
+  
+  medDebtPlot$medDebt<-as.numeric(medDebtPlot$value)
+  
+  ggplot(data=medDebtPlot, aes(x=INSTNM, y=medDebt, fill=byGroup)) +
+    geom_bar(stat="identity", position=position_dodge()) +
+    scale_colour_brewer(palette = "Set1") +
+    labs(x="",y="Median Debt",fill="") 
+  }
+}
+
+### Debt Percentiles ###
+#' Returns a box plot of the 10th, 25th, 50th, 75th, and 90th percentiles of student debt by school. If using API please provide
+#' apiKey and leave dataset field blank. If using a dataset, please leave apiKey field blank. Dataset must
+#' use the same naming conventions are the College Scorecard.  
+#'
+#' @param apiKey
+#' @param dataset
+#' @param schools
+#' @examples
+#' debtPercentiles(,CS2013,c("Harvard University","Northeastern University"))
+#' @export
+#'
+debtPercentiles<-function(apiKey,dataset,schools) {
+  debtPer<-subsetToCategory("aid",apiKey,dataset,schools)
+  debtPer<-subset(debtPer,(grepl("cumulative_debt.",debtPer$developer.friendly.name) & 
+                    grepl("percentile",debtPer$developer.friendly.name)) | 
+                    grepl("median_debt_suppressed.overall",debtPer$developer.friendly.name))
+  debtPer$var<-gsub("cumulative_debt","P",debtPer$developer.friendly.name)
+  debtPer$var<-gsub("_percentile","",debtPer$var)
+  debtPer<-debtPer[c("variable","value","INSTNM")]
+  debtPer$value<-as.numeric(debtPer$value)
+  debtPerPlot<-dcast(debtPer, INSTNM~variable)
+  ggplot(debtPerPlot, aes(INSTNM)) +
+    geom_boxplot(fill = "white", colour = "#3366FF",
+      aes(ymin = CUML_DEBT_P10, lower = CUML_DEBT_P25, middle=DEBT_MDN_SUPP ,upper = CUML_DEBT_P75, ymax = CUML_DEBT_P90),
+      stat = "identity") +
+        scale_colour_brewer(palette = "Set1") +
+        labs(x="",y="Debt ($)") 
+}
