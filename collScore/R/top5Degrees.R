@@ -9,31 +9,8 @@
 #' top5 <- top5Degrees(,scorecard13,c("Stanford University"))
 #' @export
 
-subsetToCategory<-function (category,apiKey,dataset,schools) {
-  dataDict<-data(dataDict)
-  catVars<-subset(dataDict,dataDict$dev.category==category) 
-  variables<-catVars$VARIABLE.NAME
-  variables<-c(variables, c="INSTNM")
-  
-  if (missing(apiKey)) {
-    col.num <- which(colnames(dataset) %in% variables)
-    catData <- dataset[,sort(c(col.num))]
-    catData <- subset(catData, catData$INSTNM %in% schools)
-  }
-  
-  else {
-    ##ENTER API RETRIEVAL HERE##
-    #col.num <- which(colnames(apiData) %in% variables)
-    #catData <- subset(catData, catData$INSTNM %in% schools)
-  }
-  
-  meltData<-melt(catData, id.vars="INSTNM")
-  namedData<-merge(x = meltData, y = dataDict[ , c("developer.friendly.name", "VARIABLE.NAME")], 
-                   by.x="variable", by.y = "VARIABLE.NAME", all.x=TRUE)
-}
-
 top5Degrees<-function(apiKey,dataset,schools) {
-  Degrees.Named<-subsetToCategory("academic",,CS2013,schools)
+  Degrees.Named<-subsetToCategory("academics",apiKey,dataset,schools)
   Degrees.Named<-subset(Degrees.Named,grepl("program_percentage",Degrees.Named$developer.friendly.name))
   
   Degrees.Named$Degree<-gsub("program_percentage.","",Degrees.Named$developer.friendly.name)
@@ -45,7 +22,7 @@ top5Degrees<-function(apiKey,dataset,schools) {
   degreesD <- data.table(Degrees.Named)
   setkey(degreesD,INSTNM)
   degreesD<-degreesD[,lapply(.SD,function(x) head(x,5)),by = key(degreesD)]
-  degreesD<-subset(degreesD,degreesD$INSTNM=="Boston College" | degreesD$INSTNM=="Boston University")
+  degreesD<-subset(degreesD,degreesD$INSTNM %in% schools)
   degreesD$percentofGrads<-(as.numeric(degreesD$value)*100)
   degreesD<-as.data.frame(degreesD)[c(1,5:6)]
   

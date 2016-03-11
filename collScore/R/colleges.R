@@ -6,13 +6,11 @@
 #'
 #' @docType data
 #'
-#' @usage data(colleges)
+#' @format A dataframe of 7,804 observations and 19 variables
 #'
-#' @format A dataframe
+#' @keywords datasets
 #'
-#' @keywords colleges
-#'
-#' @source U.S. Department of Education https://collegescorecard.ed.gov/data/documentation/
+#' @source \url {https://collegescorecard.ed.gov/data/documentation/}
 #'
 #' @examples
 #' data(colleges)

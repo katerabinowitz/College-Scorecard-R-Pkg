@@ -9,33 +9,9 @@
 #' @param bygroup Leave this blank to see median debt overall, otherwise populate with any of the following bygroups to see
 #' median debt by category: completion, income, gender, Pell, dependence, firstGen
 #' @examples 
-#' medianDebtBy(,CS2013,c("Hampshire College","Amherst College"),"firstGen")
+#' medianDebtBy(,scorecard13,c("Hampshire College","Amherst College"),"firstGen")
 #' @export
 #' 
-
-subsetToCategory<-function (category,apiKey,dataset,schools) {
-  dataDict<-data(dataDict)
-  catVars<-subset(dataDict,dataDict$dev.category==category) 
-  variables<-catVars$VARIABLE.NAME
-  variables<-c(variables, c="INSTNM")
-  
-  if (missing(apiKey)) {
-    col.num <- which(colnames(dataset) %in% variables)
-    catData <- dataset[,sort(c(col.num))]
-    catData <- subset(catData, catData$INSTNM %in% schools)
-  }
-  
-  else {
-    ##ENTER API RETRIEVAL HERE##
-    #col.num <- which(colnames(apiData) %in% variables)
-    #catData <- subset(catData, catData$INSTNM %in% schools)
-  }
-  
-  meltData<-melt(catData, id.vars="INSTNM")
-  namedData<-merge(x = meltData, y = dataDict[ , c("developer.friendly.name", "VARIABLE.NAME")], 
-                   by.x="variable", by.y = "VARIABLE.NAME", all.x=TRUE)
-}
-
 medianDebtBy<-function(apiKey,dataset,schools,bygroup="") {
   if (!(bygroup %in% c("","completion","income","dependence","Pell","gender","firstGen"))) {
     stop("Incorrect bygroup. Please kept bygroup empty or select one of the following: completion, income, dependence, Pell, gender, or firstGen")

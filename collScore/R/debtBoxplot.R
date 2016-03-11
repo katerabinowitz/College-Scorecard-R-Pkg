@@ -9,30 +9,6 @@
 #' debtBoxplot(,scorecard13,c("New York University","Cornell University"))
 #' @export
 #'
-
-subsetToCategory<-function (category,apiKey,dataset,schools) {
-  dataDict<-data(dataDict)
-  catVars<-subset(dataDict,dataDict$dev.category==category) 
-  variables<-catVars$VARIABLE.NAME
-  variables<-c(variables, c="INSTNM")
-  
-  if (missing(apiKey)) {
-    col.num <- which(colnames(dataset) %in% variables)
-    catData <- dataset[,sort(c(col.num))]
-    catData <- subset(catData, catData$INSTNM %in% schools)
-  }
-  
-  else {
-    ##ENTER API RETRIEVAL HERE##
-    #col.num <- which(colnames(apiData) %in% variables)
-    #catData <- subset(catData, catData$INSTNM %in% schools)
-  }
-  
-  meltData<-melt(catData, id.vars="INSTNM")
-  namedData<-merge(x = meltData, y = dataDict[ , c("developer.friendly.name", "VARIABLE.NAME")], 
-                   by.x="variable", by.y = "VARIABLE.NAME", all.x=TRUE)
-}
-
 debtBoxplot<-function(apiKey,dataset,schools) {
   debtPer<-subsetToCategory("aid",apiKey,dataset,schools)
   debtPer<-subset(debtPer,(grepl("cumulative_debt.",debtPer$developer.friendly.name) & 

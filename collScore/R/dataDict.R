@@ -4,13 +4,11 @@
 #'
 #' @docType data
 #'
-#' @usage data(dataDict)
+#' @format A dataframe of 1,953 observations and 9 variables
 #'
-#' @format A dataframe
+#' @keywords datasets
 #'
-#' @keywords data dictionary
-#'
-#' @source U.S. Department of Education https://collegescorecard.ed.gov/data/documentation/
+#' @source \url {https://collegescorecard.ed.gov/data/documentation/}
 #'
 #' @examples
 #' data(dataDict)

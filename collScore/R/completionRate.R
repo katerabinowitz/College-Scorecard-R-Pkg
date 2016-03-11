@@ -11,29 +11,6 @@
 #' completionRate(,scorecard13,c("University of Chicago","Northwestern University"),"race")
 #' @export
 #' 
-subsetToCategory<-function (category,apiKey,dataset,schools) {
-  dataDict<-data(dataDict)
-  catVars<-subset(dataDict,dataDict$dev.category==category) 
-  variables<-catVars$VARIABLE.NAME
-  variables<-c(variables, c="INSTNM")
-  
-  if (missing(apiKey)) {
-    col.num <- which(colnames(dataset) %in% variables)
-    catData <- dataset[,sort(c(col.num))]
-    catData <- subset(catData, catData$INSTNM %in% schools)
-  }
-  
-  else {
-    ##ENTER API RETRIEVAL HERE##
-    #col.num <- which(colnames(apiData) %in% variables)
-    #catData <- subset(catData, catData$INSTNM %in% schools)
-  }
-  
-  meltData<-melt(catData, id.vars="INSTNM")
-  namedData<-merge(x = meltData, y = dataDict[ , c("developer.friendly.name", "VARIABLE.NAME")], 
-                   by.x="variable", by.y = "VARIABLE.NAME", all.x=TRUE)
-}
-
 completionRate<-function(apiKey,dataset,schools,bygroup="") {
   if (! (bygroup %in% c("","race"))) {
     stop("Incorrect bygroup. Please keep bygroup empty or select race.")

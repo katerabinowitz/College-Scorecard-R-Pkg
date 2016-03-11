@@ -7,33 +7,9 @@
 #' @param schools The schools you are retrieving data for
 #' @param bygroup Populate with aided, dependent or independent to view family income for those student subsets.
 #' @examples
-#' studentIncomeBy(,CS2013,c("Boston University","Northeastern University"),"dependent")
+#' studentIncomeBy(,scorecard13,c("Boston University","Northeastern University"),"dependent")
 #' @export
 #' 
-
-subsetToCategory<-function (category,apiKey,dataset,schools) {
-  dataDict<-data(dataDict)
-  catVars<-subset(dataDict,dataDict$dev.category==category) 
-  variables<-catVars$VARIABLE.NAME
-  variables<-c(variables, c="INSTNM")
-  
-  if (missing(apiKey)) {
-    col.num <- which(colnames(dataset) %in% variables)
-    catData <- dataset[,sort(c(col.num))]
-    catData <- subset(catData, catData$INSTNM %in% schools)
-  }
-  
-  else {
-    ##ENTER API RETRIEVAL HERE##
-    #col.num <- which(colnames(apiData) %in% variables)
-    #catData <- subset(catData, catData$INSTNM %in% schools)
-  }
-  
-  meltData<-melt(catData, id.vars="INSTNM")
-  namedData<-merge(x = meltData, y = dataDict[ , c("developer.friendly.name", "VARIABLE.NAME")], 
-                   by.x="variable", by.y = "VARIABLE.NAME", all.x=TRUE)
-}
-
 studentIncomeBy<-function(apiKey,dataset,schools,bygroup) {
   if (!(bygroup %in% c("aided","dependent","independent"))) {
     stop("Incorrect bygroup. Please kept bygroup empty or select one of the following: aided, dependent, or independent")

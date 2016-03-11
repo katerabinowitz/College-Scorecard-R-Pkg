@@ -2,6 +2,7 @@
 #' 20 observations.If page = "All", all observations satisfying the specified query will be returned
 #'
 #' @param endpoint Schools
+#' @param apiKey Key required to access data through API
 #' @param format Specifies the json format
 #' @param fieldParams Fields to be included in output
 #' @param optionParams Parameters to optionally include
@@ -9,8 +10,10 @@
 #' @param page Number of pages to return
 #' @return data.frame
 #' @examples
-#' getData(fieldParams = "school.degrees_awarded.predominant=2,3", optionParams = "_fields=id,school.name,2013.student.size")
-#' getData(fieldParams = "school.degrees_awarded.predominant=2,3", optionParams = "_fields=id,school.name,2013.student.size", page = "All")
+#' getData(fieldParams = "school.degrees_awarded.predominant=2,3", 
+#' optionParams = "_fields=id,school.name,2013.student.size")
+#' getData(fieldParams = "school.degrees_awarded.predominant=2,3", 
+#'   optionParams = "_fields=id,school.name,2013.student.size", page = "All")
 #' @export
 getData <- function(apiKey,endpoint = "schools", format = "json", fieldParams, optionParams="", apiVersionString = "v1", page = 0){
   

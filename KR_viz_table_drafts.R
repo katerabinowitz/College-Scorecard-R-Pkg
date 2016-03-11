@@ -41,14 +41,8 @@ subsetToCategory<-function (category,apiKey,dataset,schools) {
 #' @export
 top5 <- top5Degrees(,CS2013,c("Stanford University","Harvard University"))
 
-if (!(c("Stanford University","Harvard") %in% schoolList$INSTNM)) {
-  stop("Incorrect school name")
-}
-
-top5Degrees<-function(apiKey,dataset,schools) {
-  if 
-  
-  Degrees.Named<-subsetToCategory("academic",,CS2013,schools)
+top5Degrees<-function(apiKey,dataset,schools) {  
+  Degrees.Named<-subsetToCategory("academics",,CS2013,c("Stanford University","Harvard University"))
   Degrees.Named<-subset(Degrees.Named,grepl("program_percentage",Degrees.Named$developer.friendly.name))
   
   Degrees.Named$Degree<-gsub("program_percentage.","",Degrees.Named$developer.friendly.name)
