@@ -135,7 +135,11 @@ GetData <- function(apiKey,endpoint = "schools", format = "json", fieldParams, o
 #' earningsData <- GetAllDataInCategory(categoryName = "earnings", year = c(2010, 2013))
 #' earningsData <- GetAllDataInCategory(categoryName = "earnings", year = c(2010, 2013), pattern = "6_yrs_after_entry.mean", addParams = "school.state")
 #' @export
+<<<<<<< HEAD
+getAllDataInCategory <- function(apiKey,categoryName, year, pattern = "", addParams = "id,school.name"){
+=======
 GetAllDataInCategory <- function(apiKey, categoryName, year, pattern = "", addParams = "id,school.name", offline = FALSE){
+>>>>>>> origin/master
   isYearValid <- function(value){
     isValid <- all(unlist(lapply(value, function(x) !(x<1996 | x>2013))))
     isValid
