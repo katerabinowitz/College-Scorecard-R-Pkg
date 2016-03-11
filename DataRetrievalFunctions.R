@@ -1,9 +1,10 @@
 library(httr)
 
 #Temporary
-#GLOBAL PATH TO DICTIONARY 
+#GLOBAL PATH TO DICTIONARY AND DATASET
 #PATH_DICT <- "https://raw.githubusercontent.com/katerabinowitz/College-Scorecard-R-Pkg/master/data/CollegeScorecardDataDictionary-09-08-2015.csv"
 PATH_DICT <- "C:/Research/Data Analytics/Courses/Stanford/Data Mining and Appliations/Paradigms for Computing with Data/Final Project/CollegeScorecard_Raw_Data/CollegeScorecard_Raw_Data/CollegeScorecardDataDictionary-09-12-2015.csv"
+PATH_DATA <- "C:/Research/Data Analytics/Courses/Stanford/Data Mining and Appliations/Paradigms for Computing with Data/Final Project/CollegeScorecard_Raw_Data/CollegeScorecard_Raw_Data"
 
 #' Saves the key to a file that later will be used in APIs that require the key to access the data. To update the key,
 #' just call the same method again with a new key value 
@@ -21,6 +22,18 @@ SetAPIKey <- function(apiKey)
   #To use when we have the package structure in place
   #save(key, file = paste(system.file("<directory_in_package_to_keep_key>", package = "<our_package_name>"), file, sep = "/"))
 }
+
+#' Get the VARIABLE.NAME corresponding to the developer.friendly.name
+#'
+#' @param devFriendlyName
+#' @return character
+#' @examples
+#' ConvertDevFriendlyNameToVarName("8_yr_completion.low_income")
+ConvertDevFriendlyNameToVarName <- function(devFriendlyName){  
+  dataDict <- read.csv(PATH_DICT, stringsAsFactors=FALSE)  
+  varName <- dataDict$VARIABLE.NAME[dataDict$developer.friendly.name == devFriendlyName]
+  varName
+} 
 
 #' Get data using the web api and specifying a query. You can use the page parameter to specify how much data to get. Each page will return
 #' 20 observations.If page = "All", all observations satisfying the specified query will be returned
@@ -108,7 +121,9 @@ GetData <- function(apiKey,endpoint = "schools", format = "json", fieldParams, o
 }
 
 #' Get all data from a specified category. The available categories are 
-#' root, school, academics, admissions, student, cost, aid, repayment, completion, earnings  
+#' root, school, academics, admissions, student, cost, aid, repayment, completion, earnings
+#' If the offline argument is TRUE, the data is retrieved from the data set that is included with the package
+#' If the offline argument is FALSE, the data is retrieved using the College Scorecard API   
 #'
 #' @param apiKey
 #' @param catgoryName
@@ -120,7 +135,7 @@ GetData <- function(apiKey,endpoint = "schools", format = "json", fieldParams, o
 #' earningsData <- GetAllDataInCategory(categoryName = "earnings", year = c(2010, 2013))
 #' earningsData <- GetAllDataInCategory(categoryName = "earnings", year = c(2010, 2013), pattern = "6_yrs_after_entry.mean", addParams = "school.state")
 #' @export
-GetAllDataInCategory <- function(apiKey,categoryName, year, pattern = "", addParams = "id,school.name"){
+GetAllDataInCategory <- function(apiKey, categoryName, year, pattern = "", addParams = "id,school.name", offline = FALSE){
   isYearValid <- function(value){
     isValid <- all(unlist(lapply(value, function(x) !(x<1996 | x>2013))))
     isValid
@@ -143,30 +158,41 @@ GetAllDataInCategory <- function(apiKey,categoryName, year, pattern = "", addPar
 
   categoryVars <- categoryVars[categoryVars != ""]
   categoryVars <- grep(pattern, categoryVars, value = TRUE)
-  if (categoryName=="root") {
-
-  queryList <- paste("fields=", paste(lapply(categoryVars, 
-
-                                             function(x) paste(x, sep = "")), collapse = ","), sep = "")
-
+  
+  #Get data from dataset included with package
+  if (offline) {
+    
+    fileName <- list.files(PATH_DATA, as.character(year))
+    filePath <- paste(PATH_DATA, "/", fileName, sep = "")
+    dataSet <- read.csv(filePath, stringsAsFactors=FALSE,strip.white=TRUE)
+    
+    varNames <- unlist(lapply(categoryVars, ConvertDevFriendlyNameToVarName))
+    DFcat <- subset(dataSet, select = c(varNames, ConvertDevFriendlyNameToVarName(addParams)))
+    categoryVars <- lapply(categoryVars, function(x) paste(year, ".", categoryName, ".", x, sep = ""))
+    colnames(DFcat) <- c(unlist(categoryVars), "school.state")
   }
-
-  else if (categoryName=="school") {
-
-    queryList <- paste("fields=id,", paste(lapply(categoryVars, 
-
-                                               function(x) paste(categoryName, ".", x, sep = "")), collapse = ","), sep = "")  
-
-  }
-
+  
+  #Get data using the College Scorecard API 
   else {
+    if (categoryName=="root") {
+      queryList <- paste("fields=", paste(lapply(categoryVars, 
+                                                 function(x) paste(x, sep = "")), collapse = ","), sep = "")
+    }
+    
+    else if (categoryName=="school") {
+      queryList <- paste("fields=id,", paste(lapply(categoryVars, 
+                                                    function(x) paste(categoryName, ".", x, sep = "")), collapse = ","), sep = "")
+    }
+    
+    else {
       queryList <- paste("fields=", addParams, ",", paste(lapply(categoryVars, 
                                                                  function(x) paste(lapply(year, function(x) paste(x, ".", categoryName, sep = "")), ".", x, sep = "", collapse = ",")), collapse = ","), sep = "")
       
+    }
+    
+    DFcat <- GetData(apiKey=apiKey,fieldParams = queryList)
   }
-
-  DFcat <- GetData(apiKey=apiKey,fieldParams = queryList)
-
+ 
   DFcat
 
 }
