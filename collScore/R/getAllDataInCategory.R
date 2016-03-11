@@ -1,0 +1,64 @@
+#' Get all data from a specified category. The available categories are 
+#' root, school, academics, admissions, student, cost, aid, repayment, completion, earnings  
+#'
+#' @param apiKey Key used for interacting with the API
+#' @param catgoryName The category of data for retrieval. Options include: academics, admission, aid, cost, earnings, repayment,
+#' root, school, or student. 
+#' @param year The year(s) for data retrieval.
+#' @return character vector
+#' @examples
+#' costData <- getAllDataInCategory(categoryName = "cost", year = 2013)
+#' schoolData <- getAllDataInCategory(categoryName = "school")
+#' earningsData <- getAllDataInCategory(categoryName = "earnings", year = c(2010, 2013))
+#' earningsData <- getAllDataInCategory(categoryName = "earnings", year = c(2010, 2013), pattern = "6_yrs_after_entry.mean", addParams = "school.state")
+#' @export
+getAllDataInCategory <- function(apiKey,categoryName, year, pattern = "", addParams = "id,school.name"){
+  isYearValid <- function(value){
+    isValid <- all(unlist(lapply(value, function(x) !(x<1996 | x>2013))))
+    isValid
+  }
+  
+  if (!(categoryName %in% c("academics","admissions","aid","completion","cost","earnings","repayment","root",
+                            "school","student"))) {
+    stop ("Incorrect categoryName. Please choose from the following: 'academics','admissions','aid','completion,'cost',earnings','repayment','root','school', or 'student'. Consult data dictionary for further detail.")
+  }
+  
+  if(!missing(year) && (categoryName=="root" || categoryName=="school")){
+    if (!isYearValid(year)) {
+      stop("Incorrect year selection. Data is available for 1996 through 2013.")
+    }
+  }
+  
+  dataDict <- read.csv(PATH_DICT, stringsAsFactors=FALSE)
+  
+  categoryVars <- subset(dataDict, dev.category==categoryName, developer.friendly.name)
+  
+  categoryVars <- categoryVars[categoryVars != ""]
+  categoryVars <- grep(pattern, categoryVars, value = TRUE)
+  if (categoryName=="root") {
+    
+    queryList <- paste("fields=", paste(lapply(categoryVars, 
+                                               
+                                               function(x) paste(x, sep = "")), collapse = ","), sep = "")
+    
+  }
+  
+  else if (categoryName=="school") {
+    
+    queryList <- paste("fields=id,", paste(lapply(categoryVars, 
+                                                  
+                                                  function(x) paste(categoryName, ".", x, sep = "")), collapse = ","), sep = "")  
+    
+  }
+  
+  else {
+    queryList <- paste("fields=", addParams, ",", paste(lapply(categoryVars, 
+                                                               function(x) paste(lapply(year, function(x) paste(x, ".", categoryName, sep = "")), ".", x, sep = "", collapse = ",")), collapse = ","), sep = "")
+    
+  }
+  
+  DFcat <- GetData(apiKey=apiKey,fieldParams = queryList)
+  
+  DFcat
+  
+}

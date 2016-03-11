@@ -1,6 +1,6 @@
 #' Returns the variable name, definitions, source and any notes from the College Scorecard data dictionary
 #'
-#' @param variable
+#' @param variable Provide the variable(s) to return their definition and characteristics
 #' @examples
 #' scorecardInfo(c("CITY","INSTNM","UNITID"))
 #' 
