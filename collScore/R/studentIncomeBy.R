@@ -38,8 +38,9 @@ studentIncomeBy<-function(apiKey,dataset,schools,bygroup) {
                                                              "$48001-75000","$75001-110000",
                                                              "$110001+"),ordered=TRUE)
   
-  ggplot2::ggplot(data=sIncomePlot, aes(x=INSTNM, y=incomeShare, fill=byGroup)) +
-    ggplot2::geom_bar(stat="identity", position=position_dodge()) +
+  ggplot2::ggplot(data=sIncomePlot, ggplot2::aes(x=sIncomePlot$INSTNM, 
+                                                 y=sIncomePlot$incomeShare, fill=sIncomePlot$byGroup)) +
+    ggplot2::geom_bar(stat="identity", position=ggplot2::position_dodge()) +
     ggplot2::scale_fill_brewer(palette = "Set1") +
     ggplot2::labs(x="",y="Percent",fill=" Family Income") 
 }

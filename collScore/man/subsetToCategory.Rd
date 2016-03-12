@@ -24,6 +24,7 @@ Subsets included College Scorecard data to specific category and
 prepares for data visualization.
 }
 \examples{
+data(scorecard13)
 subsetToCategory("aid",,scorecard13,c("Hampshire College","Amherst College"))
 }
 

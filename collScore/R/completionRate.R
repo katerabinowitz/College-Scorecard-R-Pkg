@@ -11,7 +11,7 @@
 #' data(scorecard13)
 #' completionRate(,scorecard13,c("University of Chicago","Northwestern University"),"race")
 #' @export
-#' 
+#'
 completionRate<-function(apiKey,dataset,schools,bygroup="") {
   if (! (bygroup %in% c("","race"))) {
     stop("Incorrect bygroup. Please keep bygroup empty or select race.")
@@ -26,10 +26,10 @@ completionRate<-function(apiKey,dataset,schools,bygroup="") {
   if (bygroup=="") {
     compRatePlot<-subset(compRate,grepl("150nt",compRate$developer.friendly.name) &
                            (!grepl("pool",compRate$developer.friendly.name)))
-    ggplot2::ggplot(data=compRatePlot, aes(x=INSTNM, y=rate)) +
-      geom_bar(stat="identity") +
-      scale_colour_brewer(palette = "Set1") +
-      labs(x="",y="Completion Rate (%)") 
+    ggplot2::ggplot(data=compRatePlot, ggplot2::aes(x=compRatePlot$INSTNM, y=compRatePlot$rate)) +
+      ggplot2::geom_bar(stat="identity") +
+      ggplot2::scale_colour_brewer(palette = "Set1") +
+      ggplot2::labs(x="",y="Completion Rate (%)") 
   }
   else if (bygroup=="race"){
     compRatePlot<-subset(compRate,!(grepl("150nt",compRate$developer.friendly.name)))
@@ -39,7 +39,8 @@ completionRate<-function(apiKey,dataset,schools,bygroup="") {
     compRatePlot$bygroup<-paste0(toupper(substr(compRatePlot$bygroup, 1, 1)), 
                                  substr(compRatePlot$bygroup, 2, nchar(compRatePlot$bygroup)))
     
-    ggplot2::ggplot(data=compRatePlot, ggplot2::aes(x=bygroup, y=rate, fill=INSTNM)) +
+    ggplot2::ggplot(data=compRatePlot, ggplot2::aes(x=compRatePlot$bygroup, y=compRatePlot$rate, 
+                                                    fill=compRatePlot$INSTNM)) +
       ggplot2::geom_bar(stat="identity", position=ggplot2::position_dodge()) +
       ggplot2::scale_fill_brewer(palette = "Pastel1") +
       ggplot2::labs(x="",y="Completion Rate (%)",fill="School") 

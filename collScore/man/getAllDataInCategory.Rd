@@ -28,10 +28,11 @@ Get all data from a specified category. The available categories are
 root, school, academics, admissions, student, cost, aid, repayment, completion, earnings
 }
 \examples{
-costData <- getAllDataInCategory(categoryName = "cost", year = 2013)
-schoolData <- getAllDataInCategory(categoryName = "school")
-earningsData <- getAllDataInCategory(categoryName = "earnings", year = c(2010, 2013))
-earningsData <- getAllDataInCategory(categoryName = "earnings", 
-  year = c(2010, 2013), pattern = "6_yrs_after_entry.mean", addParams = "school.state")
+\dontrun{costData <- getAllDataInCategory(categoryName = "cost", year = 2013)}
+\dontrun{schoolData <- getAllDataInCategory(categoryName = "school")}
+\dontrun{earningsData <- getAllDataInCategory(categoryName = "earnings", 
+year = c(2010, 2013))}
+\dontrun{earningsData <- getAllDataInCategory(categoryName = "earnings", 
+  year = c(2010, 2013), pattern = "6_yrs_after_entry.mean", addParams = "school.state")}
 }
 

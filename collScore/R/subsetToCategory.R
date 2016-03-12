@@ -8,10 +8,10 @@
 #' admission, aid, completion, cost, earnings, repayment, root, school, or student.
 #' @param year Year of college scorecard data
 #' @examples 
+#' data(scorecard13)
 #' subsetToCategory("aid",,scorecard13,c("Hampshire College","Amherst College"))
 #' @export
 #' 
-
 subsetToCategory<-function (category,apiKey,dataset,schools,year) {
   data(dataDict)
   catVars<-subset(dataDict,dataDict$dev.category==category) 
@@ -24,7 +24,7 @@ subsetToCategory<-function (category,apiKey,dataset,schools,year) {
   }
   
   else {
-    catData <- GetAllDataInCategory(categoryName = category, year = year, addParams = INSTNM)
+    catData <- getAllDataInCategory(categoryName = category, year = year, addParams = "INSTNM")
   }
   
   catData <- subset(catData, catData$INSTNM %in% schools)

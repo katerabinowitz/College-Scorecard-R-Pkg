@@ -31,9 +31,9 @@ Get data using the web api and specifying a query. You can use the page paramete
 20 observations.If page = "All", all observations satisfying the specified query will be returned
 }
 \examples{
-getData(fieldParams = "school.degrees_awarded.predominant=2,3", 
-optionParams = "_fields=id,school.name,2013.student.size")
-getData(fieldParams = "school.degrees_awarded.predominant=2,3", 
-  optionParams = "_fields=id,school.name,2013.student.size", page = "All")
+\dontrun{getData(fieldParams = "school.degrees_awarded.predominant=2,3", 
+optionParams = "_fields=id,school.name,2013.student.size")}
+\dontrun{getData(fieldParams = "school.degrees_awarded.predominant=2,3", 
+  optionParams = "_fields=id,school.name,2013.student.size", page = "All")}
 }
 

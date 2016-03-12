@@ -14,5 +14,5 @@ Imports:
     ggplot2,
     httr,
     reshape2,
-    data.table
+    plyr
 RoxygenNote: 5.0.1

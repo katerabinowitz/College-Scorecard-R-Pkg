@@ -20,10 +20,11 @@ debtBoxplot<-function(apiKey,dataset,schools) {
   debtPer<-debtPer[c("variable","value","INSTNM")]
   debtPer$value<-as.numeric(debtPer$value)
   debtPerPlot<-reshape2::dcast(debtPer, INSTNM~variable)
-  ggplot2::ggplot(debtPerPlot, ggplot2::aes(INSTNM)) +
+  ggplot2::ggplot(debtPerPlot, ggplot2::aes(debtPerPlot$INSTNM)) +
     ggplot2::geom_boxplot(fill = "white", colour = "#3366FF",stat = "identity") +
-    ggplot2::aes(ymin = CUML_DEBT_P10, lower = CUML_DEBT_P25, middle=DEBT_MDN_SUPP, 
-                                       upper = CUML_DEBT_P75, ymax = CUML_DEBT_P90) +
+    ggplot2::aes(ymin = debtPerPlot$CUML_DEBT_P10, lower = debtPerPlot$CUML_DEBT_P25, 
+                 middle=debtPerPlot$DEBT_MDN_SUPP, upper = debtPerPlot$CUML_DEBT_P75, 
+                 ymax = debtPerPlot$CUML_DEBT_P90) +
     ggplot2::scale_colour_brewer(palette = "Set1") +
     ggplot2::labs(x="",y="Debt ($)") 
 }

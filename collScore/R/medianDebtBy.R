@@ -22,10 +22,10 @@ medianDebtBy<-function(apiKey,dataset,schools,bygroup="") {
   
   if (missing(bygroup)) {
     medDebtPlot<-subset(medDebt,medDebt$developer.friendly.name=="median_debt_suppressed.overall")
-    ggplot2::ggplot(data=medDebtPlot, aes(x=INSTNM, y=value)) +
-      geom_bar(stat="identity") +
-      scale_colour_brewer(palette = "Set1") +
-      labs(x="School",y="Median Debt") 
+    ggplot2::ggplot(data=medDebtPlot, ggplot2::aes(x=medDebtPlot$INSTNM, y=medDebtPlot$value)) +
+      ggplot2::geom_bar(stat="identity") +
+      ggplot2::scale_colour_brewer(palette = "Set1") +
+      ggplot2::labs(x="School",y="Median Debt") 
   }
   else {
     if (bygroup=="completion") {
@@ -55,8 +55,9 @@ medianDebtBy<-function(apiKey,dataset,schools,bygroup="") {
     
     medDebtPlot$medDebt<-as.numeric(medDebtPlot$value)
     
-    ggplot2::ggplot(data=medDebtPlot, ggplot2::aes(x=INSTNM, y=medDebt, fill=byGroup)) +
-      ggplot2::geom_bar(stat="identity", position=position_dodge()) +
+    ggplot2::ggplot(data=medDebtPlot, ggplot2::aes(x=medDebtPlot$INSTNM, y=medDebtPlot$medDebt,
+                                                   fill=medDebtPlot$byGroup)) +
+      ggplot2::geom_bar(stat="identity", position=ggplot2::position_dodge()) +
       ggplot2::scale_colour_brewer(palette = "Set1") +
       ggplot2::labs(x="",y="Median Debt ($)",fill="") 
   }

@@ -9,11 +9,12 @@
 #' @param addParams Parameters outside of category to include in data retrieval
 #' @return character vector
 #' @examples
-#' costData <- getAllDataInCategory(categoryName = "cost", year = 2013)
-#' schoolData <- getAllDataInCategory(categoryName = "school")
-#' earningsData <- getAllDataInCategory(categoryName = "earnings", year = c(2010, 2013))
-#' earningsData <- getAllDataInCategory(categoryName = "earnings", 
-#'   year = c(2010, 2013), pattern = "6_yrs_after_entry.mean", addParams = "school.state")
+#' \dontrun{costData <- getAllDataInCategory(categoryName = "cost", year = 2013)}
+#' \dontrun{schoolData <- getAllDataInCategory(categoryName = "school")}
+#' \dontrun{earningsData <- getAllDataInCategory(categoryName = "earnings", 
+#' year = c(2010, 2013))}
+#' \dontrun{earningsData <- getAllDataInCategory(categoryName = "earnings", 
+#'   year = c(2010, 2013), pattern = "6_yrs_after_entry.mean", addParams = "school.state")}
 #' @export
 getAllDataInCategory <- function(apiKey,categoryName, year, pattern = "", addParams = "id,school.name"){
   isYearValid <- function(value){
@@ -34,7 +35,7 @@ getAllDataInCategory <- function(apiKey,categoryName, year, pattern = "", addPar
   
   data(dataDict)
   
-  categoryVars <- subset(dataDict, dev.category==categoryName, developer.friendly.name)
+  categoryVars <- subset(dataDict, dataDict$dev.category==categoryName, dataDict$developer.friendly.name)
   
   categoryVars <- categoryVars[categoryVars != ""]
   categoryVars <- grep(pattern, categoryVars, value = TRUE)
