@@ -35,10 +35,11 @@ getAllDataInCategory <- function(apiKey,categoryName, year, pattern = "", addPar
   
   data(dataDict)
   
-  categoryVars <- subset(dataDict, dataDict$dev.category==categoryName, dataDict$developer.friendly.name)
+  categoryVars <- subset(dataDict, dataDict$dev.category==categoryName)[c("developer.friendly.name")]
   
   categoryVars <- categoryVars[categoryVars != ""]
   categoryVars <- grep(pattern, categoryVars, value = TRUE)
+  
   if (categoryName=="root") {
     queryList <- paste("fields=", paste(lapply(categoryVars, 
       function(x) paste(x, sep = "")), collapse = ","), sep = "")
