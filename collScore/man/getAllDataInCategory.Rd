@@ -11,10 +11,14 @@ getAllDataInCategory(apiKey, categoryName, year, pattern = "",
 \arguments{
 \item{apiKey}{Key used for interacting with the API}
 
+\item{categoryName}{The category of data for retrieval. Options include: academics, admission, aid, cost, earnings, repayment,
+root, school, or student.}
+
 \item{year}{The year(s) for data retrieval.}
 
-\item{catgoryName}{The category of data for retrieval. Options include: academics, admission, aid, cost, earnings, repayment,
-root, school, or student.}
+\item{pattern}{Common text in name of parameters of interest}
+
+\item{addParams}{Parameters outside of category to include in data retrieval}
 }
 \value{
 character vector
@@ -24,9 +28,11 @@ Get all data from a specified category. The available categories are
 root, school, academics, admissions, student, cost, aid, repayment, completion, earnings
 }
 \examples{
-costData <- getAllDataInCategory(categoryName = "cost", year = 2013)
-schoolData <- getAllDataInCategory(categoryName = "school")
-earningsData <- getAllDataInCategory(categoryName = "earnings", year = c(2010, 2013))
-earningsData <- getAllDataInCategory(categoryName = "earnings", year = c(2010, 2013), pattern = "6_yrs_after_entry.mean", addParams = "school.state")
+\dontrun{costData <- getAllDataInCategory(categoryName = "cost", year = 2013)}
+\dontrun{schoolData <- getAllDataInCategory(categoryName = "school")}
+\dontrun{earningsData <- getAllDataInCategory(categoryName = "earnings", 
+year = c(2010, 2013))}
+\dontrun{earningsData <- getAllDataInCategory(categoryName = "earnings", 
+  year = c(2010, 2013), pattern = "6_yrs_after_entry.mean", addParams = "school.state")}
 }
 

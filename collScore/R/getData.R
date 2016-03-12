@@ -2,6 +2,7 @@
 #' 20 observations.If page = "All", all observations satisfying the specified query will be returned
 #'
 #' @param endpoint Schools
+#' @param apiKey Key required to access data through API
 #' @param format Specifies the json format
 #' @param fieldParams Fields to be included in output
 #' @param optionParams Parameters to optionally include
@@ -9,8 +10,10 @@
 #' @param page Number of pages to return
 #' @return data.frame
 #' @examples
-#' getData(fieldParams = "school.degrees_awarded.predominant=2,3", optionParams = "_fields=id,school.name,2013.student.size")
-#' getData(fieldParams = "school.degrees_awarded.predominant=2,3", optionParams = "_fields=id,school.name,2013.student.size", page = "All")
+#' \dontrun{getData(fieldParams = "school.degrees_awarded.predominant=2,3", 
+#' optionParams = "_fields=id,school.name,2013.student.size")}
+#' \dontrun{getData(fieldParams = "school.degrees_awarded.predominant=2,3", 
+#'   optionParams = "_fields=id,school.name,2013.student.size", page = "All")}
 #' @export
 getData <- function(apiKey,endpoint = "schools", format = "json", fieldParams, optionParams="", apiVersionString = "v1", page = 0){
   
@@ -38,7 +41,7 @@ getData <- function(apiKey,endpoint = "schools", format = "json", fieldParams, o
   #Helper function to get pages
   getPages <- function(p = page){
     queryUrl <- paste(queryUrl, "&_page=", p, sep = "")
-    res <- GET(queryUrl)
+    res <- httr::GET(queryUrl)
     if (res$status_code==414) {
       stop ("Error code 414: Please request fewer variables")
     } else
@@ -53,7 +56,7 @@ getData <- function(apiKey,endpoint = "schools", format = "json", fieldParams, o
     }
     if(!parsed)
     {
-      jsonData <- content(jsonData, as = "parsed")
+      jsonData <- httr::content(jsonData, as = "parsed")
     }
     for(i in 1:(length(jsonData$results)))
     {
@@ -67,7 +70,7 @@ getData <- function(apiKey,endpoint = "schools", format = "json", fieldParams, o
   
   #To get a single page
   result <- getPages(0)
-  result <- content(result, as = "parsed")
+  result <- httr::content(result, as = "parsed")
   DF <- toDataFrame(result)
   
   #To get all pages

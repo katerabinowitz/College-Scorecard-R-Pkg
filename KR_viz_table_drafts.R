@@ -1,5 +1,9 @@
 setwd("/Users/katerabinowitz/Documents/StanfordGrad/STATS290/Package")
-CS2013<-read.csv("MERGED2013_PP.csv", stringsAsFactors=FALSE,strip.white=TRUE) 
+scorecard13<-read.csv("MERGED2013_PP.csv", stringsAsFactors=FALSE,strip.white=TRUE) 
+
+scorecard13<-subset(scorecard13,scorecard13$PREDDEG==3)
+scorecard13$INSTNM<-iconv(scorecard13$INSTNM, "latin1", "ASCII", sub="")
+scorecard13$CITY<-iconv(scorecard13$CITY, "latin1", "ASCII", sub="")
 
 library(reshape2)
 library(data.table)
@@ -41,14 +45,8 @@ subsetToCategory<-function (category,apiKey,dataset,schools) {
 #' @export
 top5 <- top5Degrees(,CS2013,c("Stanford University","Harvard University"))
 
-if (!(c("Stanford University","Harvard") %in% schoolList$INSTNM)) {
-  stop("Incorrect school name")
-}
-
-top5Degrees<-function(apiKey,dataset,schools) {
-  if 
-  
-  Degrees.Named<-subsetToCategory("academic",,CS2013,schools)
+top5Degrees<-function(apiKey,dataset,schools) {  
+  Degrees.Named<-subsetToCategory("academics",,CS2013,c("Stanford University","Harvard University"))
   Degrees.Named<-subset(Degrees.Named,grepl("program_percentage",Degrees.Named$developer.friendly.name))
   
   Degrees.Named$Degree<-gsub("program_percentage.","",Degrees.Named$developer.friendly.name)

@@ -14,6 +14,5 @@ Returns the variable name, definitions, source and any notes from the College Sc
 }
 \examples{
 scorecardInfo(c("CITY","INSTNM","UNITID"))
-
 }
 

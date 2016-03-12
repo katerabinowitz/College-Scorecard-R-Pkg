@@ -9,33 +9,10 @@
 #' @param bygroup Leave this blank to see median debt overall, otherwise populate with any of the following bygroups to see
 #' median debt by category: completion, income, gender, Pell, dependence, firstGen
 #' @examples 
-#' medianDebtBy(,CS2013,c("Hampshire College","Amherst College"),"firstGen")
+#' data(scorecard13)
+#' medianDebtBy(,scorecard13,c("Hampshire College","Amherst College"),"firstGen")
 #' @export
 #' 
-
-subsetToCategory<-function (category,apiKey,dataset,schools) {
-  dataDict<-data(dataDict)
-  catVars<-subset(dataDict,dataDict$dev.category==category) 
-  variables<-catVars$VARIABLE.NAME
-  variables<-c(variables, c="INSTNM")
-  
-  if (missing(apiKey)) {
-    col.num <- which(colnames(dataset) %in% variables)
-    catData <- dataset[,sort(c(col.num))]
-    catData <- subset(catData, catData$INSTNM %in% schools)
-  }
-  
-  else {
-    ##ENTER API RETRIEVAL HERE##
-    #col.num <- which(colnames(apiData) %in% variables)
-    #catData <- subset(catData, catData$INSTNM %in% schools)
-  }
-  
-  meltData<-melt(catData, id.vars="INSTNM")
-  namedData<-merge(x = meltData, y = dataDict[ , c("developer.friendly.name", "VARIABLE.NAME")], 
-                   by.x="variable", by.y = "VARIABLE.NAME", all.x=TRUE)
-}
-
 medianDebtBy<-function(apiKey,dataset,schools,bygroup="") {
   if (!(bygroup %in% c("","completion","income","dependence","Pell","gender","firstGen"))) {
     stop("Incorrect bygroup. Please kept bygroup empty or select one of the following: completion, income, dependence, Pell, gender, or firstGen")
@@ -45,10 +22,10 @@ medianDebtBy<-function(apiKey,dataset,schools,bygroup="") {
   
   if (missing(bygroup)) {
     medDebtPlot<-subset(medDebt,medDebt$developer.friendly.name=="median_debt_suppressed.overall")
-    ggplot(data=medDebtPlot, aes(x=INSTNM, y=value)) +
-      geom_bar(stat="identity") +
-      scale_colour_brewer(palette = "Set1") +
-      labs(x="School",y="Median Debt") 
+    ggplot2::ggplot(data=medDebtPlot, ggplot2::aes(x=medDebtPlot$INSTNM, y=medDebtPlot$value)) +
+      ggplot2::geom_bar(stat="identity") +
+      ggplot2::scale_colour_brewer(palette = "Set1") +
+      ggplot2::labs(x="School",y="Median Debt") 
   }
   else {
     if (bygroup=="completion") {
@@ -76,15 +53,12 @@ medianDebtBy<-function(apiKey,dataset,schools,bygroup="") {
     medDebtPlot$byGroup<-gsub("_"," ",medDebtPlot$byGroup)
     medDebtPlot$byGroup<-paste0(toupper(substr(medDebtPlot$byGroup, 1, 1)), substr(medDebtPlot$byGroup, 2, nchar(medDebtPlot$byGroup)))
     
-    if ("PrivacySuppressed" %in% medDebtPlot$value) {
-      warning("Data has been withheld for privacy reasons.")
-    }
-    
     medDebtPlot$medDebt<-as.numeric(medDebtPlot$value)
     
-    ggplot(data=medDebtPlot, aes(x=INSTNM, y=medDebt, fill=byGroup)) +
-      geom_bar(stat="identity", position=position_dodge()) +
-      scale_colour_brewer(palette = "Set1") +
-      labs(x="",y="Median Debt ($)",fill="") 
+    ggplot2::ggplot(data=medDebtPlot, ggplot2::aes(x=medDebtPlot$INSTNM, y=medDebtPlot$medDebt,
+                                                   fill=medDebtPlot$byGroup)) +
+      ggplot2::geom_bar(stat="identity", position=ggplot2::position_dodge()) +
+      ggplot2::scale_colour_brewer(palette = "Set1") +
+      ggplot2::labs(x="",y="Median Debt ($)",fill="") 
   }
 }

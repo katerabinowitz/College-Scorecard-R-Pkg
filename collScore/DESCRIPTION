@@ -1,12 +1,18 @@
 Package: collScore
 Type: Package
-Title: What the Package Does Using Title Case
+Title: Simplifies analysis of College Scorecard data
 Version: 1.0
 Date: 2016-03-11
-Author: Your Name
-Maintainer: Your Name <your@email.com>
-Description: More details about what the package does. See <http://http://
-    cran.r-project.org/doc/manuals/r-release/R-exts.html#The-DESCRIPTION-file> for
-    details on how to write this part.
+Author: Kate Rabinowitz, Iliana Voynichka
+Maintainer: Kate Rabinowitz <cathrynr@stanford.edu>
+Description: collScore facilitates analysis of U.S. College Scorecard data by
+    simplifying the data retrieval process and provided a number of summary
+    visualizations.
 License: GPL (>= 2)
+Depends: R(>= 2.10.0)
+Imports:
+    ggplot2,
+    httr,
+    reshape2,
+    plyr
 RoxygenNote: 5.0.1

@@ -6,32 +6,9 @@
 #' @param dataset If not using API please provide dataset name here
 #' @param schools The schools you are retrieving data for
 #' @examples
-#' studentRace(,CS2013,c("Yale University","Harvard University"))
+#' data(scorecard13)
+#' studentRace(,scorecard13,c("Yale University","Harvard University"))
 #' @export
-
-subsetToCategory<-function (category,apiKey,dataset,schools) {
-  dataDict<-data(dataDict)
-  catVars<-subset(dataDict,dataDict$dev.category==category) 
-  variables<-catVars$VARIABLE.NAME
-  variables<-c(variables, c="INSTNM")
-  
-  if (missing(apiKey)) {
-    col.num <- which(colnames(dataset) %in% variables)
-    catData <- dataset[,sort(c(col.num))]
-    catData <- subset(catData, catData$INSTNM %in% schools)
-  }
-  
-  else {
-    ##ENTER API RETRIEVAL HERE##
-    #col.num <- which(colnames(apiData) %in% variables)
-    #catData <- subset(catData, catData$INSTNM %in% schools)
-  }
-  
-  meltData<-melt(catData, id.vars="INSTNM")
-  namedData<-merge(x = meltData, y = dataDict[ , c("developer.friendly.name", "VARIABLE.NAME")], 
-                   by.x="variable", by.y = "VARIABLE.NAME", all.x=TRUE)
-}
-
 studentRace<-function(apiKey,dataset,schools) {
   race<-subsetToCategory("student",apiKey,dataset,schools)
   race<-subset(race,grepl("demographics.race_ethnicity",race$developer.friendly.name))
@@ -42,9 +19,9 @@ studentRace<-function(apiKey,dataset,schools) {
   race$Race<-paste0(toupper(substr(race$Race, 1, 1)), 
                     substr(race$Race, 2, nchar(race$Race)))
   
-  ggplot(aes(y=Proportion, x=INSTNM, fill = factor(Race)), data = race) +
-    geom_bar(stat = 'identity') +
-    coord_flip() +
-    scale_fill_brewer(palette = "Set3") +
-    labs(x="",y="Proportion (%)",fill="Race") 
+  ggplot2::ggplot(ggplot2::aes(y=race$Proportion, x=race$INSTNM, fill = factor(race$Race)), data = race) +
+    ggplot2::geom_bar(stat = 'identity') +
+    ggplot2::coord_flip() +
+    ggplot2::scale_fill_brewer(palette = "Set3") +
+    ggplot2::labs(x="",y="Proportion (%)",fill="Race") 
 }
