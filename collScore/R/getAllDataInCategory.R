@@ -27,7 +27,7 @@ getAllDataInCategory <- function(apiKey,categoryName, year, pattern = "", addPar
     stop ("Incorrect categoryName. Please choose from the following: 'academics','admissions','aid','completion,'cost',earnings','repayment','root','school', or 'student'. Consult data dictionary for further detail.")
   }
   
-  if(!missing(year) && (categoryName=="root" || categoryName=="school")){
+  if(!missing(year) && !(categoryName=="root" || categoryName=="school")){
     if (!isYearValid(year)) {
       stop("Incorrect year selection. Data is available for 1996 through 2013.")
     }
