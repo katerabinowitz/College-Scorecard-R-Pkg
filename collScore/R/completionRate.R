@@ -12,6 +12,9 @@
 #' completionRate(,scorecard13,c("University of Chicago","Northwestern University"),"race")
 #' @export
 #'
+##
+## Start cathrynr code
+##
 completionRate<-function(apiKey,dataset,schools,bygroup="") {
   if (! (bygroup %in% c("","race"))) {
     stop("Incorrect bygroup. Please keep bygroup empty or select race.")
@@ -46,3 +49,6 @@ completionRate<-function(apiKey,dataset,schools,bygroup="") {
       ggplot2::labs(x="",y="Completion Rate (%)",fill="School") 
   }
 }   
+##
+## End cathrynr code
+##

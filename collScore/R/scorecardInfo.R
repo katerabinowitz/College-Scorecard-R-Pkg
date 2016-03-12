@@ -4,7 +4,9 @@
 #' @examples
 #' scorecardInfo(c("CITY","INSTNM","UNITID"))
 #' @export
-
+##
+## Start cathrynr code
+##
 scorecardInfo<-function(variable) {
   data(dataDict)
   varDF<-as.data.frame(variable)
@@ -13,5 +15,6 @@ scorecardInfo<-function(variable) {
             by.x="variable", by.y = "VARIABLE.NAME", all.x=TRUE)
   return(varSeek)
 }
-
-
+##
+## End cathrynr code
+##

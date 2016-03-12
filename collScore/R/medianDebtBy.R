@@ -13,6 +13,9 @@
 #' medianDebtBy(,scorecard13,c("Hampshire College","Amherst College"),"firstGen")
 #' @export
 #' 
+##
+## Start cathrynr code
+##
 medianDebtBy<-function(apiKey,dataset,schools,bygroup="") {
   if (!(bygroup %in% c("","completion","income","dependence","Pell","gender","firstGen"))) {
     stop("Incorrect bygroup. Please kept bygroup empty or select one of the following: completion, income, dependence, Pell, gender, or firstGen")
@@ -62,3 +65,6 @@ medianDebtBy<-function(apiKey,dataset,schools,bygroup="") {
       ggplot2::labs(x="",y="Median Debt ($)",fill="") 
   }
 }
+##
+## End cathrynr code
+##

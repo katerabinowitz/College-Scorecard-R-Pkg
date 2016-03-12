@@ -9,6 +9,9 @@
 #' data(scorecard13)
 #' studentRace(,scorecard13,c("Yale University","Harvard University"))
 #' @export
+##
+## Start cathrynr code
+##
 studentRace<-function(apiKey,dataset,schools) {
   race<-subsetToCategory("student",apiKey,dataset,schools)
   race<-subset(race,grepl("demographics.race_ethnicity",race$developer.friendly.name))
@@ -25,3 +28,6 @@ studentRace<-function(apiKey,dataset,schools) {
     ggplot2::scale_fill_brewer(palette = "Set3") +
     ggplot2::labs(x="",y="Proportion (%)",fill="Race") 
 }
+##
+## End cathrynr code
+##

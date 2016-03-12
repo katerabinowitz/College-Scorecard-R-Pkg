@@ -12,6 +12,9 @@
 #' subsetToCategory("aid",,scorecard13,c("Hampshire College","Amherst College"))
 #' @export
 #' 
+##
+## Start cathrynr code
+##
 subsetToCategory<-function (category,apiKey,dataset,schools,year) {
   data(dataDict)
   catVars<-subset(dataDict,dataDict$dev.category==category) 
@@ -32,3 +35,6 @@ subsetToCategory<-function (category,apiKey,dataset,schools,year) {
   namedData<-merge(x = meltData, y = dataDict[ , c("developer.friendly.name", "VARIABLE.NAME")], 
                    by.x="variable", by.y = "VARIABLE.NAME", all.x=TRUE)
 }
+##
+## End cathrynr code
+##

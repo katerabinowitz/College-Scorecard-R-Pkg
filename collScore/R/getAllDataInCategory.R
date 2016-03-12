@@ -33,13 +33,29 @@ getAllDataInCategory <- function(apiKey,categoryName, year, pattern = "", addPar
     }
   }
   
+  ##
+  ## Start cathrynr code
+  ##
   data(dataDict)
   
+<<<<<<< Updated upstream
   categoryVars <- subset(dataDict, dataDict$dev.category==categoryName)[c("developer.friendly.name")]
+=======
+  categoryVars <- subset(dataDict, dataDict$dev.category=="student")[c("developer.friendly.name")]
+>>>>>>> Stashed changes
   
   categoryVars <- categoryVars[categoryVars != ""]
+  ##
+  ## End cathrynr code
+  ##
   categoryVars <- grep(pattern, categoryVars, value = TRUE)
+<<<<<<< Updated upstream
   
+=======
+  ##
+  ## Start cathrynr code
+  ##
+>>>>>>> Stashed changes
   if (categoryName=="root") {
     queryList <- paste("fields=", paste(lapply(categoryVars, 
       function(x) paste(x, sep = "")), collapse = ","), sep = "")
@@ -53,6 +69,9 @@ getAllDataInCategory <- function(apiKey,categoryName, year, pattern = "", addPar
       function(x) paste(lapply(year, function(x) paste(x, ".", categoryName, sep = "")),
                         ".", x, sep = "", collapse = ",")), collapse = ","), sep = "")
 }
+##
+## End cathrynr code
+##
   DFcat <- getData(apiKey=apiKey,fieldParams = queryList)
   DFcat
 }

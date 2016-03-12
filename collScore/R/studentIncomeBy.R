@@ -11,6 +11,9 @@
 #' studentIncomeBy(,scorecard13,c("Boston University","Northeastern University"),"dependent")
 #' @export
 #' 
+##
+## Start cathrynr code
+##
 studentIncomeBy<-function(apiKey,dataset,schools,bygroup) {
   if (!(bygroup %in% c("aided","dependent","independent"))) {
     stop("Incorrect bygroup. Please kept bygroup empty or select one of the following: aided, dependent, or independent")
@@ -18,7 +21,7 @@ studentIncomeBy<-function(apiKey,dataset,schools,bygroup) {
   sIncome<-subsetToCategory("student",apiKey,dataset,schools)
   sIncome<-subset(sIncome,grepl("share_",sIncome$developer.friendly.name) & 
                     (grepl("income.",sIncome$developer.friendly.name)))
-  sIncome$incomeShare<-(as.numeric(sIncome$value)*100)
+  sIncome$incomeShare<-suppressWarnings((as.numeric(sIncome$value)*100))
   sIncome<-subset(sIncome,!(is.na(sIncome$incomeShare)))
   
   if (bygroup=="aided") {
@@ -34,7 +37,7 @@ studentIncomeBy<-function(apiKey,dataset,schools,bygroup) {
   sIncomePlot$byGroup<-gsub("^.*\\.","$",sIncomePlot$developer.friendly.name)
   sIncomePlot$byGroup<-gsub("_","-",sIncomePlot$byGroup)
   sIncomePlot$byGroup<-ifelse(sIncomePlot$byGroup=="$110001plus","$110001+",sIncomePlot$byGroup)
-  sIncomePlot$byGroup <- factor(sIncomePlot$byGroup,levels=c("$0-30000","$300001-48000",
+  sIncomePlot$byGroup <- factor(sIncomePlot$byGroup,levels=c("$0-300000","$300001-48000",
                                                              "$48001-75000","$75001-110000",
                                                              "$110001+"),ordered=TRUE)
   
@@ -44,3 +47,6 @@ studentIncomeBy<-function(apiKey,dataset,schools,bygroup) {
     ggplot2::scale_fill_brewer(palette = "Set1") +
     ggplot2::labs(x="",y="Percent",fill=" Family Income") 
 }
+##
+## End cathrynr code
+##

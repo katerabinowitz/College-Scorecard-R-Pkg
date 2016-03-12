@@ -1,0 +1,32 @@
+---
+title: "Summary"
+author: "Kate Rabinowitz and Iliana Voynichka"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Summary}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+The collScore package facilitates the download, analysis, and visualization of the U.S. Department of Education Scorecard data. Additional background on the College Scorecard data can be found here: https://collegescorecard.ed.gov/data/. The data is extensive with other 1,500 variables detailing more than 7,000 American colleges covering topics like demographics of the student population, federal financial aid, college costs, education offerings, graduation rates, college-related debt, post-graduation acitivites and salary, and more. The below functions intend to promote and simplify use of the College Scorecard data.  
+# Data Retrieval    
+The collScore package includes a number of functions meant to ease data download.    
+## setAPIKey    
+The setAPIKey function allows users to permanently save their API key so they do not have to recall for future data retrieval and can share code that does not include the key.  
+## getData    
+The getData function simplifies data retrieval from the College Scorecard API, the primary data collection point. Users may specify the specific fields and/or filters they are interested in collecting and the getData function will return their request in a data frame.  
+## getAllDataInCategory    
+The getAllDataInCategory function further simplifies the data retrieval process. With over 1,500 variables it may be onerous for users to find and/or list the fields of interest to them. This function allows users to select from 10 overall categories of data such as student, aid, or cost, to return all fields in that category. Additionally, users may further subset the data returned by selecting a text pattern to look at a more specific topics in a larger category.  
+# Metadata Information
+The collScore package allows users to more easily access College Scorecard metadata.   
+## scorecardInfo
+The scorecardInfo function retrieves the definition, formatting, and any notes for any field within the College Scorecard dataset.  
+# Analysis and Visualization  
+The collScore package has number of different built-in visualization functions for users to more quickly see information about a particular college, or compare fields across a number of colleges.  
+## completionRate  
+## debtBoxplot  
+## medianDebtBy  
+## studentIncomeBy  
+## studentRace  
+## top5Degrees  

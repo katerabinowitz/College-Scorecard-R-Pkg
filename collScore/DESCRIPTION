@@ -16,4 +16,7 @@ Imports:
     reshape2,
     plyr
 RoxygenNote: 5.0.1
-Suggests: testthat
+Suggests: testthat,
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
