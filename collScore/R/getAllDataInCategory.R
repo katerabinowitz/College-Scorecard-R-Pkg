@@ -32,7 +32,7 @@ getAllDataInCategory <- function(apiKey,categoryName, year, pattern = "", addPar
     }
   }
   
-  dataDict <- read.csv(PATH_DICT, stringsAsFactors=FALSE)
+  data(dataDict)
   
   categoryVars <- subset(dataDict, dev.category==categoryName, developer.friendly.name)
   
@@ -51,6 +51,6 @@ getAllDataInCategory <- function(apiKey,categoryName, year, pattern = "", addPar
       function(x) paste(lapply(year, function(x) paste(x, ".", categoryName, sep = "")),
                         ".", x, sep = "", collapse = ",")), collapse = ","), sep = "")
 }
-  DFcat <- GetData(apiKey=apiKey,fieldParams = queryList)
+  DFcat <- getData(apiKey=apiKey,fieldParams = queryList)
   DFcat
 }

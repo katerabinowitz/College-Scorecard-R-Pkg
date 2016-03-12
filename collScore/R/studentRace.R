@@ -6,6 +6,7 @@
 #' @param dataset If not using API please provide dataset name here
 #' @param schools The schools you are retrieving data for
 #' @examples
+#' data(scorecard13)
 #' studentRace(,scorecard13,c("Yale University","Harvard University"))
 #' @export
 studentRace<-function(apiKey,dataset,schools) {
@@ -18,9 +19,9 @@ studentRace<-function(apiKey,dataset,schools) {
   race$Race<-paste0(toupper(substr(race$Race, 1, 1)), 
                     substr(race$Race, 2, nchar(race$Race)))
   
-  ggplot(aes(y=Proportion, x=INSTNM, fill = factor(Race)), data = race) +
-    geom_bar(stat = 'identity') +
-    coord_flip() +
-    scale_fill_brewer(palette = "Set3") +
-    labs(x="",y="Proportion (%)",fill="Race") 
+  ggplot2::ggplot(ggplot2::aes(y=Proportion, x=INSTNM, fill = factor(Race)), data = race) +
+    ggplot2::geom_bar(stat = 'identity') +
+    ggplot2::coord_flip() +
+    ggplot2::scale_fill_brewer(palette = "Set3") +
+    ggplot2::labs(x="",y="Proportion (%)",fill="Race") 
 }

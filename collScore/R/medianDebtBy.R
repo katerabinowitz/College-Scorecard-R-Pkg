@@ -9,6 +9,7 @@
 #' @param bygroup Leave this blank to see median debt overall, otherwise populate with any of the following bygroups to see
 #' median debt by category: completion, income, gender, Pell, dependence, firstGen
 #' @examples 
+#' data(scorecard13)
 #' medianDebtBy(,scorecard13,c("Hampshire College","Amherst College"),"firstGen")
 #' @export
 #' 
@@ -21,7 +22,7 @@ medianDebtBy<-function(apiKey,dataset,schools,bygroup="") {
   
   if (missing(bygroup)) {
     medDebtPlot<-subset(medDebt,medDebt$developer.friendly.name=="median_debt_suppressed.overall")
-    ggplot(data=medDebtPlot, aes(x=INSTNM, y=value)) +
+    ggplot2::ggplot(data=medDebtPlot, aes(x=INSTNM, y=value)) +
       geom_bar(stat="identity") +
       scale_colour_brewer(palette = "Set1") +
       labs(x="School",y="Median Debt") 
@@ -52,15 +53,11 @@ medianDebtBy<-function(apiKey,dataset,schools,bygroup="") {
     medDebtPlot$byGroup<-gsub("_"," ",medDebtPlot$byGroup)
     medDebtPlot$byGroup<-paste0(toupper(substr(medDebtPlot$byGroup, 1, 1)), substr(medDebtPlot$byGroup, 2, nchar(medDebtPlot$byGroup)))
     
-    if ("PrivacySuppressed" %in% medDebtPlot$value) {
-      warning("Data has been withheld for privacy reasons.")
-    }
-    
     medDebtPlot$medDebt<-as.numeric(medDebtPlot$value)
     
-    ggplot(data=medDebtPlot, aes(x=INSTNM, y=medDebt, fill=byGroup)) +
-      geom_bar(stat="identity", position=position_dodge()) +
-      scale_colour_brewer(palette = "Set1") +
-      labs(x="",y="Median Debt ($)",fill="") 
+    ggplot2::ggplot(data=medDebtPlot, ggplot2::aes(x=INSTNM, y=medDebt, fill=byGroup)) +
+      ggplot2::geom_bar(stat="identity", position=position_dodge()) +
+      ggplot2::scale_colour_brewer(palette = "Set1") +
+      ggplot2::labs(x="",y="Median Debt ($)",fill="") 
   }
 }

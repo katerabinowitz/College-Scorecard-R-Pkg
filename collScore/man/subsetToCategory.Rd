@@ -5,10 +5,10 @@
 \title{Subsets included College Scorecard data to specific category and 
 prepares for data visualization.}
 \usage{
-subsetToCategory(categoryName, apiKey, dataset, schools)
+subsetToCategory(category, apiKey, dataset, schools, year)
 }
 \arguments{
-\item{categoryName}{The category of data for retrieval. Options include: academics, 
+\item{category}{The category of data for retrieval. Options include: academics, 
 admission, aid, completion, cost, earnings, repayment, root, school, or student.}
 
 \item{apiKey}{If use API please provide saved API key value here}
@@ -16,6 +16,8 @@ admission, aid, completion, cost, earnings, repayment, root, school, or student.
 \item{dataset}{If not using API please provide dataset name here}
 
 \item{schools}{The schools you are retrieving data for}
+
+\item{year}{Year of college scorecard data}
 }
 \description{
 Subsets included College Scorecard data to specific category and 

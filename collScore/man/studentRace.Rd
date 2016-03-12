@@ -21,6 +21,7 @@ apiKey and leave dataset field blank. If using a dataset, please leave apiKey fi
 use the same naming conventions are the College Scorecard.
 }
 \examples{
+data(scorecard13)
 studentRace(,scorecard13,c("Yale University","Harvard University"))
 }
 

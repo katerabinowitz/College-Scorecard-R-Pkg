@@ -7,6 +7,7 @@
 #' @param schools The schools you are retrieving data for
 #' @param bygroup Populate with aided, dependent or independent to view family income for those student subsets.
 #' @examples
+#' data(scorecard13)
 #' studentIncomeBy(,scorecard13,c("Boston University","Northeastern University"),"dependent")
 #' @export
 #' 
@@ -37,8 +38,8 @@ studentIncomeBy<-function(apiKey,dataset,schools,bygroup) {
                                                              "$48001-75000","$75001-110000",
                                                              "$110001+"),ordered=TRUE)
   
-  ggplot(data=sIncomePlot, aes(x=INSTNM, y=incomeShare, fill=byGroup)) +
-    geom_bar(stat="identity", position=position_dodge()) +
-    scale_fill_brewer(palette = "Set1") +
-    labs(x="",y="Percent",fill=" Family Income") 
+  ggplot2::ggplot(data=sIncomePlot, aes(x=INSTNM, y=incomeShare, fill=byGroup)) +
+    ggplot2::geom_bar(stat="identity", position=position_dodge()) +
+    ggplot2::scale_fill_brewer(palette = "Set1") +
+    ggplot2::labs(x="",y="Percent",fill=" Family Income") 
 }

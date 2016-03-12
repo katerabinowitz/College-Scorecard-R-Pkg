@@ -23,6 +23,7 @@ If using API please provide apiKey and leave dataset field blank. If using a dat
 apiKey field blank. Dataset must use the same naming conventions are the College Scorecard.
 }
 \examples{
+data(scorecard13)
 studentIncomeBy(,scorecard13,c("Boston University","Northeastern University"),"dependent")
 }
 

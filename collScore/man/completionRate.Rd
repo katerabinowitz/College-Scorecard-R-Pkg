@@ -25,6 +25,7 @@ use the same naming conventions are the College Scorecard. Leave bygroup field b
 overall median.
 }
 \examples{
+data(scorecard13)
 completionRate(,scorecard13,c("University of Chicago","Northwestern University"),"race")
 }
 

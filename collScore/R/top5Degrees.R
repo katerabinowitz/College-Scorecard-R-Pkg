@@ -6,6 +6,7 @@
 #' @param dataset If not using API please provide dataset name here
 #' @param schools The schools you are retrieving data for
 #' @examples
+#' data(scorecard13)
 #' top5 <- top5Degrees(,scorecard13,c("Stanford University"))
 #' @export
 
@@ -19,7 +20,7 @@ top5Degrees<-function(apiKey,dataset,schools) {
   
   Degrees.Named<-Degrees.Named[order(Degrees.Named$INSTNM,Degrees.Named$value, decreasing=TRUE),]
   
-  degreesD <- data.table(Degrees.Named)
+  degreesD <- data.table::data.table(Degrees.Named)
   setkey(degreesD,INSTNM)
   degreesD<-degreesD[,lapply(.SD,function(x) head(x,5)),by = key(degreesD)]
   degreesD<-subset(degreesD,degreesD$INSTNM %in% schools)

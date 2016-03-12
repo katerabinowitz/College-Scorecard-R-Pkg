@@ -26,6 +26,7 @@ use the same naming conventions are the College Scorecard. Leave bygroup field b
 overall median.
 }
 \examples{
+data(scorecard13)
 medianDebtBy(,scorecard13,c("Hampshire College","Amherst College"),"firstGen")
 }
 
