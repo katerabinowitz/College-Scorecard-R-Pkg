@@ -5,19 +5,22 @@
 #' @param apiKey If use API please provide saved API key value here 
 #' @param dataset If not using API please provide dataset name here
 #' @param schools The schools you are retrieving data for
+#' @param year Year of data request. Default is 2013.
 #' @examples
 #' data(scorecard13)
-#' top5 <- top5Degrees(,scorecard13,c("Stanford University","University of Southern California"))
+#' top5 <- top5Degrees(,scorecard13,c("Stanford University","University of Southern California"),)
 #' @export
 ##
 ## Start cathrynr code
 ##
-top5Degrees<-function(apiKey,dataset,schools) {
-  Degrees.Named<-subsetToCategory("academics",apiKey,dataset,schools)
+top5Degrees<-function(apiKey,dataset,schools,year="2013") {
+  Degrees.Named<-subsetToCategory("academics",apiKey,dataset,schools,year,grepl="program_percentage")
+  if (missing(apiKey)) {
   Degrees.Named<-subset(Degrees.Named,grepl("program_percentage",Degrees.Named$developer.friendly.name))
-  
+  }
   Degrees.Named$Degree<-gsub("program_percentage.","",Degrees.Named$developer.friendly.name)
   Degrees.Named$Degree<-gsub("_"," ",Degrees.Named$Degree)
+  Degrees.Named$Degree<-gsub("\\.","",Degrees.Named$Degree)
   Degrees.Named$Degree<-paste0(toupper(substr(Degrees.Named$Degree, 1, 1)), 
                                substr(Degrees.Named$Degree, 2, nchar(Degrees.Named$Degree)))
 

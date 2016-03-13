@@ -7,6 +7,7 @@
 #' @param dataset If not using API please provide dataset name here
 #' @param schools The schools you are retrieving data for
 #' @param bygroup Leave this blank to see completion rates overall, otherwise populate with 'race' to see completion by race
+#' @param year Year of data request. Default is 2013. 
 #' @examples
 #' data(scorecard13)
 #' completionRate(,scorecard13,c("University of Chicago","Northwestern University"),"race")
@@ -15,13 +16,14 @@
 ##
 ## Start cathrynr code
 ##
-completionRate<-function(apiKey,dataset,schools,bygroup="") {
+completionRate<-function(apiKey,dataset,schools,bygroup="", year=2013) {
   if (! (bygroup %in% c("","race"))) {
     stop("Incorrect bygroup. Please keep bygroup empty or select race.")
   }
-  compRate<-subsetToCategory("completion",apiKey,dataset,schools)
+  compRate<-subsetToCategory("completion",apiKey,dataset,schools,year, grepl="completion_rate")
+  if (missing(apiKey)) {
   compRate<-subset(compRate,grepl("completion_rate",compRate$developer.friendly.name))
-  
+  }
   compRate$rate<-suppressWarnings((as.numeric(compRate$value))*100)
   
   compRate<-subset(compRate,!(is.na(compRate$rate)))

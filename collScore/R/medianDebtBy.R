@@ -8,19 +8,20 @@
 #' @param schools The schools you are retrieving data for
 #' @param bygroup Leave this blank to see median debt overall, otherwise populate with any of the following bygroups to see
 #' median debt by category: completion, income, gender, Pell, dependence, firstGen
+#' @param year Year of data request. Default is 2013.
 #' @examples 
 #' data(scorecard13)
-#' medianDebtBy(,scorecard13,c("Hampshire College","Amherst College"),"income")
+#' medianDebtBy(,scorecard13,c("Hampshire College","Amherst College"),"income",)
 #' @export
 #' 
 ##
 ## Start cathrynr code
 ##
-medianDebtBy<-function(apiKey,dataset,schools,bygroup="") {
+medianDebtBy<-function(apiKey,dataset,schools,bygroup="",year="2013") {
   if (!(bygroup %in% c("","completion","income","dependence","Pell","gender","firstGen"))) {
     stop("Incorrect bygroup. Please kept bygroup empty or select one of the following: completion, income, dependence, Pell, gender, or firstGen")
   }
-  medDebt<-subsetToCategory("aid",apiKey,dataset,schools)
+  medDebt<-subsetToCategory("aid",apiKey,dataset,schools,year)
   medDebt<-subset(medDebt,grepl("median_debt",medDebt$developer.friendly.name) & 
                     !(grepl(".number.",medDebt$developer.friendly.name)))
   
@@ -55,12 +56,13 @@ medianDebtBy<-function(apiKey,dataset,schools,bygroup="") {
     }
     medDebtPlot$byGroup<-gsub("median_debt.","",medDebtPlot$developer.friendly.name)
     medDebtPlot$byGroup<-gsub("_"," ",medDebtPlot$byGroup)
+    medDebtPlot$byGroup<-gsub("\\.","",medDebtPlot$byGroup)
     medDebtPlot$byGroup<-paste0(toupper(substr(medDebtPlot$byGroup, 1, 1)), substr(medDebtPlot$byGroup, 2, nchar(medDebtPlot$byGroup)))
     
-    medDebtPlot$byGroup<-ifelse(medDebtPlot$byGroup=="Income.0 30000","Income $0-30000",
-                                ifelse(medDebtPlot$byGroup=="Income.30001 75000",
+    medDebtPlot$byGroup<-ifelse(medDebtPlot$byGroup=="Income0 30000","Income $0-30000",
+                                ifelse(medDebtPlot$byGroup=="Income30001 75000",
                                        "Income $30001-75000",
-                                       ifelse(medDebtPlot$byGroup=="Income.greater than 75000",
+                                       ifelse(medDebtPlot$byGroup=="Incomegreater than 75000",
                                               "Income $75000+",
                                               medDebtPlot$byGroup)))
     

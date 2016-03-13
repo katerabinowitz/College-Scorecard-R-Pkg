@@ -6,7 +6,7 @@
 If using API please provide apiKey and leave dataset field blank. If using a dataset, please leave 
 apiKey field blank. Dataset must use the same naming conventions are the College Scorecard.}
 \usage{
-studentIncomeBy(apiKey, dataset, schools, bygroup)
+studentIncomeBy(apiKey, dataset, schools, bygroup, year = "2013")
 }
 \arguments{
 \item{apiKey}{If use API please provide saved API key value here}
@@ -16,6 +16,8 @@ studentIncomeBy(apiKey, dataset, schools, bygroup)
 \item{schools}{The schools you are retrieving data for}
 
 \item{bygroup}{Populate with aided, dependent or independent to view family income for those student subsets.}
+
+\item{year}{Year of data request. Default is 2013.}
 }
 \description{
 Returns a bar chart of family income based on the student type (aided, dependent, independent).

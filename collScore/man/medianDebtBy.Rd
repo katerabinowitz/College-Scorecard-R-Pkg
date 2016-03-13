@@ -7,7 +7,7 @@ apiKey and leave dataset field blank. If using a dataset, please leave apiKey fi
 use the same naming conventions are the College Scorecard. Leave bygroup field blank if only interested
 overall median.}
 \usage{
-medianDebtBy(apiKey, dataset, schools, bygroup = "")
+medianDebtBy(apiKey, dataset, schools, bygroup = "", year = "2013")
 }
 \arguments{
 \item{apiKey}{If use API please provide saved API key value here}
@@ -18,6 +18,8 @@ medianDebtBy(apiKey, dataset, schools, bygroup = "")
 
 \item{bygroup}{Leave this blank to see median debt overall, otherwise populate with any of the following bygroups to see
 median debt by category: completion, income, gender, Pell, dependence, firstGen}
+
+\item{year}{Year of data request. Default is 2013.}
 }
 \description{
 Returns a bar chart for median debt levels for selected demographic groups by school. If using API please provide
@@ -27,6 +29,6 @@ overall median.
 }
 \examples{
 data(scorecard13)
-medianDebtBy(,scorecard13,c("Hampshire College","Amherst College"),"income")
+medianDebtBy(,scorecard13,c("Hampshire College","Amherst College"),"income",)
 }
 

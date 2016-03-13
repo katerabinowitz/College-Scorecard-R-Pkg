@@ -6,6 +6,7 @@
 #' @param dataset If not using API please provide dataset name here
 #' @param schools The schools you are retrieving data for
 #' @param bygroup Populate with aided, dependent or independent to view family income for those student subsets.
+#' @param year Year of data request. Default is 2013.
 #' @examples
 #' data(scorecard13)
 #' studentIncomeBy(,scorecard13,c("Boston University","Northeastern University"),"dependent")
@@ -14,11 +15,11 @@
 ##
 ## Start cathrynr code
 ##
-studentIncomeBy<-function(apiKey,dataset,schools,bygroup) {
+studentIncomeBy<-function(apiKey,dataset,schools,bygroup,year="2013") {
   if (!(bygroup %in% c("aided","dependent","independent"))) {
     stop("Incorrect bygroup. Please kept bygroup empty or select one of the following: aided, dependent, or independent")
   }
-  sIncome<-subsetToCategory("student",apiKey,dataset,schools)
+  sIncome<-subsetToCategory("student",apiKey,dataset,schools,year,)
   sIncome<-subset(sIncome,grepl("share_",sIncome$developer.friendly.name) & 
                     (grepl("income.",sIncome$developer.friendly.name)))
   sIncome$incomeShare<-suppressWarnings((as.numeric(sIncome$value)*100))
