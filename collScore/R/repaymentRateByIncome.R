@@ -10,7 +10,8 @@
 #' @examples
 #' data(scorecard13)
 #' repaymentRateByIncome(dataset = scorecard13, year = 2013, 
-#' schoolNames = c("University of Massachusetts-Lowell","Massachusetts Institute of Technology", "Drake University"))
+#' schoolNames = c("University of Massachusetts-Lowell",
+#' "Massachusetts Institute of Technology", "Drake University"))
 #' @export
 repaymentRateByIncome <- function(apiKey, dataset, year = 2013, schoolNames, repaymentYears = 3) {
   

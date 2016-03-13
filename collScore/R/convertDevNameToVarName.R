@@ -8,7 +8,7 @@
 #' convertDevNameToVarName("8_yr_completion.low_income")
 #' @export
 convertDevNameToVarName <- function(devFriendlyName){  
-  data(dataDict)
+  data(dataDict,  envir = environment())
   varName <- dataDict$VARIABLE.NAME[dataDict$developer.friendly.name == devFriendlyName]
   varName
 } 

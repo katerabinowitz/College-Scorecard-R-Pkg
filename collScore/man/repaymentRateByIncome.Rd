@@ -29,6 +29,7 @@ x years after entering repayment. If schoolNames is not specified, data for all 
 \examples{
 data(scorecard13)
 repaymentRateByIncome(dataset = scorecard13, year = 2013, 
-schoolNames = c("University of Massachusetts-Lowell","Massachusetts Institute of Technology", "Drake University"))
+schoolNames = c("University of Massachusetts-Lowell",
+"Massachusetts Institute of Technology", "Drake University"))
 }
 
