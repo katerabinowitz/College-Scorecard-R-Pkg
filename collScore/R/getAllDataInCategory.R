@@ -38,7 +38,7 @@ getAllDataInCategory <- function(apiKey, dataset, categoryName, year, pattern = 
   ##
   ## Start cathrynr code
   ##
-  data(dataDict)
+  data(dataDict,  envir = environment())
   
   categoryVars <- subset(dataDict, dataDict$dev.category==categoryName)[c("developer.friendly.name")]
   
@@ -49,8 +49,8 @@ getAllDataInCategory <- function(apiKey, dataset, categoryName, year, pattern = 
   categoryVars <- grep(pattern, categoryVars, value = TRUE)
   
   if (missing(apiKey)) {
-    varNames <- unlist(lapply(categoryVars, ConvertDevFriendlyNameToVarName))
-    DFcat <- subset(dataset, select = c(varNames, ConvertDevFriendlyNameToVarName(addParams)))
+    varNames <- unlist(lapply(categoryVars, convertDevNameToVarName))
+    DFcat <- subset(dataset, select = c(varNames, convertDevNameToVarName(addParams)))
     categoryVars <- lapply(categoryVars, function(x) paste(year, ".", categoryName, ".", x, sep = ""))
     colnames(DFcat) <- c(unlist(categoryVars), addParams)
   }
