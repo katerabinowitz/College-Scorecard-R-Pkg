@@ -14,7 +14,8 @@ Imports:
     ggplot2,
     httr,
     reshape2,
-    plyr
+    plyr,
+    grid
 RoxygenNote: 5.0.1
 Suggests: testthat,
     knitr,
