@@ -7,18 +7,19 @@
 #' @param schools The schools you are retrieving data for
 #' @examples
 #' data(scorecard13)
-#' studentRace(,scorecard13,c("Yale University","Harvard University"))
+#' studentRace(,scorecard13,c("Yale University","Harvard University"),)
 #' @export
 ##
 ## Start cathrynr code
 ##
-studentRace<-function(apiKey,dataset,schools) {
-  race<-subsetToCategory("student",apiKey,dataset,schools)
+studentRace<-function(apiKey,dataset,schools,year=2013) {
+  race<-subsetToCategory("student",apiKey,dataset,schools,year)
   race<-subset(race,grepl("demographics.race_ethnicity",race$developer.friendly.name))
   race$Proportion<-suppressWarnings((as.numeric(race$value))*100)
   race<-subset(race,!(is.na(race$Proportion)))
   race$Race<-gsub("demographics.race_ethnicity.","",race$developer.friendly.name)
   race$Race<-gsub("_"," ",race$Race)
+  race$Race<-gsub("\\.","",race$Race)
   race$Race<-paste0(toupper(substr(race$Race, 1, 1)), 
                     substr(race$Race, 2, nchar(race$Race)))
   

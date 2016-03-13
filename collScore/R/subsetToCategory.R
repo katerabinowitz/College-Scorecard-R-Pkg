@@ -15,25 +15,31 @@
 ##
 ## Start cathrynr code
 ##
-subsetToCategory<-function (category,apiKey,dataset,schools,year) {
+subsetToCategory<-function (category,apiKey,dataset,schools,year=2013,grepl="") {
   data(dataDict)
   catVars<-subset(dataDict,dataDict$dev.category==category) 
   variables<-catVars$VARIABLE.NAME
-  variables<-c(variables, c="INSTNM")
   
   if (missing(apiKey)) {
+    variables<-c(variables, c="INSTNM")
     col.num <- which(colnames(dataset) %in% variables)
     catData <- dataset[,sort(c(col.num))]
+    catData <- subset(catData, catData$INSTNM %in% schools)
+    meltData<-reshape2::melt(catData, id.vars="INSTNM")
+    namedData<-merge(x = meltData, y = dataDict[ , c("developer.friendly.name", "VARIABLE.NAME")], 
+                     by.x="variable", by.y = "VARIABLE.NAME", all.x=TRUE)
   }
   
   else {
-    catData <- getAllDataInCategory(categoryName = category, year = year, addParams = "INSTNM")
+    catData <- getAllDataInCategory(apiKey, categoryName = category, year = year,
+                                    addParams = "school.name",pattern=grepl)
+    request<-subset(catData,catData$school.name %in% schools)
+    namedData<-suppressWarnings(reshape2::melt(request, id.vars="school.name"))
+    colnames(namedData)<-c("INSTNM","developer.friendly.name","value")
+    namedData$developer.friendly.name<-gsub(year,"",namedData$developer.friendly.name)
+    namedData$developer.friendly.name<-gsub(category,"",namedData$developer.friendly.name)
   }
-  
-  catData <- subset(catData, catData$INSTNM %in% schools)
-  meltData<-reshape2::melt(catData, id.vars="INSTNM")
-  namedData<-merge(x = meltData, y = dataDict[ , c("developer.friendly.name", "VARIABLE.NAME")], 
-                   by.x="variable", by.y = "VARIABLE.NAME", all.x=TRUE)
+  namedData
 }
 ##
 ## End cathrynr code

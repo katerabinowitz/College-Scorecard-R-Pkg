@@ -13,16 +13,20 @@
 ##
 ## Start cathrynr code
 ##
-debtBoxplot<-function(apiKey,dataset,schools) {
-  debtPer<-subsetToCategory("aid",apiKey,dataset,schools)
+debtPer<-subsetToCategory("aid","zbOOYpijllMQmBuyDlsw1NrlClSuVmKq0XeBIb8s",,c("American University of Health Sciences"), 2013)
+debtBoxplot<-function(apiKey,dataset,schools,year=2013) {
+  debtPer<-subsetToCategory("aid",apiKey,dataset,schools, year)
   debtPer<-subset(debtPer,(grepl("cumulative_debt.",debtPer$developer.friendly.name) & 
                              grepl("percentile",debtPer$developer.friendly.name)) | 
                     grepl("median_debt_suppressed.overall",debtPer$developer.friendly.name))
   debtPer$var<-gsub("cumulative_debt","P",debtPer$developer.friendly.name)
   debtPer$var<-gsub("_percentile","",debtPer$var)
-  debtPer<-debtPer[c("variable","value","INSTNM")]
+  debtPer$var<-gsub("\\.","",debtPer$var)
+  debtPer<-debtPer[c("var","value","INSTNM")]
   debtPer$value<-as.numeric(debtPer$value)
-  debtPerPlot<-reshape2::dcast(debtPer, INSTNM~variable)
+  debtPerPlot<-reshape2::dcast(debtPer, INSTNM~var)
+  colnames(debtPerPlot)<-c("INSTNM","DEBT_MDN_SUPP","CUML_DEBT_P10","CUML_DEBT_P25","CUML_DEBT_P75",
+                           "CUML_DEBT_P90")
   ggplot2::ggplot(debtPerPlot, ggplot2::aes(debtPerPlot$INSTNM)) +
     ggplot2::geom_boxplot(fill = "white", colour = "#3366FF",stat = "identity") +
     ggplot2::aes(ymin = debtPerPlot$CUML_DEBT_P10, lower = debtPerPlot$CUML_DEBT_P25, 
