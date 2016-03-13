@@ -4,7 +4,8 @@
 #' @param apiKey Key used for interacting with the API
 #' @param dataset If not using API please provide dataset name here
 #' @param categoryName The category of data for retrieval. Options include: academics, admission, aid, cost, earnings, repayment,
-#' root, school, or student. 
+#' root, school, or student. Please note that the categories aid and completion have too many variables for a single API call so
+#' it is required that you specify a pattern. 
 #' @param year The year(s) for data retrieval.
 #' @param pattern Common text in name of parameters of interest
 #' @param addParams Parameters outside of category to include in data retrieval
@@ -34,11 +35,17 @@ getAllDataInCategory <- function(apiKey, dataset, categoryName, year, pattern = 
     }
   }
   
+  ##
+  ## Start cathrynr code
+  ##
   data(dataDict)
   
   categoryVars <- subset(dataDict, dataDict$dev.category==categoryName)[c("developer.friendly.name")]
   
   categoryVars <- categoryVars[categoryVars != ""]
+  ##
+  ## End cathrynr code
+  ##
   categoryVars <- grep(pattern, categoryVars, value = TRUE)
   
   if (missing(apiKey)) {
@@ -47,8 +54,10 @@ getAllDataInCategory <- function(apiKey, dataset, categoryName, year, pattern = 
     categoryVars <- lapply(categoryVars, function(x) paste(year, ".", categoryName, ".", x, sep = ""))
     colnames(DFcat) <- c(unlist(categoryVars), addParams)
   }
-  
   else {
+    ##
+    ## Start cathrynr code
+    ##
     if (categoryName=="root") {
       queryList <- paste("fields=", paste(lapply(categoryVars, 
                                                  function(x) paste(x, sep = "")), collapse = ","), sep = "")
@@ -62,6 +71,9 @@ getAllDataInCategory <- function(apiKey, dataset, categoryName, year, pattern = 
                                                                  function(x) paste(lapply(year, function(x) paste(x, ".", categoryName, sep = "")),
                                                                                    ".", x, sep = "", collapse = ",")), collapse = ","), sep = "")
       }
+    ##
+    ## End cathrynr code
+    ##
     DFcat <- getData(apiKey=apiKey,fieldParams = queryList)
     }
   DFcat
