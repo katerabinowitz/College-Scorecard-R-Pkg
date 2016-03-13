@@ -6,7 +6,7 @@
 apiKey and leave dataset field blank. If using a dataset, please leave apiKey field blank. Dataset must
 use the same naming conventions are the College Scorecard.}
 \usage{
-top5Degrees(apiKey, dataset, schools)
+top5Degrees(apiKey, dataset, schools, year = "2013")
 }
 \arguments{
 \item{apiKey}{If use API please provide saved API key value here}
@@ -14,6 +14,8 @@ top5Degrees(apiKey, dataset, schools)
 \item{dataset}{If not using API please provide dataset name here}
 
 \item{schools}{The schools you are retrieving data for}
+
+\item{year}{Year of data request. Default is 2013.}
 }
 \description{
 Returns the top five degrees for each school selected and their proportion. If using API please provide
@@ -22,6 +24,6 @@ use the same naming conventions are the College Scorecard.
 }
 \examples{
 data(scorecard13)
-top5 <- top5Degrees(,scorecard13,c("Stanford University","University of Southern California"))
+top5 <- top5Degrees(,scorecard13,c("Stanford University","University of Southern California"),)
 }
 

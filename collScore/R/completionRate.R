@@ -7,6 +7,7 @@
 #' @param dataset If not using API please provide dataset name here
 #' @param schools The schools you are retrieving data for
 #' @param bygroup Leave this blank to see completion rates overall, otherwise populate with 'race' to see completion by race
+#' @param year Year of data request. Default is 2013. 
 #' @examples
 #' data(scorecard13)
 #' completionRate(,scorecard13,c("University of Chicago","Northwestern University"),"race")

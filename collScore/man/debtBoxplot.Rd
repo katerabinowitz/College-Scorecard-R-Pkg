@@ -6,7 +6,7 @@
 apiKey and leave dataset field blank. If using a dataset, please leave apiKey field blank. Dataset must
 use the same naming conventions are the College Scorecard.}
 \usage{
-debtBoxplot(apiKey, dataset, schools)
+debtBoxplot(apiKey, dataset, schools, year = 2013)
 }
 \arguments{
 \item{apiKey}{If use API please provide saved API key value here}
@@ -14,6 +14,8 @@ debtBoxplot(apiKey, dataset, schools)
 \item{dataset}{If not using API please provide dataset name here}
 
 \item{schools}{The schools you are retrieving data for}
+
+\item{year}{Year of data request. Default is 2013.}
 }
 \description{
 Returns a box plot of the 10th, 25th, 50th, 75th, and 90th percentiles of student debt by school. If using API please provide

@@ -7,7 +7,7 @@ apiKey and leave dataset field blank. If using a dataset, please leave apiKey fi
 use the same naming conventions are the College Scorecard. Leave bygroup field blank if only interested
 overall median.}
 \usage{
-completionRate(apiKey, dataset, schools, bygroup = "")
+completionRate(apiKey, dataset, schools, bygroup = "", year = 2013)
 }
 \arguments{
 \item{apiKey}{If use API please provide saved API key value here}
@@ -17,6 +17,8 @@ completionRate(apiKey, dataset, schools, bygroup = "")
 \item{schools}{The schools you are retrieving data for}
 
 \item{bygroup}{Leave this blank to see completion rates overall, otherwise populate with 'race' to see completion by race}
+
+\item{year}{Year of data request. Default is 2013.}
 }
 \description{
 Returns a bar chart for median debt levels for selected demographic groups by school. If using API please provide

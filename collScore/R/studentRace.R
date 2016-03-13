@@ -5,6 +5,7 @@
 #' @param apiKey If use API please provide saved API key value here 
 #' @param dataset If not using API please provide dataset name here
 #' @param schools The schools you are retrieving data for
+#' @param year Year of data request. Default is 2013.
 #' @examples
 #' data(scorecard13)
 #' studentRace(,scorecard13,c("Yale University","Harvard University"),)

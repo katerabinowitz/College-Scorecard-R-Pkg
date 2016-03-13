@@ -6,6 +6,7 @@
 #' @param dataset If not using API please provide dataset name here
 #' @param schools The schools you are retrieving data for
 #' @param bygroup Populate with aided, dependent or independent to view family income for those student subsets.
+#' @param year Year of data request. Default is 2013.
 #' @examples
 #' data(scorecard13)
 #' studentIncomeBy(,scorecard13,c("Boston University","Northeastern University"),"dependent")

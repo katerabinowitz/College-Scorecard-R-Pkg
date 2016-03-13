@@ -6,7 +6,7 @@
 apiKey and leave dataset field blank. If using a dataset, please leave apiKey field blank. Dataset must
 use the same naming conventions are the College Scorecard.}
 \usage{
-studentRace(apiKey, dataset, schools)
+studentRace(apiKey, dataset, schools, year = 2013)
 }
 \arguments{
 \item{apiKey}{If use API please provide saved API key value here}
@@ -14,6 +14,8 @@ studentRace(apiKey, dataset, schools)
 \item{dataset}{If not using API please provide dataset name here}
 
 \item{schools}{The schools you are retrieving data for}
+
+\item{year}{Year of data request. Default is 2013.}
 }
 \description{
 Returns a horizontal stacked bar chart of the racial makeup of the selected schools. If using API please provide
@@ -22,6 +24,6 @@ use the same naming conventions are the College Scorecard.
 }
 \examples{
 data(scorecard13)
-studentRace(,scorecard13,c("Yale University","Harvard University"))
+studentRace(,scorecard13,c("Yale University","Harvard University"),)
 }
 

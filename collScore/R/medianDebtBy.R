@@ -8,6 +8,7 @@
 #' @param schools The schools you are retrieving data for
 #' @param bygroup Leave this blank to see median debt overall, otherwise populate with any of the following bygroups to see
 #' median debt by category: completion, income, gender, Pell, dependence, firstGen
+#' @param year Year of data request. Default is 2013.
 #' @examples 
 #' data(scorecard13)
 #' medianDebtBy(,scorecard13,c("Hampshire College","Amherst College"),"income",)

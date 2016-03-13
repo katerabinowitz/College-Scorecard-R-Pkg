@@ -7,6 +7,8 @@
 #' @param category The category of data for retrieval. Options include: academics, 
 #' admission, aid, completion, cost, earnings, repayment, root, school, or student.
 #' @param year Year of college scorecard data
+#' @param grepl This is a text field that further subsets the API request call from overall 
+#' category to fields within that category that match the text pattern indicated.
 #' @examples 
 #' data(scorecard13)
 #' subsetToCategory("aid",,scorecard13,c("Hampshire College","Amherst College"))
@@ -16,7 +18,7 @@
 ## Start cathrynr code
 ##
 subsetToCategory<-function (category,apiKey,dataset,schools,year=2013,grepl="") {
-  data(dataDict)
+  data(dataDict,  envir = environment())
   catVars<-subset(dataDict,dataDict$dev.category==category) 
   variables<-catVars$VARIABLE.NAME
   

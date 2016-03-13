@@ -37,7 +37,7 @@ getAllDataInCategory <- function(apiKey,categoryName, year, pattern = "", addPar
   ##
   ## Start cathrynr code
   ##
-  data(dataDict)
+  data(dataDict,  envir = environment())
   
   categoryVars <- subset(dataDict, dataDict$dev.category==categoryName)[c("developer.friendly.name")]
   

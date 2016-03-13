@@ -8,7 +8,7 @@
 ## Start cathrynr code
 ##
 scorecardInfo<-function(variable) {
-  data(dataDict)
+  data(dataDict,  envir = environment())
   varDF<-as.data.frame(variable)
   colnames(varDF)<-"variable"
   varSeek<-merge(x = varDF, y = dataDict[ , c("VARIABLE.NAME","NAME.OF.DATA.ELEMENT", "SOURCE","NOTES")], 

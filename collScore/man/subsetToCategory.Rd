@@ -5,7 +5,8 @@
 \title{Subsets included College Scorecard data to specific category and 
 prepares for data visualization.}
 \usage{
-subsetToCategory(category, apiKey, dataset, schools, year)
+subsetToCategory(category, apiKey, dataset, schools, year = 2013,
+  grepl = "")
 }
 \arguments{
 \item{category}{The category of data for retrieval. Options include: academics, 
@@ -18,6 +19,9 @@ admission, aid, completion, cost, earnings, repayment, root, school, or student.
 \item{schools}{The schools you are retrieving data for}
 
 \item{year}{Year of college scorecard data}
+
+\item{grepl}{This is a text field that further subsets the API request call from overall 
+category to fields within that category that match the text pattern indicated.}
 }
 \description{
 Subsets included College Scorecard data to specific category and 
