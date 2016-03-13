@@ -1,4 +1,4 @@
 library(testthat)
 library(collScore)
 
-test_check("collScore")
+testthat::test_check("collScore")

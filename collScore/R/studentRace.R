@@ -9,10 +9,13 @@
 #' data(scorecard13)
 #' studentRace(,scorecard13,c("Yale University","Harvard University"))
 #' @export
+##
+## Start cathrynr code
+##
 studentRace<-function(apiKey,dataset,schools) {
   race<-subsetToCategory("student",apiKey,dataset,schools)
   race<-subset(race,grepl("demographics.race_ethnicity",race$developer.friendly.name))
-  race$Proportion<-(as.numeric(race$value))*100
+  race$Proportion<-suppressWarnings((as.numeric(race$value))*100)
   race<-subset(race,!(is.na(race$Proportion)))
   race$Race<-gsub("demographics.race_ethnicity.","",race$developer.friendly.name)
   race$Race<-gsub("_"," ",race$Race)
@@ -25,3 +28,6 @@ studentRace<-function(apiKey,dataset,schools) {
     ggplot2::scale_fill_brewer(palette = "Set3") +
     ggplot2::labs(x="",y="Proportion (%)",fill="Race") 
 }
+##
+## End cathrynr code
+##

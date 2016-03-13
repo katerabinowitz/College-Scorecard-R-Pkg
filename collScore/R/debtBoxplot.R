@@ -10,6 +10,9 @@
 #' debtBoxplot(,scorecard13,c("New York University","Cornell University"))
 #' @export
 #'
+##
+## Start cathrynr code
+##
 debtBoxplot<-function(apiKey,dataset,schools) {
   debtPer<-subsetToCategory("aid",apiKey,dataset,schools)
   debtPer<-subset(debtPer,(grepl("cumulative_debt.",debtPer$developer.friendly.name) & 
@@ -28,3 +31,6 @@ debtBoxplot<-function(apiKey,dataset,schools) {
     ggplot2::scale_colour_brewer(palette = "Set1") +
     ggplot2::labs(x="",y="Debt ($)") 
 }
+##
+## End cathrynr code
+##

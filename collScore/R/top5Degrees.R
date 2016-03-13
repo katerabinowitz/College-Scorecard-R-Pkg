@@ -9,7 +9,9 @@
 #' data(scorecard13)
 #' top5 <- top5Degrees(,scorecard13,c("Stanford University","University of Southern California"))
 #' @export
-
+##
+## Start cathrynr code
+##
 top5Degrees<-function(apiKey,dataset,schools) {
   Degrees.Named<-subsetToCategory("academics",apiKey,dataset,schools)
   Degrees.Named<-subset(Degrees.Named,grepl("program_percentage",Degrees.Named$developer.friendly.name))
@@ -29,3 +31,6 @@ top5Degrees<-function(apiKey,dataset,schools) {
   
   degreesD
 }
+##
+## End cathrynr code
+##

@@ -28,7 +28,8 @@ getData <- function(apiKey,endpoint = "schools", format = "json", fieldParams, o
       load("key.rda")
     }
     else{
-      stop("An API Key is required to access the CollegeScoreCard API. You may obtain a key from https://api.data.gov/signup")
+      stop("An API Key is required to access the CollegeScoreCard API. 
+           You may obtain a key from https://api.data.gov/signup")
     }
   }
   
@@ -49,6 +50,9 @@ getData <- function(apiKey,endpoint = "schools", format = "json", fieldParams, o
   }
   
   #Helper function to convert json response to data.frame
+  ##
+  ## Start cathrynr code
+  ##
   toDataFrame <- function(jsonData, parsed = TRUE){
     if (exists("errors",where=jsonData)==TRUE) {
       errorList<-(matrix(unlist(result$errors), nrow=length(unlist(result$errors[1]))))
@@ -67,6 +71,9 @@ getData <- function(apiKey,endpoint = "schools", format = "json", fieldParams, o
     colnames(DF)<-names(jsonData$results[[1]])
     DF
   }
+  ##
+  ## End cathrynr code
+  ##
   
   #To get a single page
   result <- getPages(0)

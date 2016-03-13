@@ -14,7 +14,8 @@ getAllDataInCategory(apiKey, dataset, categoryName, year, pattern = "",
 \item{dataset}{If not using API please provide dataset name here}
 
 \item{categoryName}{The category of data for retrieval. Options include: academics, admission, aid, cost, earnings, repayment,
-root, school, or student.}
+root, school, or student. Please note that the categories aid and completion have too many variables for a single API call so
+it is required that you specify a pattern.}
 
 \item{year}{The year(s) for data retrieval.}
 
