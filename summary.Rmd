@@ -1,9 +1,14 @@
 ---
-title: "collScore Summary"
+title: "Summary"
 author: "Kate Rabinowitz and Iliana Voynichka"
-date: "March 15, 2016"
-output: pdf_document
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Summary}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
+
 The collScore package facilitates the download, analysis, and visualization of the U.S. Department of Education Scorecard data. Additional background on the College Scorecard data can be found here: https://collegescorecard.ed.gov/data/. The data is extensive with other 1,500 variables detailing more than 7,000 American colleges covering topics like demographics of the student population, federal financial aid, college costs, education offerings, graduation rates, college-related debt, post-graduation acitivites and salary, and more. The below functions intend to promote and simplify use of the College Scorecard data.  
 # Data Retrieval    
 The collScore package includes a number of functions meant to ease data download.    
@@ -18,5 +23,10 @@ The collScore package allows users to more easily access College Scorecard metad
 ## scorecardInfo
 The scorecardInfo function retrieves the definition, formatting, and any notes for any field within the College Scorecard dataset.  
 # Analysis and Visualization  
-The collScore package has number of different built-in visualization functions for users to more quickly see information about a particular college, or compare fields across a number of colleges.
-##
+The collScore package has number of different built-in visualization functions for users to more quickly see information about a particular college, or compare fields across a number of colleges.  
+## completionRate  
+## debtBoxplot  
+## medianDebtBy  
+## studentIncomeBy  
+## studentRace  
+## top5Degrees  

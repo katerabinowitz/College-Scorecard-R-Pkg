@@ -10,7 +10,7 @@
 #' median debt by category: completion, income, gender, Pell, dependence, firstGen
 #' @examples 
 #' data(scorecard13)
-#' medianDebtBy(,scorecard13,c("Hampshire College","Amherst College"),"firstGen")
+#' medianDebtBy(,scorecard13,c("Hampshire College","Amherst College"),"income")
 #' @export
 #' 
 ##
@@ -21,7 +21,8 @@ medianDebtBy<-function(apiKey,dataset,schools,bygroup="") {
     stop("Incorrect bygroup. Please kept bygroup empty or select one of the following: completion, income, dependence, Pell, gender, or firstGen")
   }
   medDebt<-subsetToCategory("aid",apiKey,dataset,schools)
-  medDebt<-subset(medDebt,grepl("median_debt",medDebt$developer.friendly.name) & !(grepl(".number.",medDebt$developer.friendly.name)))
+  medDebt<-subset(medDebt,grepl("median_debt",medDebt$developer.friendly.name) & 
+                    !(grepl(".number.",medDebt$developer.friendly.name)))
   
   if (missing(bygroup)) {
     medDebtPlot<-subset(medDebt,medDebt$developer.friendly.name=="median_debt_suppressed.overall")
@@ -56,7 +57,14 @@ medianDebtBy<-function(apiKey,dataset,schools,bygroup="") {
     medDebtPlot$byGroup<-gsub("_"," ",medDebtPlot$byGroup)
     medDebtPlot$byGroup<-paste0(toupper(substr(medDebtPlot$byGroup, 1, 1)), substr(medDebtPlot$byGroup, 2, nchar(medDebtPlot$byGroup)))
     
-    medDebtPlot$medDebt<-as.numeric(medDebtPlot$value)
+    medDebtPlot$byGroup<-ifelse(medDebtPlot$byGroup=="Income.0 30000","Income $0-30000",
+                                ifelse(medDebtPlot$byGroup=="Income.30001 75000",
+                                       "Income $30001-75000",
+                                       ifelse(medDebtPlot$byGroup=="Income.greater than 75000",
+                                              "Income $75000+",
+                                              medDebtPlot$byGroup)))
+    
+    medDebtPlot$medDebt<-suppressWarnings(as.numeric(medDebtPlot$value))
     
     ggplot2::ggplot(data=medDebtPlot, ggplot2::aes(x=medDebtPlot$INSTNM, y=medDebtPlot$medDebt,
                                                    fill=medDebtPlot$byGroup)) +

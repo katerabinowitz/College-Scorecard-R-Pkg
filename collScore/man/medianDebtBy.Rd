@@ -27,6 +27,6 @@ overall median.
 }
 \examples{
 data(scorecard13)
-medianDebtBy(,scorecard13,c("Hampshire College","Amherst College"),"firstGen")
+medianDebtBy(,scorecard13,c("Hampshire College","Amherst College"),"income")
 }
 

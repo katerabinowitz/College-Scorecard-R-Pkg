@@ -41,6 +41,11 @@ completionRate<-function(apiKey,dataset,schools,bygroup="") {
     compRatePlot$bygroup<-gsub("\\."," ",compRatePlot$bygroup)
     compRatePlot$bygroup<-paste0(toupper(substr(compRatePlot$bygroup, 1, 1)), 
                                  substr(compRatePlot$bygroup, 2, nchar(compRatePlot$bygroup)))
+    compRatePlot$bygroup<-ifelse(compRatePlot$bygroup=="2ormore","Multi",
+                                 ifelse(compRatePlot$bygroup=="Aian","AIAN",
+                                        ifelse(compRatePlot$bygroup=="Nhpi","NHPI",
+                                               ifelse(compRatePlot$bygroup=="Race unknown",
+                                                "Unknown",compRatePlot$bygroup))))
     
     ggplot2::ggplot(data=compRatePlot, ggplot2::aes(x=compRatePlot$bygroup, y=compRatePlot$rate, 
                                                     fill=compRatePlot$INSTNM)) +

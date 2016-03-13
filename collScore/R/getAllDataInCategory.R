@@ -3,7 +3,8 @@
 #'
 #' @param apiKey Key used for interacting with the API
 #' @param categoryName The category of data for retrieval. Options include: academics, admission, aid, cost, earnings, repayment,
-#' root, school, or student. 
+#' root, school, or student. Please note that the categories aid and completion have too many variables for a single API call so
+#' it is required that you specify a pattern. 
 #' @param year The year(s) for data retrieval.
 #' @param pattern Common text in name of parameters of interest
 #' @param addParams Parameters outside of category to include in data retrieval
@@ -38,24 +39,17 @@ getAllDataInCategory <- function(apiKey,categoryName, year, pattern = "", addPar
   ##
   data(dataDict)
   
-<<<<<<< Updated upstream
   categoryVars <- subset(dataDict, dataDict$dev.category==categoryName)[c("developer.friendly.name")]
-=======
-  categoryVars <- subset(dataDict, dataDict$dev.category=="student")[c("developer.friendly.name")]
->>>>>>> Stashed changes
   
   categoryVars <- categoryVars[categoryVars != ""]
   ##
   ## End cathrynr code
   ##
   categoryVars <- grep(pattern, categoryVars, value = TRUE)
-<<<<<<< Updated upstream
-  
-=======
+
   ##
   ## Start cathrynr code
   ##
->>>>>>> Stashed changes
   if (categoryName=="root") {
     queryList <- paste("fields=", paste(lapply(categoryVars, 
       function(x) paste(x, sep = "")), collapse = ","), sep = "")

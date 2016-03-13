@@ -15,7 +15,7 @@
 studentRace<-function(apiKey,dataset,schools) {
   race<-subsetToCategory("student",apiKey,dataset,schools)
   race<-subset(race,grepl("demographics.race_ethnicity",race$developer.friendly.name))
-  race$Proportion<-(as.numeric(race$value))*100
+  race$Proportion<-suppressWarnings((as.numeric(race$value))*100)
   race<-subset(race,!(is.na(race$Proportion)))
   race$Race<-gsub("demographics.race_ethnicity.","",race$developer.friendly.name)
   race$Race<-gsub("_"," ",race$Race)
