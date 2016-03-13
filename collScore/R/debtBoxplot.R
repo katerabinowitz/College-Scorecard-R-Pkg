@@ -13,7 +13,6 @@
 ##
 ## Start cathrynr code
 ##
-debtPer<-subsetToCategory("aid","zbOOYpijllMQmBuyDlsw1NrlClSuVmKq0XeBIb8s",,c("American University of Health Sciences"), 2013)
 debtBoxplot<-function(apiKey,dataset,schools,year=2013) {
   debtPer<-subsetToCategory("aid",apiKey,dataset,schools, year)
   debtPer<-subset(debtPer,(grepl("cumulative_debt.",debtPer$developer.friendly.name) & 
