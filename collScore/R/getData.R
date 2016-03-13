@@ -18,14 +18,8 @@
 getData <- function(apiKey,endpoint = "schools", format = "json", fieldParams, optionParams="", apiVersionString = "v1", page = 0){
   
   if(missing(apiKey)){
-    #If statement below will work once we have the package structure in place
-    #if (file_test("-f", system.file("<directory_in_package_to_keep_key>", package = "<our_package_name>"))) {
-    #  load(system.file("<directory_in_package_to_keep_key>", package = "<our_package_name>"))
-    #}
-    
-    #Temporary until we get the package structure in place
-    if (file_test("-f", "key.rda")) {
-      load("key.rda")
+    if (file_test("-f", system.file("extdata/key.rda", package = "collScore"))) {
+      load(system.file("extdata/key.rda", package = "collScore"))
     }
     else{
       stop("An API Key is required to access the CollegeScoreCard API. 
