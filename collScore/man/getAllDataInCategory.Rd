@@ -5,11 +5,13 @@
 \title{Get all data from a specified category. The available categories are 
 root, school, academics, admissions, student, cost, aid, repayment, completion, earnings}
 \usage{
-getAllDataInCategory(apiKey, categoryName, year, pattern = "",
+getAllDataInCategory(apiKey, dataset, categoryName, year, pattern = "",
   addParams = "id,school.name")
 }
 \arguments{
 \item{apiKey}{Key used for interacting with the API}
+
+\item{dataset}{If not using API please provide dataset name here}
 
 \item{categoryName}{The category of data for retrieval. Options include: academics, admission, aid, cost, earnings, repayment,
 root, school, or student.}
