@@ -1,7 +1,7 @@
 #' Plots repayment comparison based on income for specified school(s). Here repayment is the fraction of borrowers successfully repaying their loan
 #' x years after entering repayment. If schoolNames is not specified, data for all schools will be returned
 #'  
-#' @param apiKey If use API please provide saved API key value here
+#' @param apiKey If using API please provide saved API key value here
 #' @param dataset If not using API please provide dataset name here
 #' @param year Year of college scorecard data
 #' @param schoolNames The names of schoold to be compared
@@ -51,16 +51,10 @@ repaymentRateByIncome <- function(apiKey, dataset, year = 2013, schoolNames, rep
   }
   #...............................................................................................
   
-  # Data obtained through the REST API and data provided with the package use different variable names
-  #if (missing(apiKey)) {
-#    addParams <- "name"
-  #}
-  #else {
-    addParams <- "school.name"
-  #}
+  addParams <- "school.name"
   
-  
-  repaymentData <- getAllDataInCategory(apiKey, dataset = dataset, categoryName = "repayment", year = year, pattern = "suppressed.income", addParams = addParams)
+  repaymentData <- getAllDataInCategory(apiKey, dataset = dataset, categoryName = "repayment", 
+                                        year = year, pattern = "suppressed.income", addParams = addParams)
   meltedData <- reshape2::melt(repaymentData, id.vars = addParams)
   
   temp <- lapply(schoolNames, getDataPerSchool)

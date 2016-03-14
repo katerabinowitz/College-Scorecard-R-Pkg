@@ -9,7 +9,7 @@ repaymentRateByIncome(apiKey, dataset, year = 2013, schoolNames,
   repaymentYears = 3)
 }
 \arguments{
-\item{apiKey}{If use API please provide saved API key value here}
+\item{apiKey}{If using API please provide saved API key value here}
 
 \item{dataset}{If not using API please provide dataset name here}
 

@@ -26,6 +26,7 @@ getData <- function(apiKey,endpoint = "schools", format = "json", fieldParams, o
                                                      optionParams, sep = "&"), sep = "/")
   #Add apiKey
   queryUrl <- paste(queryUrl, "&api_key=", apiKey, sep = "")
+  queryUrl <- gsub("&&", replacement = "&",x = queryUrl)
   
   #Helper function to get pages
   getPages <- function(p = page){
@@ -33,8 +34,14 @@ getData <- function(apiKey,endpoint = "schools", format = "json", fieldParams, o
     res <- httr::GET(queryUrl)
     if (res$status_code==414) {
       stop ("Error code 414: Please request fewer variables")
-    } else
-    {res<-res}
+    }
+    else if (res$status_code==429) {
+      stop ("Error code 429: Too many requests! You have exceeded your rate limit. 
+            Try again later or contact us at https://api.data.gov/contact/ for assistance")
+    }
+    else {
+      res<-res
+    }
   }
   
   #Helper function to convert json response to data.frame
@@ -58,6 +65,8 @@ getData <- function(apiKey,endpoint = "schools", format = "json", fieldParams, o
     DF  <-  as.data.frame(t(matrix(unlist(jsonData$results), nrow=length(unlist(jsonData$results[1])))))
     colnames(DF)<-names(jsonData$results[[1]])
     DF
+    print(i)
+    str(DF)
   }
   ##
   ## End cathrynr code

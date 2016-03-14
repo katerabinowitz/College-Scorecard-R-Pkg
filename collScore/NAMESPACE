@@ -3,6 +3,7 @@
 export(completionRate)
 export(convertDevNameToVarName)
 export(debtBoxplot)
+export(femaleMaleEarnings)
 export(getAPIKey)
 export(getAllDataInCategory)
 export(getData)
