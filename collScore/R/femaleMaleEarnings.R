@@ -11,10 +11,10 @@
 #' @param yearsAfterCompletion Available values are 6 and 10
 #' @return ggplot2 object
 #' @examples
-#' \dontrun{femaleMaleEarnings(apiKey = ak, year = 2003, schoolNames = c("University of Massachusetts-Lowell",
-#' "Massachusetts Institute of Technology"))}
-#' \dontrun{femaleMaleEarnings(apiKey = ak, year = c(2003, 2005, 2007, 2009, 2011), schoolNames = c("University of Massachusetts-Lowell",
-#' "Massachusetts Institute of Technology"))}
+#' \dontrun{femaleMaleEarnings(apiKey = ak, year = 2003, 
+#' schoolNames = c("University of Massachusetts-Lowell", "Massachusetts Institute of Technology"))}
+#' \dontrun{femaleMaleEarnings(apiKey = ak, year = c(2003, 2005, 2007, 2009, 2011), 
+#' schoolNames = c("University of Massachusetts-Lowell", "Massachusetts Institute of Technology"))}
 #' @export
 femaleMaleEarnings <- function(apiKey, dataset, year, schoolNames, yearsAfterCompletion = 6) {
   
@@ -58,7 +58,7 @@ femaleMaleEarnings <- function(apiKey, dataset, year, schoolNames, yearsAfterCom
 
   earningsData <- getAllDataInCategory(apiKey, dataset = dataset, categoryName = "earnings", year = year, 
                                        pattern = "mean_earnings.female|mean_earnings.male", addParams = addParams)
-  meltedData <- melt(earningsData, id.vars = addParams)
+  meltedData <- reshape2::melt(earningsData, id.vars = addParams)
   
   temp <- lapply(schoolNames, getDataPerSchool)
   if(!is.null(temp[[1]])) {

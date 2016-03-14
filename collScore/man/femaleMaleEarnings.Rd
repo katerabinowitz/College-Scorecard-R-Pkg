@@ -33,8 +33,9 @@ data for all schools will be returned. If used with the data provided with this 
 results since no data is available for variables in the earnings group
 }
 \examples{
-\dontrun{femaleMaleEarnings(year = 2003, schoolNames = c("University of Massachusetts-Lowell",
-"Massachusetts Institute of Technology")}
-\dontrun{femaleMaleEarnings(c(2003, 2005, 2007, 2009, 2011), addParams = "school.state")}
+\dontrun{femaleMaleEarnings(apiKey = ak, year = 2003, 
+schoolNames = c("University of Massachusetts-Lowell", "Massachusetts Institute of Technology"))}
+\dontrun{femaleMaleEarnings(apiKey = ak, year = c(2003, 2005, 2007, 2009, 2011), 
+schoolNames = c("University of Massachusetts-Lowell", "Massachusetts Institute of Technology"))}
 }
 
