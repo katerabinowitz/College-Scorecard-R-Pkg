@@ -6,7 +6,7 @@
 root, school, academics, admissions, student, cost, aid, repayment, completion, earnings}
 \usage{
 getAllDataInCategory(apiKey, dataset, categoryName, year, pattern = "",
-  addParams = "id,school.name")
+  addParams = "id,school.name", page = "All")
 }
 \arguments{
 \item{apiKey}{Key used for interacting with the API}
@@ -22,6 +22,8 @@ it is required that you specify a pattern.}
 \item{pattern}{Common text in name of parameters of interest}
 
 \item{addParams}{Parameters outside of category to include in data retrieval}
+
+\item{page}{Number of pages to get when using the REST API. 1 page = 20 records. If page = "All", all pages are retrieved}
 }
 \value{
 character vector

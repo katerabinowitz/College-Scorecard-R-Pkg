@@ -9,6 +9,7 @@
 #' @param year The year(s) for data retrieval.
 #' @param pattern Common text in name of parameters of interest
 #' @param addParams Parameters outside of category to include in data retrieval
+#' @param page Number of pages to get when using the REST API. 1 page = 20 records. If page = "All", all pages are retrieved
 #' @return character vector
 #' @examples
 #' \dontrun{costData <- getAllDataInCategory(categoryName = "cost", year = 2013)}
