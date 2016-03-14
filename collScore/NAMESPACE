@@ -3,6 +3,7 @@
 export(completionRate)
 export(convertDevNameToVarName)
 export(debtBoxplot)
+export(getAPIKey)
 export(getAllDataInCategory)
 export(getData)
 export(medianDebtBy)

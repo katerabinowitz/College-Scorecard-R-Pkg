@@ -18,7 +18,7 @@
 #' \dontrun{earningsData <- getAllDataInCategory(categoryName = "earnings", 
 #'   year = c(2010, 2013), pattern = "6_yrs_after_entry.mean", addParams = "school.state")}
 #' @export
-getAllDataInCategory <- function(apiKey, dataset, categoryName, year, pattern = "", addParams = "id,school.name"){
+getAllDataInCategory <- function(apiKey, dataset, categoryName, year, pattern = "", addParams = "id,school.name", page = "All"){
   isYearValid <- function(value){
     isValid <- all(unlist(lapply(value, function(x) !(x<1996 | x>2013))))
     isValid
@@ -74,7 +74,7 @@ getAllDataInCategory <- function(apiKey, dataset, categoryName, year, pattern = 
     ##
     ## End cathrynr code
     ##
-    DFcat <- getData(apiKey=apiKey,fieldParams = queryList)
+    DFcat <- getData(apiKey=apiKey,fieldParams = queryList, page = page)
     }
   DFcat
 }

@@ -18,13 +18,7 @@
 getData <- function(apiKey,endpoint = "schools", format = "json", fieldParams, optionParams="", apiVersionString = "v1", page = 0){
   
   if(missing(apiKey)){
-    if (file_test("-f", system.file("extdata/key.rda", package = "collScore"))) {
-      load(system.file("extdata/key.rda", package = "collScore"))
-    }
-    else{
-      stop("An API Key is required to access the CollegeScoreCard API. 
-           You may obtain a key from https://api.data.gov/signup")
-    }
+    apiKey <- getAPIKey()
   }
   
   urlPath = "https://api.data.gov/ed/collegescorecard"

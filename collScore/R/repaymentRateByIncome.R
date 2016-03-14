@@ -18,7 +18,7 @@ repaymentRateByIncome <- function(apiKey, dataset, year = 2013, schoolNames, rep
   #..................Helper Functions.............................................................
   # Helper function to get data based on school name if data for the specified school is available
   getDataPerSchool <- function(schoolName) {
-    schoolData <- subset(meltedData, meltedData$name == schoolName)
+    schoolData <- subset(meltedData, meltedData$school.name == schoolName)
     if(nrow(schoolData) == 0){
       message(paste("No data is available for the selected school", schoolName, "therefore data for this school will not be displayed", sep = " "))
     }
@@ -41,7 +41,7 @@ repaymentRateByIncome <- function(apiKey, dataset, year = 2013, schoolNames, rep
       message(paste("There is no data available for the selected year", as.character(x)))
     }
     else {
-      plot1 <- ggplot2::ggplot(data = dataByYear, ggplot2::aes(x = dataByYear$income, y = dataByYear$value, fill=dataByYear$name)) + 
+      plot1 <- ggplot2::ggplot(data = dataByYear, ggplot2::aes(x = dataByYear$income, y = dataByYear$value, fill=dataByYear$school.name)) + 
         ggplot2::geom_bar(stat = 'identity', position=ggplot2::position_dodge()) +
         ggplot2::scale_fill_brewer(palette = "Pastel1") +
         ggplot2::ggtitle(paste(repaymentYears, "Years Repayment Rate", "For Different Income Brackets", sep = " ")) +
@@ -52,15 +52,15 @@ repaymentRateByIncome <- function(apiKey, dataset, year = 2013, schoolNames, rep
   #...............................................................................................
   
   # Data obtained through the REST API and data provided with the package use different variable names
-  if (missing(apiKey)) {
-    addParams <- "name"
-  }
-  else {
+  #if (missing(apiKey)) {
+#    addParams <- "name"
+  #}
+  #else {
     addParams <- "school.name"
-  }
+  #}
   
   
-  repaymentData <- getAllDataInCategory(dataset = dataset, categoryName = "repayment", year = year, pattern = "suppressed.income", addParams = addParams)
+  repaymentData <- getAllDataInCategory(apiKey, dataset = dataset, categoryName = "repayment", year = year, pattern = "suppressed.income", addParams = addParams)
   meltedData <- reshape2::melt(repaymentData, id.vars = addParams)
   
   temp <- lapply(schoolNames, getDataPerSchool)
