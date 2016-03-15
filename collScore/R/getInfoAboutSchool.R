@@ -1,11 +1,13 @@
 #' Returns information about a given school
 #'
+#' @param apiKey If use API please provide saved API key value here 
+#' @param dataset If not using API please provide dataset name here
 #' @param schoolName Name of school
 #' @examples
 #' data(scorecard13)
-#' getInfoAboutSchool("University of Massachusetts-Lowell")
+#' getInfoAboutSchool(,scorecard13, schoolName = "University of Massachusetts-Lowell")
 #' @export
-getInfoAboutSchool <- function(schoolName, dataset){
+getInfoAboutSchool <- function(apiKey, dataset, schoolName){
   data(dataDict,  envir = environment())
   val <- scorecard13$CONTROL[scorecard13$INSTNM == schoolName]
   type <- varName <- dataDict$LABEL[dataDict$VARIABLE.NAME == "CONTROL" & dataDict$VALUE == val]

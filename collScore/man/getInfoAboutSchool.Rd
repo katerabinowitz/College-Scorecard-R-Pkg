@@ -4,9 +4,13 @@
 \alias{getInfoAboutSchool}
 \title{Returns information about a given school}
 \usage{
-getInfoAboutSchool(schoolName, dataset)
+getInfoAboutSchool(apiKey, dataset, schoolName)
 }
 \arguments{
+\item{apiKey}{If use API please provide saved API key value here}
+
+\item{dataset}{If not using API please provide dataset name here}
+
 \item{schoolName}{Name of school}
 }
 \description{
@@ -14,6 +18,6 @@ Returns information about a given school
 }
 \examples{
 data(scorecard13)
-getInfoAboutSchool("University of Massachusetts-Lowell")
+getInfoAboutSchool(,scorecard13, schoolName = "University of Massachusetts-Lowell")
 }
 
