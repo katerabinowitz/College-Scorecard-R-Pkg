@@ -5,10 +5,13 @@
 #' @param schoolName Name of school
 #' @examples
 #' data(scorecard13)
-#' getInfoAboutSchool(,scorecard13, schoolName = "University of Massachusetts-Lowell")
+#' getInfoAboutSchool(,scorecard13, schoolName = 
+#' c("University of Massachusetts-Lowell", "Stanford University"))
 #' @export
-getInfoAboutSchool <- function(apiKey, dataset, schoolName){
+getInfoAboutSchool <- function(apiKey, dataset, schoolName) {
+  
   data(dataDict,  envir = environment())
+  
   val <- scorecard13$CONTROL[scorecard13$INSTNM == schoolName]
   type <- varName <- dataDict$LABEL[dataDict$VARIABLE.NAME == "CONTROL" & dataDict$VALUE == val]
   type

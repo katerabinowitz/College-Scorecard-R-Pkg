@@ -9,6 +9,7 @@ Description: collScore facilitates analysis of U.S. College Scorecard data by
     simplifying the data retrieval process and provided a number of summary
     visualizations.
 License: GPL (>= 2)
+LazyData: true
 Depends: R(>= 2.10.0)
 Imports:
     ggplot2,

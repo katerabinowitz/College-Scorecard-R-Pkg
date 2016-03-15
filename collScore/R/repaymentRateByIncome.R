@@ -15,24 +15,6 @@
 #' @export
 repaymentRateByIncome <- function(apiKey, dataset, year = 2013, schoolNames, repaymentYears = 3) {
   
-  #..................Helper Functions.............................................................
-  # Helper function to get data based on school name if data for the specified school is available
-  getDataPerSchool <- function(schoolName) {
-    schoolData <- subset(meltedData, meltedData$school.name == schoolName)
-    if(nrow(schoolData) == 0){
-      message(paste("No data is available for the selected school", schoolName, "therefore data for this school will not be displayed", sep = " "))
-    }
-    else {
-      schoolData
-    }
-  }
-  
-  # Splits a string and returns the last element
-  getLast <- function(x) {
-    res <- unlist(strsplit(x, ".", fixed = TRUE))
-    res[length(res)]
-  }
-  
   # Subset the data by year if data is available for the supplied year and plot the data
   doPlotbyYear <- function(x) {
     plot1 <- NULL
@@ -57,11 +39,11 @@ repaymentRateByIncome <- function(apiKey, dataset, year = 2013, schoolNames, rep
                                         year = year, pattern = "suppressed.income", addParams = addParams)
   meltedData <- reshape2::melt(repaymentData, id.vars = addParams)
   
-  temp <- lapply(schoolNames, getDataPerSchool)
+  temp <- lapply(schoolNames, getDataPerSchool, dataDf = meltedData)
   if(!is.null(temp[[1]])) {
     meltedData <- do.call(rbind, temp)
     columnYear <- unlist(lapply(as.character(meltedData$variable), function(x) unlist(strsplit(x, ".", fixed = TRUE))[1]))
-    columnIncome <- unlist(lapply(as.character(meltedData$variable), getLast))
+    columnIncome <- unlist(lapply(as.character(meltedData$variable), getLastElement))
     columnRate <- unlist(lapply(as.character(meltedData$variable), function(x) unlist(strsplit(x, ".", fixed = TRUE))[3]))
     meltedData$year <- columnYear
     meltedData$income <- columnIncome

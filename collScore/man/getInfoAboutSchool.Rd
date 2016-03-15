@@ -18,6 +18,7 @@ Returns information about a given school
 }
 \examples{
 data(scorecard13)
-getInfoAboutSchool(,scorecard13, schoolName = "University of Massachusetts-Lowell")
+getInfoAboutSchool(,scorecard13, schoolName = 
+c("University of Massachusetts-Lowell", "Stanford University"))
 }
 
