@@ -24,9 +24,15 @@ The collScore package allows users to more easily access College Scorecard metad
 The scorecardInfo function retrieves the definition, formatting, and any notes for any field within the College Scorecard dataset.  
 # Analysis and Visualization  
 The collScore package has number of different built-in visualization functions for users to more quickly see information about a particular college, or compare fields across a number of colleges.  
-## completionRate  
+## completionRate    
+Provides the completion rate after six years (or 150% of expected graduation time) for the selected colleges. Completion rate can be shown overall or by student race.   
 ## debtBoxplot  
+Provides a boxplot with the 10th, 25th, 50th, 75th, and 90th percentile debt levels for the student population from the selected colleges.  
 ## medianDebtBy  
+Provides the median debt level for the selected colleges and a selected comparative subgroup,including: students that completed the college versus those that did not, student family income bracket, whether or not the student was independent, gender of the student, whether or not the student received a Pell grant and whether or not the student was a first generation college attendee.   
 ## studentIncomeBy  
+Reports the income of students for the selected colleges based on whether the student is independent, dependent, or aided.   
 ## studentRace  
-## top5Degrees  
+Visualizes the racial breakdown of the student population for selected colleges through a horizontal stacked bar chart.    
+## top5Degrees   
+Provides the top five degrees that students receive from the selected colleges as well as the proportion that graduate with each degree.

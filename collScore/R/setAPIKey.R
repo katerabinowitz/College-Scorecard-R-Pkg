@@ -4,7 +4,7 @@
 #'
 #' @param apiKey Key obtained from https://api.data.gov/signup
 #' @examples
-#' setAPIKey("some key")
+#' \dontrun{setAPIKey("some key")}
 #' @export
 setAPIKey <- function(apiKey) 
 {
