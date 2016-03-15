@@ -18,19 +18,7 @@
 getData <- function(apiKey,endpoint = "schools", format = "json", fieldParams, optionParams="", apiVersionString = "v1", page = 0){
   
   if(missing(apiKey)){
-    #If statement below will work once we have the package structure in place
-    #if (file_test("-f", system.file("<directory_in_package_to_keep_key>", package = "<our_package_name>"))) {
-    #  load(system.file("<directory_in_package_to_keep_key>", package = "<our_package_name>"))
-    #}
-    
-    #Temporary until we get the package structure in place
-    if (file_test("-f", "key.rda")) {
-      load("key.rda")
-    }
-    else{
-      stop("An API Key is required to access the CollegeScoreCard API. 
-           You may obtain a key from https://api.data.gov/signup")
-    }
+    apiKey <- getAPIKey()
   }
   
   urlPath = "https://api.data.gov/ed/collegescorecard"
@@ -38,6 +26,7 @@ getData <- function(apiKey,endpoint = "schools", format = "json", fieldParams, o
                                                      optionParams, sep = "&"), sep = "/")
   #Add apiKey
   queryUrl <- paste(queryUrl, "&api_key=", apiKey, sep = "")
+  queryUrl <- gsub("&&", replacement = "&",x = queryUrl)
   
   #Helper function to get pages
   getPages <- function(p = page){
@@ -45,8 +34,14 @@ getData <- function(apiKey,endpoint = "schools", format = "json", fieldParams, o
     res <- httr::GET(queryUrl)
     if (res$status_code==414) {
       stop ("Error code 414: Please request fewer variables")
-    } else
-    {res<-res}
+    }
+    else if (res$status_code==429) {
+      stop ("Error code 429: Too many requests! You have exceeded your rate limit. 
+            Try again later or contact us at https://api.data.gov/contact/ for assistance")
+    }
+    else {
+      res<-res
+    }
   }
   
   #Helper function to convert json response to data.frame

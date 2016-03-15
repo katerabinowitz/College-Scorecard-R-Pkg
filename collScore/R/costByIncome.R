@@ -5,15 +5,16 @@
 #' @param dataset If not using API please provide dataset name here
 #' @param year Year of college scorecard data
 #' @param schoolNames The names of schoold to be compared
-#' @param repaymentYears Years after entering repayment
+#' @param type Type of institution. CUrrently the available options are: public, private
 #' @return ggplot2 object
 #' @examples
 #' data(scorecard13)
-#' repaymentRateByIncome(dataset = scorecard13, year = 2013, 
-#' schoolNames = c("University of Massachusetts-Lowell",
-#' "Massachusetts Institute of Technology", "Drake University"))
+#' costByIncome(dataset = scorecard13, year = 2013, schoolNames = 
+#' c("University of Massachusetts-Lowell", "University of Arizona", "Alabama A & M University"))
+#' costByIncome(dataset = scorecard13, year = 2013, schoolNames = c("Massachusetts Institute of 
+#' Technology","Drake University", "Stanford University"), type = "private")
 #' @export
-repaymentRateByIncome <- function(apiKey, dataset, year = 2013, schoolNames, repaymentYears = 3) {
+costByIncome <- function(apiKey, dataset, year = 2013, schoolNames, type = "public") {
   
   #..................Helper Functions.............................................................
   # Helper function to get data based on school name if data for the specified school is available
@@ -44,8 +45,8 @@ repaymentRateByIncome <- function(apiKey, dataset, year = 2013, schoolNames, rep
       plot1 <- ggplot2::ggplot(data = dataByYear, ggplot2::aes(x = dataByYear$income, y = dataByYear$value, fill=dataByYear$school.name)) + 
         ggplot2::geom_bar(stat = 'identity', position=ggplot2::position_dodge()) +
         ggplot2::scale_fill_brewer(palette = "Pastel1") +
-        ggplot2::ggtitle(paste(repaymentYears, "Years Repayment Rate", "For Different Income Brackets", sep = " ")) +
-        ggplot2::labs(x="Income Bracket", y="Repayment Rate (%)", fill='School Name') 
+        ggplot2::ggtitle(paste("Cost of a", chartr("p", "P", type), "Institution for Different Income Brackets", sep = " ")) +
+        ggplot2::labs(x="Income Bracket", y="Cost ($)", fill='School Name') 
     }
     plot1
   }
@@ -53,22 +54,23 @@ repaymentRateByIncome <- function(apiKey, dataset, year = 2013, schoolNames, rep
   
   addParams <- "school.name"
   
-  repaymentData <- getAllDataInCategory(apiKey, dataset = dataset, categoryName = "repayment", 
-                                        year = year, pattern = "suppressed.income", addParams = addParams)
+  repaymentData <- getAllDataInCategory(apiKey, dataset = dataset, categoryName = "cost", 
+                                        year = year, paste("net_price.", as.character(type), ".by_income_level", sep = ""), addParams = addParams)
   meltedData <- reshape2::melt(repaymentData, id.vars = addParams)
   
   temp <- lapply(schoolNames, getDataPerSchool)
   if(!is.null(temp[[1]])) {
     meltedData <- do.call(rbind, temp)
     columnYear <- unlist(lapply(as.character(meltedData$variable), function(x) unlist(strsplit(x, ".", fixed = TRUE))[1]))
+    columnType <- unlist(lapply(as.character(meltedData$variable), function(x) unlist(strsplit(x, ".", fixed = TRUE))[4]))
     columnIncome <- unlist(lapply(as.character(meltedData$variable), getLast))
-    columnRate <- unlist(lapply(as.character(meltedData$variable), function(x) unlist(strsplit(x, ".", fixed = TRUE))[3]))
     meltedData$year <- columnYear
     meltedData$income <- columnIncome
-    meltedData$repaymentRate <- columnRate
+    meltedData$type <- columnType
     meltedData$variable <- NULL
-    repaymentR <- meltedData$repaymentRate %in% grep(as.character(repaymentYears), meltedData$repaymentRate, value = TRUE)
-    meltedData <- subset(meltedData, repaymentR)
+    incomeSelected <- meltedData$income %in% grep("0-30000|30001-48000|48001-75000|75001-110000|110001-plus", meltedData$income, value = TRUE)
+    meltedData <- subset(meltedData, incomeSelected)
+    meltedData$income <- factor(meltedData$income, levels = c("0-30000", "30001-48000", "48001-75000", "75001-110000", "110001-plus"))
     meltedData$value <- as.numeric(meltedData$value)
     meltedData <- meltedData[with(meltedData, order(income)), ]
     myPlots <-  Filter(Negate(is.null), lapply(year, doPlotbyYear))

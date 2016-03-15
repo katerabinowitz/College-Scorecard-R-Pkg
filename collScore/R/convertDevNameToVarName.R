@@ -9,6 +9,7 @@
 #' @export
 convertDevNameToVarName <- function(devFriendlyName){  
   data(dataDict,  envir = environment())
+  devFriendlyName <- gsub("school.", replacement = "", x = devFriendlyName)
   varName <- dataDict$VARIABLE.NAME[dataDict$developer.friendly.name == devFriendlyName]
   varName
 } 

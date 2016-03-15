@@ -1,4 +1,4 @@
-context("getAllDataInCategory Validation")
+context("getAllDataInCategory")
 
 test_that("getAllDataInCategory validates the year argument correctly", {
   expect_error(getAllDataInCategory(categoryName = "earnings", year = 2014, pattern = "", addParams = "id,school.name"), "Incorrect year selection")
