@@ -65,8 +65,6 @@ getData <- function(apiKey,endpoint = "schools", format = "json", fieldParams, o
     DF  <-  as.data.frame(t(matrix(unlist(jsonData$results), nrow=length(unlist(jsonData$results[1])))))
     colnames(DF)<-names(jsonData$results[[1]])
     DF
-    print(i)
-    str(DF)
   }
   ##
   ## End cathrynr code

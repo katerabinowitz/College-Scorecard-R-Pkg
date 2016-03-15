@@ -9,7 +9,6 @@
 #' @param year The year(s) for data retrieval.
 #' @param pattern Common text in name of parameters of interest
 #' @param addParams Parameters outside of category to include in data retrieval
-#' @param page Number of pages to get when using the REST API. 1 page = 20 records. If page = "All", all pages are retrieved
 #' @return character vector
 #' @examples
 #' \dontrun{costData <- getAllDataInCategory(categoryName = "cost", year = 2013)}
@@ -19,7 +18,7 @@
 #' \dontrun{earningsData <- getAllDataInCategory(categoryName = "earnings", 
 #'   year = c(2010, 2013), pattern = "6_yrs_after_entry.mean", addParams = "school.state")}
 #' @export
-getAllDataInCategory <- function(apiKey, dataset, categoryName, year, pattern = "", addParams = "id,school.name", page = "All"){
+getAllDataInCategory <- function(apiKey, dataset, categoryName, year, pattern = "", addParams = "id,school.name"){
   isYearValid <- function(value){
     isValid <- all(unlist(lapply(value, function(x) !(x<1996 | x>2013))))
     isValid
@@ -75,7 +74,7 @@ getAllDataInCategory <- function(apiKey, dataset, categoryName, year, pattern = 
     ##
     ## End cathrynr code
     ##
-    DFcat <- getData(apiKey=apiKey,fieldParams = queryList, page = page)
+    DFcat <- getData(apiKey=apiKey,fieldParams = queryList)
     }
   DFcat
 }
