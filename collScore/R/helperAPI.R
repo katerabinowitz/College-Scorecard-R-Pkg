@@ -11,7 +11,7 @@
 ##
 ## Start ilianav code
 ##
-convertDevNameToVarName <- function(devFriendlyName){  
+convertDevNameToVarName <- function(devFriendlyName){
   data(dataDict,  envir = environment())
   devFriendlyName <- gsub("school.", replacement = "", x = devFriendlyName, fixed = TRUE)
   varName <- dataDict$VARIABLE.NAME[dataDict$developer.friendly.name == devFriendlyName]
