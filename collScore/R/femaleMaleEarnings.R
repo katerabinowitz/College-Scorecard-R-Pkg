@@ -16,32 +16,18 @@
 #' \dontrun{femaleMaleEarnings(apiKey = ak, year = c(2003, 2005, 2007, 2009, 2011), 
 #' schoolNames = c("University of Massachusetts-Lowell", "Massachusetts Institute of Technology"))}
 #' @export
-femaleMaleEarnings <- function(apiKey, dataset, year, schoolNames, yearsAfterCompletion = 6) {
-  
-  #..................Helper Functions.............................................................
-  # Helper function to get data based on school name if data for the specified school is available
-  getDataPerSchool <- function(schoolName) {
-    schoolData <- subset(meltedData, meltedData$school.name == schoolName)
-    if(nrow(schoolData) == 0){
-      message(paste("No data is available for the selected school", schoolName, "therefore data for this school will not be displayed", sep = " "))
-    }
-    else {
-      schoolData
-    }
-  }
-  
-  # Splits a string and returns the last element
-  getLast <- function(x) {
-    res <- unlist(strsplit(x, ".", fixed = TRUE))
-    res[length(res)]
-  }
+#'
+##
+## Start ilianav code
+##
+femaleMaleEarnings <- function(apiKey, dataset, year = 2013, schoolNames, yearsAfterCompletion = 6) {
   
   # Subset the data by year if data is available for the supplied year and plot the data
   doPlotbyYear <- function(x) {
     plot1 <- NULL
     dataByYear <- subset(meltedData, year == x)
     if(all(is.na(dataByYear$value))) {
-      warning(paste("There is no data available for the selected year", as.character(x)))
+      message(paste("There is no data available for the selected year", as.character(x)))
     }
     else {
       plot1 <- ggplot2::ggplot(data = dataByYear, ggplot2::aes(x = dataByYear$sex, y = dataByYear$value, fill=dataByYear$school.name)) + 
@@ -52,19 +38,18 @@ femaleMaleEarnings <- function(apiKey, dataset, year, schoolNames, yearsAfterCom
     }
     plot1
   }
-  #...............................................................................................
-  
+
   addParams <- "school.name"
 
   earningsData <- getAllDataInCategory(apiKey, dataset = dataset, categoryName = "earnings", year = year, 
                                        pattern = "mean_earnings.female|mean_earnings.male", addParams = addParams)
   meltedData <- reshape2::melt(earningsData, id.vars = addParams)
   
-  temp <- lapply(schoolNames, getDataPerSchool)
+  temp <- lapply(schoolNames, getDataPerSchool, dataDf = meltedData)
   if(!is.null(temp[[1]])) {
     meltedData <- do.call(rbind, temp)
     columnYear <- unlist(lapply(as.character(meltedData$variable), function(x) unlist(strsplit(x, ".", fixed = TRUE))[1]))
-    columtnSex <- unlist(lapply(as.character(meltedData$variable), getLast))
+    columtnSex <- unlist(lapply(as.character(meltedData$variable), getLastElement))
     yearsAfterEntry <- unlist(lapply(as.character(meltedData$variable), function(x) unlist(strsplit(x, ".", fixed = TRUE))[3]))
     meltedData$year <- columnYear
     meltedData$sex <- columtnSex
@@ -79,7 +64,7 @@ femaleMaleEarnings <- function(apiKey, dataset, year, schoolNames, yearsAfterCom
     }
   
     colnames(meltedData)[colnames(meltedData) == addParams] <- "state"
-    meltedData$value <- as.numeric(meltedData$value)
+    meltedData$value <- suppressWarnings(as.numeric(meltedData$value))
     meltedData <- meltedData[with(meltedData, order(sex)), ]
   
     myPlots <-  Filter(Negate(is.null), lapply(year, doPlotbyYear))
@@ -95,3 +80,6 @@ femaleMaleEarnings <- function(apiKey, dataset, year, schoolNames, yearsAfterCom
     message("No data is available for requested school(s)")
   }
 }
+##
+## End ilianav code
+##

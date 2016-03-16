@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="author" content="Kate Rabinowitz and Iliana Voynichka" />
+
+<meta name="date" content="2016-03-15" />
+
+<title>Summary</title>
+
+
+
+
+<link href="data:text/css,body%20%7B%0A%20%20background%2Dcolor%3A%20%23fff%3B%0A%20%20margin%3A%201em%20auto%3B%0A%20%20max%2Dwidth%3A%20700px%3B%0A%20%20overflow%3A%20visible%3B%0A%20%20padding%2Dleft%3A%202em%3B%0A%20%20padding%2Dright%3A%202em%3B%0A%20%20font%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0A%20%20font%2Dsize%3A%2014px%3B%0A%20%20line%2Dheight%3A%201%2E35%3B%0A%7D%0A%0A%23header%20%7B%0A%20%20text%2Dalign%3A%20center%3B%0A%7D%0A%0A%23TOC%20%7B%0A%20%20clear%3A%20both%3B%0A%20%20margin%3A%200%200%2010px%2010px%3B%0A%20%20padding%3A%204px%3B%0A%20%20width%3A%20400px%3B%0A%20%20border%3A%201px%20solid%20%23CCCCCC%3B%0A%20%20border%2Dradius%3A%205px%3B%0A%0A%20%20background%2Dcolor%3A%20%23f6f6f6%3B%0A%20%20font%2Dsize%3A%2013px%3B%0A%20%20line%2Dheight%3A%201%2E3%3B%0A%7D%0A%20%20%23TOC%20%2Etoctitle%20%7B%0A%20%20%20%20font%2Dweight%3A%20bold%3B%0A%20%20%20%20font%2Dsize%3A%2015px%3B%0A%20%20%20%20margin%2Dleft%3A%205px%3B%0A%20%20%7D%0A%0A%20%20%23TOC%20ul%20%7B%0A%20%20%20%20padding%2Dleft%3A%2040px%3B%0A%20%20%20%20margin%2Dleft%3A%20%2D1%2E5em%3B%0A%20%20%20%20margin%2Dtop%3A%205px%3B%0A%20%20%20%20margin%2Dbottom%3A%205px%3B%0A%20%20%7D%0A%20%20%23TOC%20ul%20ul%20%7B%0A%20%20%20%20margin%2Dleft%3A%20%2D2em%3B%0A%20%20%7D%0A%20%20%23TOC%20li%20%7B%0A%20%20%20%20line%2Dheight%3A%2016px%3B%0A%20%20%7D%0A%0Atable%20%7B%0A%20%20margin%3A%201em%20auto%3B%0A%20%20border%2Dwidth%3A%201px%3B%0A%20%20border%2Dcolor%3A%20%23DDDDDD%3B%0A%20%20border%2Dstyle%3A%20outset%3B%0A%20%20border%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0A%20%20border%2Dwidth%3A%202px%3B%0A%20%20padding%3A%205px%3B%0A%20%20border%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0A%20%20border%2Dwidth%3A%201px%3B%0A%20%20border%2Dstyle%3A%20inset%3B%0A%20%20line%2Dheight%3A%2018px%3B%0A%20%20padding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0A%20%20border%2Dleft%2Dstyle%3A%20none%3B%0A%20%20border%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0A%20%20background%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0A%0Ap%20%7B%0A%20%20margin%3A%200%2E5em%200%3B%0A%7D%0A%0Ablockquote%20%7B%0A%20%20background%2Dcolor%3A%20%23f6f6f6%3B%0A%20%20padding%3A%200%2E25em%200%2E75em%3B%0A%7D%0A%0Ahr%20%7B%0A%20%20border%2Dstyle%3A%20solid%3B%0A%20%20border%3A%20none%3B%0A%20%20border%2Dtop%3A%201px%20solid%20%23777%3B%0A%20%20margin%3A%2028px%200%3B%0A%7D%0A%0Adl%20%7B%0A%20%20margin%2Dleft%3A%200%3B%0A%7D%0A%20%20dl%20dd%20%7B%0A%20%20%20%20margin%2Dbottom%3A%2013px%3B%0A%20%20%20%20margin%2Dleft%3A%2013px%3B%0A%20%20%7D%0A%20%20dl%20dt%20%7B%0A%20%20%20%20font%2Dweight%3A%20bold%3B%0A%20%20%7D%0A%0Aul%20%7B%0A%20%20margin%2Dtop%3A%200%3B%0A%7D%0A%20%20ul%20li%20%7B%0A%20%20%20%20list%2Dstyle%3A%20circle%20outside%3B%0A%20%20%7D%0A%20%20ul%20ul%20%7B%0A%20%20%20%20margin%2Dbottom%3A%200%3B%0A%20%20%7D%0A%0Apre%2C%20code%20%7B%0A%20%20background%2Dcolor%3A%20%23f7f7f7%3B%0A%20%20border%2Dradius%3A%203px%3B%0A%20%20color%3A%20%23333%3B%0A%7D%0Apre%20%7B%0A%20%20white%2Dspace%3A%20pre%2Dwrap%3B%20%20%20%20%2F%2A%20Wrap%20long%20lines%20%2A%2F%0A%20%20border%2Dradius%3A%203px%3B%0A%20%20margin%3A%205px%200px%2010px%200px%3B%0A%20%20padding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0A%20%20background%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0A%0Acode%20%7B%0A%20%20font%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0A%20%20font%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0A%20%20padding%3A%202px%200px%3B%0A%7D%0A%0Adiv%2Efigure%20%7B%0A%20%20text%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0A%20%20background%2Dcolor%3A%20%23FFFFFF%3B%0A%20%20padding%3A%202px%3B%0A%20%20border%3A%201px%20solid%20%23DDDDDD%3B%0A%20%20border%2Dradius%3A%203px%3B%0A%20%20border%3A%201px%20solid%20%23CCCCCC%3B%0A%20%20margin%3A%200%205px%3B%0A%7D%0A%0Ah1%20%7B%0A%20%20margin%2Dtop%3A%200%3B%0A%20%20font%2Dsize%3A%2035px%3B%0A%20%20line%2Dheight%3A%2040px%3B%0A%7D%0A%0Ah2%20%7B%0A%20%20border%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0A%20%20padding%2Dtop%3A%2010px%3B%0A%20%20padding%2Dbottom%3A%202px%3B%0A%20%20font%2Dsize%3A%20145%25%3B%0A%7D%0A%0Ah3%20%7B%0A%20%20border%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0A%20%20padding%2Dtop%3A%2010px%3B%0A%20%20font%2Dsize%3A%20120%25%3B%0A%7D%0A%0Ah4%20%7B%0A%20%20border%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0A%20%20margin%2Dleft%3A%208px%3B%0A%20%20font%2Dsize%3A%20105%25%3B%0A%7D%0A%0Ah5%2C%20h6%20%7B%0A%20%20border%2Dbottom%3A%201px%20solid%20%23ccc%3B%0A%20%20font%2Dsize%3A%20105%25%3B%0A%7D%0A%0Aa%20%7B%0A%20%20color%3A%20%230033dd%3B%0A%20%20text%2Ddecoration%3A%20none%3B%0A%7D%0A%20%20a%3Ahover%20%7B%0A%20%20%20%20color%3A%20%236666ff%3B%20%7D%0A%20%20a%3Avisited%20%7B%0A%20%20%20%20color%3A%20%23800080%3B%20%7D%0A%20%20a%3Avisited%3Ahover%20%7B%0A%20%20%20%20color%3A%20%23BB00BB%3B%20%7D%0A%20%20a%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0A%20%20%20%20text%2Ddecoration%3A%20underline%3B%20%7D%0A%20%20a%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0A%20%20%20%20text%2Ddecoration%3A%20underline%3B%20%7D%0A%0A%2F%2A%20Class%20described%20in%20https%3A%2F%2Fbenjeffrey%2Ecom%2Fposts%2Fpandoc%2Dsyntax%2Dhighlighting%2Dcss%0A%20%20%20Colours%20from%20https%3A%2F%2Fgist%2Egithub%2Ecom%2Frobsimmons%2F1172277%20%2A%2F%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%2F%2A%20Keyword%20%2A%2F%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%2F%2A%20DataType%20%2A%2F%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%2F%2A%20DecVal%20%28decimal%20values%29%20%2A%2F%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%2F%2A%20BaseN%20%2A%2F%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%2F%2A%20Float%20%2A%2F%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%2F%2A%20Char%20%2A%2F%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%2F%2A%20String%20%2A%2F%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%2F%2A%20Comment%20%2A%2F%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%2F%2A%20OtherToken%20%2A%2F%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%2F%2A%20AlertToken%20%2A%2F%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%2F%2A%20Function%20calls%20%2A%2F%20%0Acode%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%2F%2A%20ErrorTok%20%2A%2F%0A%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+<div id="header">
+<h1 class="title">Summary</h1>
+<h4 class="author"><em>Kate Rabinowitz and Iliana Voynichka</em></h4>
+<h4 class="date"><em>2016-03-15</em></h4>
+</div>
+
+
+<p>The collScore package facilitates the download, analysis, and visualization of the U.S. Department of Education Scorecard data. Additional background on the College Scorecard data can be found here: <a href="https://collegescorecard.ed.gov/data/" class="uri">https://collegescorecard.ed.gov/data/</a>. The data is extensive with over 1,500 variables detailing more than 7,000 American colleges covering topics like demographics of the student population, federal financial aid, college costs, education offerings, graduation rates, college-related debt, post-graduation acitivites and salary, and more. The below functions intend to promote and simplify use of the College Scorecard data.</p>
+<div id="data-retrieval" class="section level1">
+<h1>Data Retrieval</h1>
+<p>The collScore package includes a number of functions meant to ease data download.</p>
+<div id="setapikey" class="section level2">
+<h2>setAPIKey</h2>
+<p>The setAPIKey function allows users to permanently save their API key so they do not have to recall for future data retrieval and can share code that does not include the key. An API key can be obtained from <a href="https://api.data.gov/signup" class="uri">https://api.data.gov/signup</a></p>
+</div>
+<div id="getapikey" class="section level2">
+<h2>getAPIKey</h2>
+<p>The getAPIKey function retrieves the stored API key that was saved using the setAPIKey function.</p>
+</div>
+<div id="getdata" class="section level2">
+<h2>getData</h2>
+<p>The getData function simplifies data retrieval from the College Scorecard API, the primary data collection point. Users may specify the specific fields and/or filters they are interested in collecting and the getData function will return their request in a data frame.</p>
+</div>
+<div id="getalldataincategory" class="section level2">
+<h2>getAllDataInCategory</h2>
+<p>The getAllDataInCategory function further simplifies the data retrieval process. With over 1,500 variables it may be onerous for users to find and/or list the fields of interest to them. This function allows users to select from 10 overall categories of data such as student, aid, or cost, to return all fields in that category. Additionally, users may further subset the data returned by selecting a text pattern to look at a more specific topics in a larger category.</p>
+</div>
+</div>
+<div id="metadata-information" class="section level1">
+<h1>Metadata Information</h1>
+<p>The collScore package allows users to more easily access College Scorecard metadata.</p>
+<div id="scorecardinfo" class="section level2">
+<h2>scorecardInfo</h2>
+<p>The scorecardInfo function retrieves the definition, formatting, and any notes for any field within the College Scorecard dataset.</p>
+</div>
+</div>
+<div id="analysis-and-visualization" class="section level1">
+<h1>Analysis and Visualization</h1>
+<p>The collScore package has number of different built-in visualization functions for users to more quickly see information about a particular college, or compare fields across a number of colleges.</p>
+<div id="completionrate" class="section level2">
+<h2>completionRate</h2>
+<p>Provides the completion rate after six years (or 150% of expected graduation time) for the selected colleges. Completion rate can be shown overall or by student race.</p>
+</div>
+<div id="debtboxplot" class="section level2">
+<h2>debtBoxplot</h2>
+<p>Provides a boxplot with the 10th, 25th, 50th, 75th, and 90th percentile debt levels for the student population from the selected colleges.</p>
+</div>
+<div id="mediandebtby" class="section level2">
+<h2>medianDebtBy</h2>
+<p>Provides the median debt level for the selected colleges and a selected comparative subgroup,including: students that completed the college versus those that did not, student family income bracket, whether or not the student was independent, gender of the student, whether or not the student received a Pell grant and whether or not the student was a first generation college attendee.</p>
+</div>
+<div id="studentincomeby" class="section level2">
+<h2>studentIncomeBy</h2>
+<p>Reports the income of students for the selected colleges based on whether the student is independent, dependent, or aided.</p>
+</div>
+<div id="studentrace" class="section level2">
+<h2>studentRace</h2>
+<p>Visualizes the racial breakdown of the student population for selected colleges through a horizontal stacked bar chart.</p>
+</div>
+<div id="top5degrees" class="section level2">
+<h2>top5Degrees</h2>
+<p>Provides the top five degrees that students receive from the selected colleges as well as the proportion that graduate with each degree.</p>
+</div>
+<div id="repaymentratebyincome" class="section level2">
+<h2>repaymentRateByIncome</h2>
+<p>Visualizes a comparison of repayment rates based on income for specified school(s). Here repayment is the fraction of borrowers successfully repaying their loan three years after entering repayment. Comparison can be obtained between all available schools or only between some of the schools.</p>
+</div>
+<div id="costbyincome" class="section level2">
+<h2>costByIncome</h2>
+<p>The costByIncome function plots a comparison of the average net price for different shcools based on student income level. The income levels are as follows: Bracket 1: $0 - $30000, Bracket 2: $30001 - $48000, Bracket 3: $48001 - $75000, Bracket 4: $75001 - $110000, Bracket 5: $110001-plus.</p>
+</div>
+<div id="femalemaleearnings" class="section level2">
+<h2>femaleMaleEarnings</h2>
+<p>Outputs a plot displaying earnings based on attended school for female and male students. Earnings data is available for either 6 or 10 years after entry to a college/university. Data can be compared across different years. When multiple years are specified, a plot will be displayed for each year. When this function is used with the data provided with this package, no plot will be displayed since no data is available for the variables in the earnings group.</p>
+</div>
+<div id="getinfoaboutschool" class="section level2">
+<h2>getInfoAboutSchool</h2>
+<p>The getInfoAboutSchool function returns information about the requested school(s). The information is returned in a table with columns for name of the school, location, type (private, public, etc, ), religious affiliation, predominant degrees awarded, highest degree awarded, man only or women only</p>
+</div>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

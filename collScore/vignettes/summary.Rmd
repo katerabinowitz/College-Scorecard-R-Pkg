@@ -9,30 +9,59 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-The collScore package facilitates the download, analysis, and visualization of the U.S. Department of Education Scorecard data. Additional background on the College Scorecard data can be found here: https://collegescorecard.ed.gov/data/. The data is extensive with other 1,500 variables detailing more than 7,000 American colleges covering topics like demographics of the student population, federal financial aid, college costs, education offerings, graduation rates, college-related debt, post-graduation acitivites and salary, and more. The below functions intend to promote and simplify use of the College Scorecard data.  
+The collScore package facilitates the download, analysis, and visualization of the U.S. Department of Education Scorecard data. Additional background on the College Scorecard data can be found here: https://collegescorecard.ed.gov/data/. The data is extensive with over 1,500 variables detailing more than 7,000 American colleges covering topics like demographics of the student population, federal financial aid, college costs, education offerings, graduation rates, college-related debt, post-graduation acitivites and salary, and more. The below functions intend to promote and simplify use of the College Scorecard data.
+
 # Data Retrieval    
-The collScore package includes a number of functions meant to ease data download.    
+The collScore package includes a number of functions meant to ease data download.
+
 ## setAPIKey    
-The setAPIKey function allows users to permanently save their API key so they do not have to recall for future data retrieval and can share code that does not include the key.  
+The setAPIKey function allows users to permanently save their API key so they do not have to recall for future data retrieval and can share code that does not include the key. An API key can be obtained from https://api.data.gov/signup
+
+## getAPIKey  
+The getAPIKey function retrieves the stored API key that was saved using the setAPIKey function.
+
 ## getData    
-The getData function simplifies data retrieval from the College Scorecard API, the primary data collection point. Users may specify the specific fields and/or filters they are interested in collecting and the getData function will return their request in a data frame.  
+The getData function simplifies data retrieval from the College Scorecard API, the primary data collection point. Users may specify the specific fields and/or filters they are interested in collecting and the getData function will return their request in a data frame.
+
 ## getAllDataInCategory    
-The getAllDataInCategory function further simplifies the data retrieval process. With over 1,500 variables it may be onerous for users to find and/or list the fields of interest to them. This function allows users to select from 10 overall categories of data such as student, aid, or cost, to return all fields in that category. Additionally, users may further subset the data returned by selecting a text pattern to look at a more specific topics in a larger category.  
+The getAllDataInCategory function further simplifies the data retrieval process. With over 1,500 variables it may be onerous for users to find and/or list the fields of interest to them. This function allows users to select from 10 overall categories of data such as student, aid, or cost, to return all fields in that category. Additionally, users may further subset the data returned by selecting a text pattern to look at a more specific topics in a larger category.
+
 # Metadata Information
-The collScore package allows users to more easily access College Scorecard metadata.   
+The collScore package allows users to more easily access College Scorecard metadata.
+
 ## scorecardInfo
-The scorecardInfo function retrieves the definition, formatting, and any notes for any field within the College Scorecard dataset.  
+The scorecardInfo function retrieves the definition, formatting, and any notes for any field within the College Scorecard dataset.
+
 # Analysis and Visualization  
-The collScore package has number of different built-in visualization functions for users to more quickly see information about a particular college, or compare fields across a number of colleges.  
+The collScore package has number of different built-in visualization functions for users to more quickly see information about a particular college, or compare fields across a number of colleges.
+
 ## completionRate    
-Provides the completion rate after six years (or 150% of expected graduation time) for the selected colleges. Completion rate can be shown overall or by student race.   
+Provides the completion rate after six years (or 150% of expected graduation time) for the selected colleges. Completion rate can be shown overall or by student race.
+
 ## debtBoxplot  
-Provides a boxplot with the 10th, 25th, 50th, 75th, and 90th percentile debt levels for the student population from the selected colleges.  
+Provides a boxplot with the 10th, 25th, 50th, 75th, and 90th percentile debt levels for the student population from the selected colleges.
+
 ## medianDebtBy  
-Provides the median debt level for the selected colleges and a selected comparative subgroup,including: students that completed the college versus those that did not, student family income bracket, whether or not the student was independent, gender of the student, whether or not the student received a Pell grant and whether or not the student was a first generation college attendee.   
+Provides the median debt level for the selected colleges and a selected comparative subgroup,including: students that completed the college versus those that did not, student family income bracket, whether or not the student was independent, gender of the student, whether or not the student received a Pell grant and whether or not the student was a first generation college attendee.
+
 ## studentIncomeBy  
-Reports the income of students for the selected colleges based on whether the student is independent, dependent, or aided.   
+Reports the income of students for the selected colleges based on whether the student is independent, dependent, or aided.
+
 ## studentRace  
-Visualizes the racial breakdown of the student population for selected colleges through a horizontal stacked bar chart.    
+Visualizes the racial breakdown of the student population for selected colleges through a horizontal stacked bar chart.
+
 ## top5Degrees   
 Provides the top five degrees that students receive from the selected colleges as well as the proportion that graduate with each degree.
+
+## repaymentRateByIncome
+Visualizes a comparison of repayment rates based on income for specified school(s). Here repayment is the fraction of borrowers successfully repaying their loan three years after entering repayment. Comparison can be obtained between all available schools or only between some of the schools.
+
+## costByIncome
+The costByIncome function plots a comparison of the average net price for different shcools based on student income level. The income levels are as follows: Bracket 1: $0 - $30000, Bracket 2: $30001 - $48000, Bracket 3: $48001 - $75000, Bracket 4: $75001 - $110000, Bracket 5: $110001-plus.
+
+## femaleMaleEarnings
+Outputs a plot displaying earnings based on attended school for female and male students. Earnings data is available for either 6 or 10 years after entry to a college/university. Data can be compared across different years. When multiple years are specified, a plot will be displayed for each year. When this function is used with the data provided with this package, no plot will be displayed since no data is available for the variables in the earnings group.
+
+## getInfoAboutSchool
+The getInfoAboutSchool function returns information about the requested school(s). The information is returned in a table with
+columns for name of the school, location, type (private, public, etc, ), religious affiliation, predominant degrees awarded, highest degree awarded, man only or women only

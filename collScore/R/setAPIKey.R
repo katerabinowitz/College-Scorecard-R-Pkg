@@ -6,7 +6,14 @@
 #' @examples
 #' \dontrun{setAPIKey("some key")}
 #' @export
+#' 
+##
+## Start ilianav code
+##
 setAPIKey <- function(apiKey) 
 {
   save(apiKey, file = paste(system.file("extdata", package = "collScore"), "key.rda", sep = "/"))
 }
+##
+## End ilianav code
+##

@@ -2,8 +2,12 @@
 % Please edit documentation in R/costByIncome.R
 \name{costByIncome}
 \alias{costByIncome}
-\title{Plots repayment comparison based on income for specified school(s). Here repayment is the fraction of borrowers successfully repaying their loan
-x years after entering repayment. If schoolNames is not specified, data for all schools will be returned}
+\title{Plots comparison of the average net price for different shcools based on student income level. The income levels are as follows:
+Bracket 1: $0 - $30000 
+Bracket 2: $30001 - $48000
+Bracket 3: $48001 - $75000
+Bracket 4: $75001 - $110000
+Bracket 5: $110001-plus}
 \usage{
 costByIncome(apiKey, dataset, year = 2013, schoolNames, type = "public")
 }
@@ -22,8 +26,12 @@ costByIncome(apiKey, dataset, year = 2013, schoolNames, type = "public")
 ggplot2 object
 }
 \description{
-Plots repayment comparison based on income for specified school(s). Here repayment is the fraction of borrowers successfully repaying their loan
-x years after entering repayment. If schoolNames is not specified, data for all schools will be returned
+Plots comparison of the average net price for different shcools based on student income level. The income levels are as follows:
+Bracket 1: $0 - $30000 
+Bracket 2: $30001 - $48000
+Bracket 3: $48001 - $75000
+Bracket 4: $75001 - $110000
+Bracket 5: $110001-plus
 }
 \examples{
 data(scorecard13)

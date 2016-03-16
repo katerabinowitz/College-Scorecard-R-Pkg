@@ -13,25 +13,11 @@
 #' schoolNames = c("University of Massachusetts-Lowell",
 #' "Massachusetts Institute of Technology", "Drake University"))
 #' @export
+#' 
+##
+## Start ilianav code
+##
 repaymentRateByIncome <- function(apiKey, dataset, year = 2013, schoolNames, repaymentYears = 3) {
-  
-  #..................Helper Functions.............................................................
-  # Helper function to get data based on school name if data for the specified school is available
-  getDataPerSchool <- function(schoolName) {
-    schoolData <- subset(meltedData, meltedData$school.name == schoolName)
-    if(nrow(schoolData) == 0){
-      message(paste("No data is available for the selected school", schoolName, "therefore data for this school will not be displayed", sep = " "))
-    }
-    else {
-      schoolData
-    }
-  }
-  
-  # Splits a string and returns the last element
-  getLast <- function(x) {
-    res <- unlist(strsplit(x, ".", fixed = TRUE))
-    res[length(res)]
-  }
   
   # Subset the data by year if data is available for the supplied year and plot the data
   doPlotbyYear <- function(x) {
@@ -57,11 +43,11 @@ repaymentRateByIncome <- function(apiKey, dataset, year = 2013, schoolNames, rep
                                         year = year, pattern = "suppressed.income", addParams = addParams)
   meltedData <- reshape2::melt(repaymentData, id.vars = addParams)
   
-  temp <- lapply(schoolNames, getDataPerSchool)
+  temp <- lapply(schoolNames, getDataPerSchool, dataDf = meltedData)
   if(!is.null(temp[[1]])) {
     meltedData <- do.call(rbind, temp)
     columnYear <- unlist(lapply(as.character(meltedData$variable), function(x) unlist(strsplit(x, ".", fixed = TRUE))[1]))
-    columnIncome <- unlist(lapply(as.character(meltedData$variable), getLast))
+    columnIncome <- unlist(lapply(as.character(meltedData$variable), getLastElement))
     columnRate <- unlist(lapply(as.character(meltedData$variable), function(x) unlist(strsplit(x, ".", fixed = TRUE))[3]))
     meltedData$year <- columnYear
     meltedData$income <- columnIncome
@@ -69,7 +55,7 @@ repaymentRateByIncome <- function(apiKey, dataset, year = 2013, schoolNames, rep
     meltedData$variable <- NULL
     repaymentR <- meltedData$repaymentRate %in% grep(as.character(repaymentYears), meltedData$repaymentRate, value = TRUE)
     meltedData <- subset(meltedData, repaymentR)
-    meltedData$value <- as.numeric(meltedData$value)
+    meltedData$value <- suppressWarnings(as.numeric(meltedData$value))
     meltedData <- meltedData[with(meltedData, order(income)), ]
     myPlots <-  Filter(Negate(is.null), lapply(year, doPlotbyYear))
     if(length(myPlots) > 1) {
@@ -84,3 +70,6 @@ repaymentRateByIncome <- function(apiKey, dataset, year = 2013, schoolNames, rep
     message("No data is available for requested school(s)")
   }
 }
+##
+## End ilianav code
+##

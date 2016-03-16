@@ -4,6 +4,10 @@
 #'
 #' @return the saved key
 #' @export
+#' 
+##
+## Start ilianav code
+##
 getAPIKey <- function() 
 {
   if (file_test("-f", system.file("extdata/key.rda", package = "collScore"))) {
@@ -15,3 +19,6 @@ getAPIKey <- function()
   }
   get(key)
 }
+##
+## End ilianav code
+##

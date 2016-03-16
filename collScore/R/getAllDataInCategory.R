@@ -18,7 +18,10 @@
 #' \dontrun{earningsData <- getAllDataInCategory(categoryName = "earnings", 
 #'   year = c(2010, 2013), pattern = "6_yrs_after_entry.mean", addParams = "school.state")}
 #' @export
-getAllDataInCategory <- function(apiKey, dataset, categoryName, year, pattern = "", addParams = "id,school.name"){
+getAllDataInCategory <- function(apiKey, dataset, categoryName, year, pattern = "", addParams = "id,school.name") {
+  ##
+  ## Start ilianav code
+  ##
   isYearValid <- function(value){
     isValid <- all(unlist(lapply(value, function(x) !(x<1996 | x>2013))))
     isValid
@@ -34,6 +37,9 @@ getAllDataInCategory <- function(apiKey, dataset, categoryName, year, pattern = 
       stop("Incorrect year selection. Data is available for 1996 through 2013.")
     }
   }
+  ##
+  ## End ilianav code
+  ##
   
   ##
   ## Start cathrynr code
@@ -46,14 +52,37 @@ getAllDataInCategory <- function(apiKey, dataset, categoryName, year, pattern = 
   ##
   ## End cathrynr code
   ##
+  
+  ##
+  ## Start ilianav code
+  ##
   categoryVars <- grep(pattern, categoryVars, value = TRUE)
   
   if (missing(apiKey)) {
+    # dataset included with package uses only varaible names so the developer name 
+    # needs to be converted to variable name using the data dictionary
     varNames <- unlist(lapply(categoryVars, convertDevNameToVarName))
-    DFcat <- subset(dataset, select = c(varNames, convertDevNameToVarName(addParams)))
-    categoryVars <- lapply(categoryVars, function(x) paste(year, ".", categoryName, ".", x, sep = ""))
-    colnames(DFcat) <- c(unlist(categoryVars), addParams)
+    
+    if (categoryName !="school") {
+      categoryVars <- lapply(categoryVars, function(x) paste(year, ".", categoryName, ".", x, sep = ""))
+    }
+    if(any(grepl(addParams, unlist(categoryVars)))){
+      categoryVars[grepl("school.name|name", categoryVars)] <- "school.name"
+      selectVars <- varNames
+      colNames <- unlist(categoryVars)
+    }
+    else {
+      selectVars <- c(varNames, convertDevNameToVarName(addParams))
+      colNames <- c(unlist(categoryVars), addParams)
+    }
+    
+    DFcat <- subset(dataset, select = selectVars)
+    colnames(DFcat) <- colNames
   }
+  ##
+  ## End ilianav code
+  ##
+  
   else {
     ##
     ## Start cathrynr code

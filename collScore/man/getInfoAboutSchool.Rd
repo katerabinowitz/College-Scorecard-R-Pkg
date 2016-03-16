@@ -2,22 +2,28 @@
 % Please edit documentation in R/getInfoAboutSchool.R
 \name{getInfoAboutSchool}
 \alias{getInfoAboutSchool}
-\title{Returns information about a given school}
+\title{Returns information about the requested school(s). The information is returned in a table with
+columns for name of the school, location, type (private, public, etc, ), religious affiliation,
+predominant degrees awarded, highest degree awarded, man only or women only}
 \usage{
-getInfoAboutSchool(apiKey, dataset, schoolName)
+getInfoAboutSchool(apiKey, dataset, schoolNames)
 }
 \arguments{
 \item{apiKey}{If use API please provide saved API key value here}
 
 \item{dataset}{If not using API please provide dataset name here}
 
-\item{schoolName}{Name of school}
+\item{schoolNames}{Names of schools}
 }
 \description{
-Returns information about a given school
+Returns information about the requested school(s). The information is returned in a table with
+columns for name of the school, location, type (private, public, etc, ), religious affiliation,
+predominant degrees awarded, highest degree awarded, man only or women only
 }
 \examples{
 data(scorecard13)
-getInfoAboutSchool(,scorecard13, schoolName = "University of Massachusetts-Lowell")
+getInfoAboutSchool(,scorecard13, schoolNames = "University of Massachusetts-Lowell")
+getInfoAboutSchool(,scorecard13, schoolNames = c("Judson College",
+"Birmingham Southern College", "University of Alaska Fairbanks"))
 }
 
