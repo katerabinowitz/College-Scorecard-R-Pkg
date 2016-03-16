@@ -9,7 +9,7 @@
 #' convertDevNameToVarName("8_yr_completion.low_income")
 convertDevNameToVarName <- function(devFriendlyName){  
   data(dataDict,  envir = environment())
-  devFriendlyName <- gsub("school.", replacement = "", x = devFriendlyName)
+  devFriendlyName <- gsub("school.", replacement = "", x = devFriendlyName, fixed = TRUE)
   varName <- dataDict$VARIABLE.NAME[dataDict$developer.friendly.name == devFriendlyName]
   varName
 } 
@@ -20,6 +20,8 @@ convertDevNameToVarName <- function(devFriendlyName){
 #' @param dataDf Dataframe to get data from
 #' @return data.frame
 getDataPerSchool <- function(schoolName, dataDf) {
+  # Rename column name for school name to be consistent for data coming from the API
+  # and data coming from the package
   schoolData <- subset(dataDf, dataDf$school.name == schoolName)
   if(nrow(schoolData) == 0){
     message(paste("No data is available for the selected school", schoolName, 

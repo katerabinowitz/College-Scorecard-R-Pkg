@@ -51,7 +51,7 @@ repaymentRateByIncome <- function(apiKey, dataset, year = 2013, schoolNames, rep
     meltedData$variable <- NULL
     repaymentR <- meltedData$repaymentRate %in% grep(as.character(repaymentYears), meltedData$repaymentRate, value = TRUE)
     meltedData <- subset(meltedData, repaymentR)
-    meltedData$value <- as.numeric(meltedData$value)
+    meltedData$value <- suppressWarnings(as.numeric(meltedData$value))
     meltedData <- meltedData[with(meltedData, order(income)), ]
     myPlots <-  Filter(Negate(is.null), lapply(year, doPlotbyYear))
     if(length(myPlots) > 1) {

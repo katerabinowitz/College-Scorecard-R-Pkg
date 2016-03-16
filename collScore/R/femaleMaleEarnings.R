@@ -60,7 +60,7 @@ femaleMaleEarnings <- function(apiKey, dataset, year, schoolNames, yearsAfterCom
     }
   
     colnames(meltedData)[colnames(meltedData) == addParams] <- "state"
-    meltedData$value <- as.numeric(meltedData$value)
+    meltedData$value <- suppressWarnings(as.numeric(meltedData$value))
     meltedData <- meltedData[with(meltedData, order(sex)), ]
   
     myPlots <-  Filter(Negate(is.null), lapply(year, doPlotbyYear))

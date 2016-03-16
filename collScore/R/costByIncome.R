@@ -52,7 +52,7 @@ costByIncome <- function(apiKey, dataset, year = 2013, schoolNames, type = "publ
     incomeSelected <- meltedData$income %in% grep("0-30000|30001-48000|48001-75000|75001-110000|110001-plus", meltedData$income, value = TRUE)
     meltedData <- subset(meltedData, incomeSelected)
     meltedData$income <- factor(meltedData$income, levels = c("0-30000", "30001-48000", "48001-75000", "75001-110000", "110001-plus"))
-    meltedData$value <- as.numeric(meltedData$value)
+    meltedData$value <- suppressWarnings(as.numeric(meltedData$value))
     meltedData <- meltedData[with(meltedData, order(income)), ]
     myPlots <-  Filter(Negate(is.null), lapply(year, doPlotbyYear))
     if(length(myPlots) > 1) {
