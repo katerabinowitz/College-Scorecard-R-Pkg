@@ -8,7 +8,7 @@ When multiple years are specified, a plot will be displayed for each year. If sc
 data for all schools will be returned. If used with the data provided with this pavkage, this API will produce no
 results since no data is available for variables in the earnings group}
 \usage{
-femaleMaleEarnings(apiKey, dataset, year, schoolNames,
+femaleMaleEarnings(apiKey, dataset, year = 2013, schoolNames,
   yearsAfterCompletion = 6)
 }
 \arguments{

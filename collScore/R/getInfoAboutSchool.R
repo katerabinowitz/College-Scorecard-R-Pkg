@@ -11,6 +11,10 @@
 #' getInfoAboutSchool(,scorecard13, schoolNames = c("Judson College",
 #' "Birmingham Southern College", "University of Alaska Fairbanks"))
 #' @export
+#' 
+##
+## Start ilianav code
+##
 getInfoAboutSchool <- function(apiKey, dataset, schoolNames) {
   
   # Populate column based on the column name and data obtained from the data dictionary
@@ -57,3 +61,6 @@ getInfoAboutSchool <- function(apiKey, dataset, schoolNames) {
     selectedData
   }
 }
+##
+## End ilianav code
+##

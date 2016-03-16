@@ -1,5 +1,9 @@
-#' Plots repayment comparison based on income for specified school(s). Here repayment is the fraction of borrowers successfully repaying their loan
-#' x years after entering repayment. If schoolNames is not specified, data for all schools will be returned
+#' Plots comparison of the average net price for different shcools based on student income level. The income levels are as follows:
+#' Bracket 1: $0 - $30000 
+#' Bracket 2: $30001 - $48000
+#' Bracket 3: $48001 - $75000
+#' Bracket 4: $75001 - $110000
+#' Bracket 5: $110001-plus
 #'  
 #' @param apiKey If using API please provide saved API key value here
 #' @param dataset If not using API please provide dataset name here
@@ -14,6 +18,10 @@
 #' costByIncome(dataset = scorecard13, year = 2013, schoolNames = c("Massachusetts Institute of 
 #' Technology","Drake University", "Stanford University"), type = "private")
 #' @export
+#'
+##
+## Start ilianav code
+##
 costByIncome <- function(apiKey, dataset, year = 2013, schoolNames, type = "public") {
   
   # Subset the data by year if data is available for the supplied year and plot the data
@@ -67,3 +75,6 @@ costByIncome <- function(apiKey, dataset, year = 2013, schoolNames, type = "publ
     message("No data is available for requested school(s)")
   }
 }
+##
+## End ilianav code
+##

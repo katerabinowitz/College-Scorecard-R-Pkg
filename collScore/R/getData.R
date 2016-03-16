@@ -16,7 +16,9 @@
 #'   optionParams = "_fields=id,school.name,2013.student.size", page = "All")}
 #' @export
 getData <- function(apiKey,endpoint = "schools", format = "json", fieldParams, optionParams="", apiVersionString = "v1", page = 0){
-  
+  ##
+  ## Start ilianav code
+  ##
   if(missing(apiKey)){
     apiKey <- getAPIKey()
   }
@@ -43,6 +45,9 @@ getData <- function(apiKey,endpoint = "schools", format = "json", fieldParams, o
       res<-res
     }
   }
+  ##
+  ## End ilianav code
+  ##
   
   #Helper function to convert json response to data.frame
   ##
@@ -70,6 +75,9 @@ getData <- function(apiKey,endpoint = "schools", format = "json", fieldParams, o
   ## End cathrynr code
   ##
   
+  ##
+  ## Start ilianav code
+  ##
   #To get a single page
   result <- getPages(0)
   result <- httr::content(result, as = "parsed")
@@ -84,6 +92,9 @@ getData <- function(apiKey,endpoint = "schools", format = "json", fieldParams, o
     temp <- lapply(result, toDataFrame, parsed = FALSE)
     DF <- do.call(rbind, temp)
   }
+  ##
+  ## End ilianav code
+  ##
   
   DF
 }

@@ -13,6 +13,10 @@
 #' schoolNames = c("University of Massachusetts-Lowell",
 #' "Massachusetts Institute of Technology", "Drake University"))
 #' @export
+#' 
+##
+## Start ilianav code
+##
 repaymentRateByIncome <- function(apiKey, dataset, year = 2013, schoolNames, repaymentYears = 3) {
   
   # Subset the data by year if data is available for the supplied year and plot the data
@@ -66,3 +70,6 @@ repaymentRateByIncome <- function(apiKey, dataset, year = 2013, schoolNames, rep
     message("No data is available for requested school(s)")
   }
 }
+##
+## End ilianav code
+##

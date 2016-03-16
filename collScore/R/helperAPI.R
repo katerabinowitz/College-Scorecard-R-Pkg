@@ -7,6 +7,10 @@
 #' @param devFriendlyName developer.friendly.name as per data dictionary
 #' @return character
 #' convertDevNameToVarName("8_yr_completion.low_income")
+#' 
+##
+## Start ilianav code
+##
 convertDevNameToVarName <- function(devFriendlyName){  
   data(dataDict,  envir = environment())
   devFriendlyName <- gsub("school.", replacement = "", x = devFriendlyName, fixed = TRUE)
@@ -55,4 +59,6 @@ getByYear <- function(year, dataDf) {
     dataByYear
   }
 }
-
+##
+## End ilianav code
+##

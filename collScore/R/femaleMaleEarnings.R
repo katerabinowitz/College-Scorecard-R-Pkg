@@ -16,14 +16,18 @@
 #' \dontrun{femaleMaleEarnings(apiKey = ak, year = c(2003, 2005, 2007, 2009, 2011), 
 #' schoolNames = c("University of Massachusetts-Lowell", "Massachusetts Institute of Technology"))}
 #' @export
-femaleMaleEarnings <- function(apiKey, dataset, year, schoolNames, yearsAfterCompletion = 6) {
+#'
+##
+## Start ilianav code
+##
+femaleMaleEarnings <- function(apiKey, dataset, year = 2013, schoolNames, yearsAfterCompletion = 6) {
   
   # Subset the data by year if data is available for the supplied year and plot the data
   doPlotbyYear <- function(x) {
     plot1 <- NULL
     dataByYear <- subset(meltedData, year == x)
     if(all(is.na(dataByYear$value))) {
-      warning(paste("There is no data available for the selected year", as.character(x)))
+      message(paste("There is no data available for the selected year", as.character(x)))
     }
     else {
       plot1 <- ggplot2::ggplot(data = dataByYear, ggplot2::aes(x = dataByYear$sex, y = dataByYear$value, fill=dataByYear$school.name)) + 
@@ -76,3 +80,6 @@ femaleMaleEarnings <- function(apiKey, dataset, year, schoolNames, yearsAfterCom
     message("No data is available for requested school(s)")
   }
 }
+##
+## End ilianav code
+##
