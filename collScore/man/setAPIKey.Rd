@@ -17,6 +17,6 @@ This method saves the apiKey to a file that later will be used in APIs requiring
 just call the same method again with a new key value
 }
 \examples{
-setAPIKey("some key")
+\dontrun{setAPIKey("some key")}
 }
 
